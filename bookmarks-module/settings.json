@@ -1,0 +1,48 @@
+{
+	"bookmarks": {
+		"categories": [
+			{
+				"name": "kek",
+				"bookmarks": [
+					{
+						"name": "element",
+						"url": "https://elementary.io/"
+					},
+					{
+						"name": "element",
+						"url": "https://elementary.io/"
+					},
+					{
+						"name": "element",
+						"url": "https://elementary.io/"
+					},
+					{
+						"name": "Name",
+						"url": "https://web.facebook.com/"
+					},
+					{
+						"name": "zxcxzc",
+						"url": "https://expressjs.com/en/advanced/best-practice-performance.html"
+					},
+					{
+						"name": "Name",
+						"url": "https://enauczanie.pg.gda.pl/moodle/login/index.php"
+					},
+					{
+						"name": "Loop",
+						"url": "https://strongloop.com/strongblog/robust-node-applications-error-handling/?_ga=1.119266185.1490756055.1463603895"
+					}
+				]
+			},
+			{
+				"name": "kek2",
+				"bookmarks": [
+					{
+						"name": "incepszon",
+						"url": "http://0.0.0.0:8081/"
+					}
+				]
+			}
+		]
+	}
+}

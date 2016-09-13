@@ -1,0 +1,23 @@
+{
+  "name": "solana-home",
+  "version": "1.0.0",
+  "description": "Home page made by SolanaFish",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SolanaFish",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "busboy": "^0.2.13",
+    "express": "^4.13.4",
+    "gm": "^1.22.0",
+    "multer": "^1.2.0",
+    "node-bind": "git+https://github.com/Polymer/NodeBind.git",
+    "observe-js": "^0.5.7",
+    "polymer": "^0.5.0",
+    "pug": "^2.0.0-beta5",
+    "webshot": "git+https://github.com/brenden/node-webshot.git"
+  }
+}

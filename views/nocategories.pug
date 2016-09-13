@@ -1,0 +1,6 @@
+paper-material(elevation= "1")
+	iron-collapse(id= "bookmarksColapse", opened= "true")
+		div(id= "bookmarks")
+			each bookmark in bookmarks.categories[0].bookmarks
+				a(href= bookmark.url, class= "bookmarksLink")
+					paper-card(image= "thumbnails/" + bookmark.name  + ".png", id= bookmark.name)= name

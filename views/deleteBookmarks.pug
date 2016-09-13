@@ -1,0 +1,16 @@
+template(is= "dom-bind", id= "bookmarksTemplate")
+	paper-tabs(selected= "{{page}}" id="bookmark-tabs")
+		each category in bookmarks.categories
+			paper-tab= category.name
+	iron-pages(selected= "{{page}}" id="test")
+		each category in bookmarks.categories
+			div
+				paper-button(onclick= "deleteCategory('" + category.name + "')", class="deleteButton")
+					iron-icon(icon= "clear")
+					| Delete Category
+				each bookmark in category.bookmarks
+					div
+						paper-card(image= "thumbnails/" + bookmark.name  + ".png", id= bookmark.name)= bookmark.name
+						paper-button(onclick= "deleteBookmark('" + bookmark.name + "','" + category.name + "')", class="deleteButton")
+							iron-icon(icon= "clear")
+							| Delete bookmark

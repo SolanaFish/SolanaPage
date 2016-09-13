@@ -1,0 +1,29 @@
+{
+	"modules" : [
+		{
+			"name": "bookmarks-module",
+			"active": true
+		}
+	],
+	"imports": {
+		"paper": [
+			{"name": "card"},
+			{"name": "material"},
+			{"name": "input"},
+			{"name": "button"},
+			{"name": "tabs"},
+			{"name": "dropdown-menu"},
+			{"name": "listbox"},
+			{"name": "item"},
+			{"name": "menu"},
+			{"name": "dialog"},
+			{"name": "toast"}
+		],
+		"iron": [
+			{"name": "form"},
+			{"name": "icons"},
+			{"name": "collapse"},
+			{"name": "pages"}
+		]
+	}
+}
