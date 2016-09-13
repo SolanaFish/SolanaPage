@@ -14,13 +14,6 @@ html
 			if module.active == true
 				div(id= module.name, class= "modules")
 					script(type="text/javascript", src=module.name + "/script.js")
-		//- if os info
-		paper-material(elevation= "1")
-			div(id= "uptime")
-			div(id= "cpu")
-			div(id= "memory")
-			div(id= "host")
-			div(id= "system")
 
 		paper-button(id= "settings", onclick= "toggleSettings()")
 			iron-icon(icon= "build")

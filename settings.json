@@ -3,6 +3,10 @@
 		{
 			"name": "bookmarks-module",
 			"active": true
+		},
+		{
+			"name": "system-info-module",
+			"active": true
 		}
 	],
 	"imports": {

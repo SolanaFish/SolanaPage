@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
 var fs = require("fs"); // for reading settings
-var os = require('os'); // for uptime 
 var settings = readSettings();
 var modules = [];
 
