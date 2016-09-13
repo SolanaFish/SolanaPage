@@ -1,4 +1,0 @@
-{
-	"name": "bookmarks-module",
-	"main": "./src/bookmarks.js"
-}

@@ -8,7 +8,7 @@ var modules = [];
 function loadModules() {
 	for (module in settings.modules) {
 		if(settings.modules[module].active) {
-			modules[module] = require("./" + settings.modules[module].name);
+			modules[module] = require("./modules/" + settings.modules[module].name);
 			modules[module](app);
 		}
 	}
