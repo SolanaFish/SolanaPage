@@ -1,0 +1,12 @@
+{
+	"elements" : [
+		{
+			"name" : "uptime",
+			"active": true
+		},
+		{
+			"name" : "memory",
+			"active": true
+		}
+	]
+}

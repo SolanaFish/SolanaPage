@@ -1,0 +1,4 @@
+{
+	"name": "system-info-module",
+	"main": "./src/system.js"
+}
