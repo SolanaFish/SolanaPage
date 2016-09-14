@@ -28,10 +28,12 @@ function readSettings() {
 				{
 					"name": "bookmarks-module",
 					"active": true
+					"jsEntry": "bookmarks"
 				},
 				{
 					"name": "system-info-module",
 					"active": true
+					"jsEntry": "systemInfoStart"
 				}
 			],
 			"imports": {

@@ -5,3 +5,8 @@ function systemInfo() {
 		document.querySelector("#system-info-module").innerHTML = res;
 	}).catch(console.error)
 }
+
+function systemInfoStart() {
+	systemInfo();
+	winodw.setInterval(systemInfo(), 60000);
+}

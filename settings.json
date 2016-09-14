@@ -2,11 +2,13 @@
 	"modules" : [
 		{
 			"name": "bookmarks-module",
-			"active": true
+			"active": true,
+			"jsFunction": "systemInfoStart"
 		},
 		{
 			"name": "system-info-module",
-			"active": true
+			"active": true,
+			"jsFunction": "bookmarksStart"
 		}
 	],
 	"imports": {
