@@ -62,31 +62,6 @@ function readSettings() {
 	}
 }
 
-app.get('/system.json', function (req, res) {
-	serverLog("Serving system.json");
-
-	var totalMem = os.totalmem() / 1073741824
-	var freeMem = os.freemem() / 1073741824
-	totalMem = totalMem.toFixed(2); 
-	freeMem = freeMem.toFixed(2);
-
-	res.json({
-		uptime:{
-			Days: Math.floor((os.uptime()/86400)%86400),
-			Hours: Math.floor((os.uptime()/3600)%3600),
-			Minutes: Math.floor((os.uptime()/60)%60)
-		},
-		cpu:os.cpus(),
-		memory:{
-			total: totalMem,
-			free: freeMem,
-			percent: (os.freemem()/os.totalmem() * 100)
-		},
-		host: os.hostname(),
-		system: os.release(),
-	});
-})
-
 app.get('/', function(req,res) {
 	serverLog("Serving main page");
 	res.render('index', { "settings": settings});
