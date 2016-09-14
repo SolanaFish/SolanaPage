@@ -19,7 +19,7 @@ function serverLog(text) {
 }
 
 function readSettings() {
-	if(fs.fs.existsSync('./settings.json')) {
+	if(fs.existsSync('./settings.json')) {
 		var settingsFile = fs.readFileSync('./settings.json');
 		return JSON.parse(settingsFile);
 	} else {
