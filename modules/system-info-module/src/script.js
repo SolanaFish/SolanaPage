@@ -8,5 +8,5 @@ function systemInfo() {
 
 function systemInfoStart() {
 	systemInfo();
-	winodw.setInterval(systemInfo(), 60000);
+	window.setInterval(systemInfo(), 60000);
 }

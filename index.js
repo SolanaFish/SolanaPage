@@ -27,12 +27,12 @@ function readSettings() {
 			"modules" : [
 				{
 					"name": "bookmarks-module",
-					"active": true
+					"active": true,
 					"jsEntry": "bookmarks"
 				},
 				{
 					"name": "system-info-module",
-					"active": true
+					"active": true,
 					"jsEntry": "systemInfoStart"
 				}
 			],
