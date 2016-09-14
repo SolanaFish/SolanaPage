@@ -19,8 +19,47 @@ function serverLog(text) {
 }
 
 function readSettings() {
-	var settingsFile = fs.readFileSync('./settings.json');
-	return JSON.parse(settingsFile);
+	if(fs.fs.existsSync('./settings.json')) {
+		var settingsFile = fs.readFileSync('./settings.json');
+		return JSON.parse(settingsFile);
+	} else {
+		var newSettings = {
+			"modules" : [
+				{
+					"name": "bookmarks-module",
+					"active": true
+				},
+				{
+					"name": "system-info-module",
+					"active": true
+				}
+			],
+			"imports": {
+				"paper": [
+					{"name": "card"},
+					{"name": "material"},
+					{"name": "input"},
+					{"name": "button"},
+					{"name": "tabs"},
+					{"name": "dropdown-menu"},
+					{"name": "listbox"},
+					{"name": "item"},
+					{"name": "menu"},
+					{"name": "dialog"},
+					{"name": "toast"}
+				],
+				"iron": [
+					{"name": "form"},
+					{"name": "icons"},
+					{"name": "collapse"},
+					{"name": "pages"}
+				]
+			}
+		}
+		var settingsString = JSON.stringify(newSettings, null, "	");
+		fs.writeFileSync('./settings.json', settingsString);
+		return newSettings
+	}
 }
 
 app.get('/system.json', function (req, res) {
