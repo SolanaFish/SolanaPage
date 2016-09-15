@@ -7,6 +7,10 @@
 		{
 			"name" : "memory",
 			"active": true
+		},
+		{
+			"name" : "loadAverage",
+			"active": true
 		}
 	]
 }

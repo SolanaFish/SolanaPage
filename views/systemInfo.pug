@@ -7,3 +7,6 @@ paper-material(elevation="1")
 			when "memory"
 				if element.active
 					div= "Free memory: " + Math.floor((os.freemem()/os.totalmem())*100)
+			when "loadAverage"
+				if element.active
+					div= "Load average: " +os.loadavg()[0].toFixed(2)
