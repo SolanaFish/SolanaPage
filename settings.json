@@ -3,12 +3,12 @@
 		{
 			"name": "bookmarks-module",
 			"active": true,
-			"jsFunction": "systemInfoStart"
+			"jsEntry": "bookmarks"
 		},
 		{
 			"name": "system-info-module",
 			"active": true,
-			"jsFunction": "bookmarksStart"
+			"jsEntry": "systemInfoStart"
 		}
 	],
 	"imports": {

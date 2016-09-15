@@ -40,8 +40,8 @@ html
 									div
 										paper-input(label= "Name of your category", id= "newCategoryName")
 									div(class= "buttons")
-										paper-button(dialog-dismiss)= nah
-										paper-button(dialog-confirm, autofocus, onClick="sendNewCategory(newCategoryName.value)")= ok
+										paper-button(dialog-dismiss)= "nah"
+										paper-button(dialog-confirm, autofocus, onClick="sendNewCategory(newCategoryName.value)")= "ok"
 						paper-material(elevation= "1")
 							paper-button(id= "delete", onclick= "deleteBookmarks()")
 								iron-icon(icon= "clear")

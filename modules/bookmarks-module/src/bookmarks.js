@@ -135,9 +135,11 @@ module.exports.deleteCategory = function(req, res) {
 module.exports.addCategory = function(req,res) {
 	var categoryName = req.body.name;
 	if(findCategory(categoryName) == null) {
+		serverLog("Adding category: " + categoryName);
 		var newCategory = {"name":categoryName, "bookmarks": []}
 		settings.bookmarks.categories.push(newCategory);
 		saveSettings();
+		res.sendStatus(200);
 	}
 }
 

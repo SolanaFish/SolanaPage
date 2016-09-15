@@ -37,8 +37,14 @@ function sendNewCategory(categoryName) {
 	xhttp.open("POST", "/bookmarks/addNewCategory", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("name=" + categoryName);
+	var addBookmark = document.querySelector("#addBookmark");
 	addBookmark.category.value = categoryName;
-	submitForm('addBookmark');
+	xhttp.onreadystatechange = function() {
+		console.log(this.status);
+		if (this.readyState == 4 && this.status == 200) {
+			submitForm('addBookmark');
+		}
+	}
 }
 
 function deleteCategory(categoryName) {

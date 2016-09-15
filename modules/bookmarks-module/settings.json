@@ -46,6 +46,15 @@
 						"url": "http://0.0.0.0:8081/"
 					}
 				]
+			},
+			{
+				"name": "pls",
+				"bookmarks": [
+					{
+						"name": "asdasdasd",
+						"url": "https://nodejs.org/api/os.html"
+					}
+				]
 			}
 		]
 	}
