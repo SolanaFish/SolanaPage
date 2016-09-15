@@ -1,0 +1,9 @@
+paper-material(elevation="1")
+	each element in settings.elements
+		case element.name
+			when "uptime"
+				if element.active
+					div= "System uptime: " + uptime.days + " : " + uptime.hours + " : " + uptime.minutes
+			when "memory"
+				if element.active
+					div= "Free memory: " + Math.floor((os.freemem()/os.totalmem())*100)
