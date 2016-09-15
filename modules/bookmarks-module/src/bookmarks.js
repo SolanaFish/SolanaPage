@@ -75,10 +75,17 @@ module.exports.addBookmark = function(req, res) { //TODO: use id for names
 	var link = req.body.bookmarkLink;
 	var category = req.body.category;
 	if (name != "" && link != "" && category != "") {
+
 		serverLog("Adding bookmark to: " + link + " , as " + name + " in " + category + " category");
 
 		var newBookmark = {name: name, url: link};
 		var foundCategory = findCategory(category); //TODO: THROW 
+		for (bookmark in settings.bookmarks.categories[foundCategory].bookmarks) {
+			if (settings.bookmarks.categories[foundCategory].bookmarks[bookmark].name == name) {
+				res.sendStatus(300);
+				return
+			}
+		}
 		settings.bookmarks.categories[foundCategory].bookmarks.push(newBookmark)
 		saveSettings();
 
@@ -127,9 +134,11 @@ module.exports.deleteCategory = function(req, res) {
 
 module.exports.addCategory = function(req,res) {
 	var categoryName = req.body.name;
-	var newCategory = {"name":categoryName, "bookmarks": []}
-	settings.bookmarks.categories.push(newCategory);
-	saveSettings();
+	if(findCategory(categoryName) == null) {
+		var newCategory = {"name":categoryName, "bookmarks": []}
+		settings.bookmarks.categories.push(newCategory);
+		saveSettings();
+	}
 }
 
 module.exports.scriptJS = function(req, res) {
