@@ -4,6 +4,7 @@ html
 		title= "SolanaPage"
 		link(rel= "stylesheet", type= "text/css", href= "static/style.css")
 		link(href= "https://fonts.googleapis.com/css?family=Roboto", rel= "stylesheet")
+		link(rel= "import", href= "bower_components/iron-icons/av-icons.html")
 		//- imports
 		each paperImport in settings.imports.paper
 			link(rel= "import", href= "bower_components/paper-" + paperImport.name +"/paper-"+ paperImport.name + ".html")

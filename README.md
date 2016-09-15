@@ -4,6 +4,9 @@ SolanaPage is a small, modular new Tab page.
 * Fully modular
 * Visually appealing
 * Easy to customize 
+## Requirements
+* Node 6.5 
+* Playerctl
 
 ## Usage
 ### Server
