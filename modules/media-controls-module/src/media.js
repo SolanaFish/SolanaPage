@@ -2,7 +2,10 @@ const settingsDir = __dirname + "/../settings.json";
 var sys = require('sys');
 var exec = require('child_process').exec;
 var fs = require("fs"); // for reading settings
+var bodyParser = require('body-parser'); // Basic parser (no multipart support)
+var uep = bodyParser.urlencoded({ extended: false })
 var playing = false;
+var settings = readSettings();
 
 function serverLog(text) {
 	var date = new Date();
@@ -22,25 +25,31 @@ function puts(error, stdout, stderr) {
 
 function play () {
 	if (playing) {
-		exec("playerctl pause");
+		exec(settings.commands.pause);
 	} else {
-		exec("playerctl play");
+		exec(settings.commands.play);
 	}
+	playing = !playing
 }
 
 function next () {
-	exec("playerctl next");
+	exec(settings.commands.next);
 }
 
 function prev () {
-	exec("playerctl previous");
+	exec(settings.commands.prev);
 }
 
 module.exports = function (app) {
-	exec("playerctl pause");
+	exec(settings.commands.pause);
 	app.get('/media/mainView', module.exports.mainView);
-	app.post('/media/controls', module.exports.controls);
+	app.get('/media-controls-module/script.js', module.exports.scriptJS)
+	app.post('/media/controls', uep, module.exports.controls);
 	serverLog("Media controls module ready!");
+}
+
+module.exports.scriptJS = function (req, res) {
+	res.sendFile(__dirname + "/script.js");
 }
 
 module.exports.mainView = function (req, res) {
@@ -60,4 +69,5 @@ module.exports.controls = function (req, res) {
 			prev();
 		} break;
 	}
+	res.sendStatus(200)
 }

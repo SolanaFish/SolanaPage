@@ -1,0 +1,9 @@
+{
+	"commands": {
+		"next" : "playerctl next",
+		"prev" : "playerctl previous",
+		"play" : "playerctl play",
+		"pause": "playerctl pause"
+	},
+	"songInfoComand" : "__driname/../spotifyComand.sh"
+}
