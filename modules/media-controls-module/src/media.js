@@ -14,8 +14,24 @@ function serverLog(text) {
 }
 
 function readSettings() {
-	var settingsFile = fs.readFileSync(settingsDir);
-	return JSON.parse(settingsFile);
+	if(fs.existsSync(settingsDir)) {
+		var settingsFile = fs.readFileSync(settingsDir);
+		return JSON.parse(settingsFile
+	} else {
+		var newSettings = {
+			"commands": {
+				"next" : "playerctl next",
+				"prev" : "playerctl previous",
+				"play" : "playerctl play",
+				"pause": "playerctl pause",
+				"status" : "playerctl status"
+			},
+			"songInfoComand" : "__driname/../spotifyComand.sh"
+		}
+		var settingsString = JSON.stringify(newSettings, null, "	");
+		fs.writeFileSync(settingsDir, settingsString)
+		return newSettings;
+	}
 }
 
 function puts(error, stdout, stderr) {
