@@ -1,0 +1,1 @@
+dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'|awk -F 'string "' '/string|array/ {printf "%s", $2; next}{print""}'|awk -F '"' '/title/ {print "\"title\":\"" $2 "\"}"} /artist/ {print  "\"artist\":\"" $2 "\","} /artUrl/ {print "{\"url\":\"" $2 "\","}'

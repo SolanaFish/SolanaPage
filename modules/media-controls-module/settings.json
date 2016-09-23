@@ -3,7 +3,8 @@
 		"next" : "playerctl next",
 		"prev" : "playerctl previous",
 		"play" : "playerctl play",
-		"pause": "playerctl pause"
+		"pause": "playerctl pause",
+		"status" : "playerctl status"
 	},
 	"songInfoComand" : "__driname/../spotifyComand.sh"
 }

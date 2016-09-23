@@ -1,6 +1,7 @@
 const settingsDir = __dirname + "/../settings.json";
 var sys = require('sys');
 var exec = require('child_process').exec;
+var execSync = require('child_process').execSync;
 var fs = require("fs"); // for reading settings
 var bodyParser = require('body-parser'); // Basic parser (no multipart support)
 var uep = bodyParser.urlencoded({ extended: false })
@@ -41,7 +42,13 @@ function prev () {
 }
 
 module.exports = function (app) {
-	exec(settings.commands.pause);
+	if (execSync(settings.commands.status).toString().indexOf("Paused") > -1 ) {
+		playing = false;
+		console.log("is paused")
+	} else {
+		playing = true;
+		console.log("is playing")
+	}
 	app.get('/media/mainView', module.exports.mainView);
 	app.get('/media-controls-module/script.js', module.exports.scriptJS)
 	app.post('/media/controls', uep, module.exports.controls);

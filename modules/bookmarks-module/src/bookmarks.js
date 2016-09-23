@@ -17,20 +17,18 @@ function readSettings() {
 		return JSON.parse(settingsFile);
 	} else {
 		var newSettings = {
-			{
-				"bookmarks": {
-					"categories": [
-						{
-							"name": "def",
-							"bookmarks": [
-								{
-									"name": "repo",
-									"url": "https://github.com/SolanaFish/SolanaPage"
-								}
-							]
-						}
-					]
-				}
+			"bookmarks": {
+				"categories": [
+					{
+						"name": "def",
+						"bookmarks": [
+							{
+								"name": "repo",
+								"url": "https://github.com/SolanaFish/SolanaPage"
+							}
+						]
+					}
+				]
 			}
 		}
 		var settingsString = JSON.stringify(newSettings, null, "	");

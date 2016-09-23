@@ -2,45 +2,24 @@
 	"bookmarks": {
 		"categories": [
 			{
-				"name": "kek",
+				"name": "def",
 				"bookmarks": [
 					{
-						"name": "Name",
-						"url": "https://web.facebook.com/"
+						"name": "repo",
+						"url": "https://github.com/SolanaFish/SolanaPage"
 					},
 					{
-						"name": "zxcxzc",
-						"url": "https://expressjs.com/en/advanced/best-practice-performance.html"
-					},
-					{
-						"name": "Name",
-						"url": "https://enauczanie.pg.gda.pl/moodle/login/index.php"
-					},
-					{
-						"name": "Loop",
-						"url": "https://strongloop.com/strongblog/robust-node-applications-error-handling/?_ga=1.119266185.1490756055.1463603895"
-					},
-					{
-						"name": "Loop",
-						"url": "https://pugjs.org/language/case.html"
+						"name": "asdasd",
+						"url": "https://www.twitch.tv/ster"
 					}
 				]
 			},
 			{
-				"name": "kek2",
+				"name": "test",
 				"bookmarks": [
 					{
-						"name": "incepszon",
-						"url": "http://0.0.0.0:8081/"
-					}
-				]
-			},
-			{
-				"name": "pls",
-				"bookmarks": [
-					{
-						"name": "asdasdasd",
-						"url": "https://nodejs.org/api/os.html"
+						"name": "asdasd",
+						"url": "http://aheckmann.github.io/gm/"
 					}
 				]
 			}
