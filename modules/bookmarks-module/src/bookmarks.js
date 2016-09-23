@@ -12,8 +12,31 @@ function serverLog(text) {
 }
 
 function readSettings() {
-	var settingsFile = fs.readFileSync(settingsDir);
-	return JSON.parse(settingsFile);
+	if(fs.existsSync(settingsDir)) {
+		var settingsFile = fs.readFileSync(settingsDir);
+		return JSON.parse(settingsFile);
+	} else {
+		var newSettings = {
+			{
+				"bookmarks": {
+					"categories": [
+						{
+							"name": "def",
+							"bookmarks": [
+								{
+									"name": "repo",
+									"url": "https://github.com/SolanaFish/SolanaPage"
+								}
+							]
+						}
+					]
+				}
+			}
+		}
+		var settingsString = JSON.stringify(newSettings, null, "	");
+		fs.writeFileSync(settingsDir, settingsString)
+		return newSettings
+	}
 }
 
 function saveSettings() {
@@ -63,7 +86,7 @@ module.exports.mainView = function (req, res) {
 module.exports.deleteView = function(req, res) {
 	serverLog("Serving delete bookmarks view");
 
-	res.render('deleteBookmarks', { bookmarks: settings.bookmarks }); 
+	res.render('deleteBookmarks', { bookmarks: settings.bookmarks });
 }
 
 module.exports.menuView = function(req,res) {
@@ -79,7 +102,7 @@ module.exports.addBookmark = function(req, res) { //TODO: use id for names
 		serverLog("Adding bookmark to: " + link + " , as " + name + " in " + category + " category");
 
 		var newBookmark = {name: name, url: link};
-		var foundCategory = findCategory(category); //TODO: THROW 
+		var foundCategory = findCategory(category); //TODO: THROW
 		for (bookmark in settings.bookmarks.categories[foundCategory].bookmarks) {
 			if (settings.bookmarks.categories[foundCategory].bookmarks[bookmark].name == name) {
 				res.sendStatus(300);
@@ -106,13 +129,13 @@ module.exports.addBookmark = function(req, res) { //TODO: use id for names
 module.exports.deleteBookmark = function(req,res) { // TODO: delete old thumbnail
 	var bookmark = req.body.name;
 	var category = req.body.category;
-	
+
 	var foundCategory = findCategory(category);
 	var foundBookmark = findBookmark(bookmark, foundCategory);
 
 	if (foundBookmark >= 0) {
 		serverLog("Deleting bookmark number: " + foundBookmark + " from category: " + category);
-		
+
 		if(foundCategory != null) { // TODO:throw
 			settings.bookmarks.categories[foundCategory].bookmarks.splice(foundBookmark,1);
 			saveSettings();
