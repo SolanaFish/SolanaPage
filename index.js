@@ -34,6 +34,11 @@ function readSettings() {
 					"name": "system-info-module",
 					"active": true,
 					"jsEntry": "systemInfoStart"
+				},
+				{
+					"name": "media-controls-module",
+					"active": true,
+					"jsEntry": "media"
 				}
 			],
 			"imports": {
