@@ -3,10 +3,11 @@ SolanaPage is a small, modular new Tab page.
 ## Features
 * Fully modular
 * Visually appealing
-* Easy to customize 
+* Easy to customize
 ## Requirements
-* Node 6.5 
+* Node 6.6
 * Playerctl
+* GraphicsMagick 1.3.25
 
 ## Usage
 ### Server
