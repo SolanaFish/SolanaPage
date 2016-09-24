@@ -11,6 +11,7 @@ function play() {
 	xhttp.open("POST", "/media/controls", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("action=play");
+	media();
 }
 
 function prev() {
@@ -18,6 +19,7 @@ function prev() {
 	xhttp.open("POST", "/media/controls", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("action=prev");
+	media();
 }
 
 function next() {
@@ -25,4 +27,5 @@ function next() {
 	xhttp.open("POST", "/media/controls", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("action=next");
+	media();
 }

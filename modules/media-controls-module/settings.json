@@ -1,10 +1,14 @@
 {
-	"commands": {
+	"controlCommands": {
 		"next" : "playerctl next",
 		"prev" : "playerctl previous",
 		"play" : "playerctl play",
 		"pause": "playerctl pause",
 		"status" : "playerctl status"
 	},
-	"songInfoComand" : "__driname/../spotifyComand.sh"
+	"infoCommands": {
+		"title":"playerctl metadata title",
+		"artist":"playerctl metadata artist",
+		"url":"playerctl metadata mpris:artUrl"
+	}
 }

@@ -1,5 +1,11 @@
 div(id= "media-controlls")
 	paper-material
+		img(src= imgUrl)
+		br
+		= title
+		b  by 
+		= artist
+		br
 		paper-button(onClick= "prev()")
 			iron-icon(icon= "av:fast-rewind")
 			|prev

@@ -16,17 +16,21 @@ function serverLog(text) {
 function readSettings() {
 	if(fs.existsSync(settingsDir)) {
 		var settingsFile = fs.readFileSync(settingsDir);
-		return JSON.parse(settingsFile
-	} else {
+		return JSON.parse(settingsFile);
+	} else { // If setttngs file does not exits, generate new one
 		var newSettings = {
-			"commands": {
+			"controlCommands": {
 				"next" : "playerctl next",
 				"prev" : "playerctl previous",
 				"play" : "playerctl play",
 				"pause": "playerctl pause",
 				"status" : "playerctl status"
 			},
-			"songInfoComand" : "__driname/../spotifyComand.sh"
+			"infoCommands": {
+				"title":"playerctl metadata title",
+				"artist":"playerctl metadata artist",
+				"url":"playerctl metadata mpris:artUrl"
+			}
 		}
 		var settingsString = JSON.stringify(newSettings, null, "	");
 		fs.writeFileSync(settingsDir, settingsString)
@@ -34,36 +38,60 @@ function readSettings() {
 	}
 }
 
-function puts(error, stdout, stderr) {
-	if (error != null) {
-		serverLog("error executing command: " + error)
-	}
-}
-
 function play () {
 	if (playing) {
-		exec(settings.commands.pause);
+		exec(settings.controlCommands.pause);
 	} else {
-		exec(settings.commands.play);
+		exec(settings.controlCommands.play);
 	}
 	playing = !playing
 }
 
 function next () {
-	exec(settings.commands.next);
+	exec(settings.controlCommands.next);
 }
 
 function prev () {
-	exec(settings.commands.prev);
+	exec(settings.controlCommands.prev);
+}
+
+var title, artist, url;
+function getInfo() {
+	return new Promise(function(resolve, reject) {
+		exec(settings.infoCommands.title, (error, stdout, stderr) => {
+			if(error) {
+				console.log ("Error while getting song title");
+			} else {
+				title = stdout
+			}
+			exec(settings.infoCommands.artist, (error, stdout, stderr) => {
+				if(error) {
+					console.log ("Error while getting song artist");
+				} else {
+					artist = stdout
+				}
+				exec(settings.infoCommands.url, (error, stdout, stderr) => {
+					if(error) {
+						console.log ("Error while getting song url");
+					} else {
+						url = stdout
+					}
+					if(title && artist && url) {
+						resolve({title:title, artist:artist, imgUrl:url})
+					} else {
+						reject("Error while getting song info")
+					}
+				});
+			});
+		});
+	})
 }
 
 module.exports = function (app) {
-	if (execSync(settings.commands.status).toString().indexOf("Paused") > -1 ) {
+	if (execSync(settings.controlCommands.status).toString().indexOf("Paused") > -1 || execSync(settings.controlCommands.status).toString().indexOf("Stopped") > -1) { // check status of player
 		playing = false;
-		console.log("is paused")
 	} else {
 		playing = true;
-		console.log("is playing")
 	}
 	app.get('/media/mainView', module.exports.mainView);
 	app.get('/media-controls-module/script.js', module.exports.scriptJS)
@@ -76,7 +104,11 @@ module.exports.scriptJS = function (req, res) {
 }
 
 module.exports.mainView = function (req, res) {
-	res.render('media');
+	getInfo().then((info) => {
+		res.render('media', info);
+	}).catch((reason) => {
+		serverLog("Error: " + reason);
+	})
 }
 
 module.exports.controls = function (req, res) {
