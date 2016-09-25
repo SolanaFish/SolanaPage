@@ -1,28 +1,20 @@
 {
-	"bookmarks": {
-		"categories": [
-			{
-				"name": "def",
-				"bookmarks": [
-					{
-						"name": "repo",
-						"url": "https://github.com/SolanaFish/SolanaPage"
-					},
-					{
-						"name": "asdasd",
-						"url": "https://www.twitch.tv/ster"
-					}
-				]
-			},
-			{
-				"name": "test",
-				"bookmarks": [
-					{
-						"name": "asdasd",
-						"url": "http://aheckmann.github.io/gm/"
-					}
-				]
-			}
-		]
-	}
+    "bookmarks": {
+        "categories": [{
+            "name": "def",
+            "bookmarks": [{
+                "name": "repo",
+                "url": "https://github.com/SolanaFish/SolanaPage"
+            }, {
+                "name": "asdasd",
+                "url": "https://www.twitch.tv/ster"
+            }]
+        }, {
+            "name": "test",
+            "bookmarks": [{
+                "name": "asdasd",
+                "url": "http://aheckmann.github.io/gm/"
+            }]
+        }]
+    }
 }

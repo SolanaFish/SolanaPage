@@ -1,16 +1,12 @@
 {
-	"elements" : [
-		{
-			"name" : "uptime",
-			"active": true
-		},
-		{
-			"name" : "memory",
-			"active": true
-		},
-		{
-			"name" : "loadAverage",
-			"active": true
-		}
-	]
+    "elements": [{
+        "name": "uptime",
+        "active": true
+    }, {
+        "name": "memory",
+        "active": true
+    }, {
+        "name": "loadAverage",
+        "active": true
+    }]
 }

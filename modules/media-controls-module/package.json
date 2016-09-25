@@ -1,4 +1,4 @@
 {
-	"name": "system-info-module",
-	"main": "./src/media.js"
+    "name": "system-info-module",
+    "main": "./src/media.js"
 }

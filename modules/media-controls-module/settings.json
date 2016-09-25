@@ -1,14 +1,14 @@
 {
-	"controlCommands": {
-		"next" : "playerctl next",
-		"prev" : "playerctl previous",
-		"play" : "playerctl play",
-		"pause": "playerctl pause",
-		"status" : "playerctl status"
-	},
-	"infoCommands": {
-		"title":"playerctl metadata title",
-		"artist":"playerctl metadata artist",
-		"url":"playerctl metadata mpris:artUrl"
-	}
+    "controlCommands": {
+        "next": "playerctl next",
+        "prev": "playerctl previous",
+        "play": "playerctl play",
+        "pause": "playerctl pause",
+        "status": "playerctl status"
+    },
+    "infoCommands": {
+        "title": "playerctl metadata title",
+        "artist": "playerctl metadata artist",
+        "url": "playerctl metadata mpris:artUrl"
+    }
 }
