@@ -4,6 +4,9 @@ var webshot = require('webshot'); // for rendering webside
 var gm = require('gm'); // resizing thumbnails
 var bodyParser = require('body-parser'); // Basic parser (no multipart support)
 var settings = readSettings();
+var uep = bodyParser.urlencoded({
+    extended: false
+});
 
 function serverLog(text) {
     var date = new Date();
