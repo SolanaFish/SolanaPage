@@ -1,0 +1,31 @@
+doctype html
+html
+    head
+        title= "SolanaPage - settings"
+        //- link(rel= "stylesheet", type= "text/css", href= "static/style.css")
+        //- imports
+        link(rel= "import", href= "bower_components/neon-animation/neon-animated-pages.html")
+        link(rel= "import", href= "bower_components/neon-animation/neon-animatable.html")
+        link(rel= "import", href= "bower_components/neon-animation/animations/slide-left-animation.html")
+        link(rel= "import", href= "bower_components/neon-animation/animations/slide-from-right-animation.html")
+        each paperImport in settings.imports.paper
+            link(rel= "import", href= "bower_components/paper-" + paperImport.name +"/paper-"+ paperImport.name + ".html")
+        each ironImport in settings.imports.iron
+            link(rel= "import", href= "bower_components/iron-" + ironImport.name +"/iron-"+ ironImport.name + ".html")
+    body
+        //- TODO: implement going back to main page
+        //- paper-fab(icon="done", id="settingsFab", onclick="console.log('not implemented')")
+        template(is="dom-bind", id="settings")
+            paper-tabs(selected="{{selected}}")
+                paper-tab= "General"
+                each module, index in settings.modules
+                    if moduleSettings[index] != null
+                        paper-tab= module.name
+            neon-animated-pages(id="pages", class="flex", selected="[[selected]]", entry-animation="slide-from-right-animation", exit-animation="slide-left-animation")
+                neon-animatable
+                    paper-material(id= "General", class= "settings")!= generalSettings
+                each module, index in settings.modules
+                    if moduleSettings[index] != null
+                        neon-animatable
+                            paper-material(id= module.name, class= "settings")!= moduleSettings[index]
+        script(type="text/javascript", src="static/settings.js")

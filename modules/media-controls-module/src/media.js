@@ -139,3 +139,7 @@ module.exports.controls = function(req, res) {
     }
     res.sendStatus(200);
 };
+
+module.exports.getSettings = function() {
+    return null;
+};

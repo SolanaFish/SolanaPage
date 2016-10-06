@@ -1,0 +1,43 @@
+iron-collapse(id= "addBookmark", opened)= "Add bookmark"
+    div
+        template(is= "dom-bind", id="addBookmarkTemplate")
+            form(is= "iron-form", id= "addBookmark", action= "/bookmarks/addBookmark", method="POST")
+                paper-input(label= "Name for your bookmark", name= "bookmarkName")
+                br
+                paper-input(label= "Url for your bookmark", name= "bookmarkLink")
+                paper-dropdown-menu(label= "category")
+                    paper-menu(class="dropdown-content", attr-for-selected="value", selected= "{{category}}")
+                        each category in bookmarks.categories
+                            paper-item(value= category.name)= category.name
+                        paper-item(value= "newCategory")= "Add new category"
+                input(type="hidden", name="category", value="{{category}}")
+                paper-toast(id= "noCategoryToast", text= "Please, select an category")
+                paper-button(onclick= "addBookmark()")
+                    iron-icon(icon="check")
+                    |Add
+
+iron-collapse(id= "deleteCategory", opened)= "Delete category"
+    div
+        each category in bookmarks.categories
+            paper-card(image="thumbnails/" + category.bookmarks[0].name  + ".png", heading= category.name)
+                div(class="card-actions")
+                    paper-button(onclick= "deleteCategory('" + category.name + "')", class="deleteButton")
+                        iron-icon(icon= "clear")
+                        | Delete Category
+
+
+iron-collapse(id= "deleteBookmark", opened)= "Delete bookmark"
+    div
+        template(is= "dom-bind", id= "bookmarsToDelete")
+            paper-tabs(selected= "{{page}}" id="bookmark-tabs")
+                each category in bookmarks.categories
+                    paper-tab= category.name
+            iron-pages(selected= "{{page}}" id="test")
+                each category in bookmarks.categories
+                    div
+                        each bookmark in category.bookmarks
+                            paper-card(image= "thumbnails/" + bookmark.name  + ".png", id= bookmark.name, heading= bookmark.name)
+                                div(class= "card-actions")
+                                    paper-button(onclick="deleteBookmark('" + bookmark.name + "','" + category.name + "')", class= "deleteButton")
+                                        iron-icon(icon="clear")
+                                        |DELETE

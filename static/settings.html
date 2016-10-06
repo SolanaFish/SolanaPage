@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="/bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
+<link rel="import" href="/bower_components/neon-animation/animations/hero-animation.html">
+<link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="/bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="/bower_components/paper-header-panel/paper-header-panel.html">
+
+<dom-module id="settings-page">
+    <template>
+        <paper-fab icon="done" id="settingsFab" onclick="app.selected=0"></paper-fab>
+            <paper-header-panel class="flex">
+                <paper-toolbar id="header">
+                    <div>
+                        test
+                    </div>
+                </paper-toolbar>
+                <div class="flex">
+                    <iframe width="100%" height="1000" src="/settings"></iframe>
+                </div>
+            </paper-header-panel>
+    </template>
+    <script>
+        Polymer({
+            is: 'settings-page',
+            behaviors: [Polymer.NeonSharedElementAnimatableBehavior],
+            properties: {
+                animationConfig: {
+                    value: function() {
+                        return {
+                            'entry': [{
+                                name: 'hero-animation',
+                                id: 'hero',
+                                toPage: this
+                            }, {
+                                name: 'fade-in-animation',
+                                node: this
+                            }],
+                            'exit': {
+                                name: 'fade-out-animation',
+                                node: this
+                            }
+                        }
+                    }
+                },
+                sharedElements: {
+                    value: function() {
+                        return {
+                            'hero': this.$.header
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</dom-module>

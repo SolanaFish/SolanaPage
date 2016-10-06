@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SolanaPage</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+        <link rel="import" href="../bower_components/neon-animation/neon-animatable.html">
+        <link rel="import" href="/bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+        <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+        <link rel="import" href="main-page.html">
+        <link rel="import" href="settings.html">
+    </head>
+    <body class="fullbleed vertical layout">
+        <template is="dom-bind" id="app">
+            <neon-animated-pages class="flex" selected="[[selected]]">
+                <main-page class="flex"></main-page>
+                <settings-page class="flex"></settings-page>
+            </neon-animated-pages>
+        </template>
+    </body>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) {
+            app.selected=0;
+        })
+    </script>
+</html>

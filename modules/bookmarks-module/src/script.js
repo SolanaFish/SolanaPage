@@ -19,11 +19,11 @@ function delBookmarks() {
 }
 
 function addBookmark() {
-    var template = document.querySelector("#addBookmark");
-    if (template.category.value == "newCategory") {
+    var template = document.querySelector("#addBookmarkTemplate");
+    if (template.category == "newCategory") {
         addNewCategoryDialog.open();
     } else {
-        if (template.category.value === "") {
+        if (template.category === "") {
             noCategoryToast.open();
         } else {
             submitForm('addBookmark');
@@ -40,7 +40,6 @@ function sendNewCategory(categoryName) {
     var addBookmark = document.querySelector("#addBookmark");
     addBookmark.category.value = categoryName;
     xhttp.onreadystatechange = function() {
-        console.log(this.status);
         if (this.readyState == 4 && this.status == 200) {
             submitForm('addBookmark');
         }

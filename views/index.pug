@@ -11,15 +11,12 @@ html
         each ironImport in settings.imports.iron
             link(rel= "import", href= "bower_components/iron-" + ironImport.name +"/iron-"+ ironImport.name + ".html")
     body
+        paper-fab(icon="build", id="settingsFab", onclick="toggleSettings()")
         each module in settings.modules
             if module.active == true
                 div(id= module.name, class= "modules")
                     script(type="text/javascript", src=module.name + "/script.js")
-
-        paper-button(id= "settings", onclick= "toggleSettings()")
-            iron-icon(icon= "build")
-            |Settings
-        iron-collapse(id= "collapse")
+        iron-collapse(id= "collapse", noAnimation= true)
             div(id= "d")
                 paper-material
                     paper-material(elevation= "1")

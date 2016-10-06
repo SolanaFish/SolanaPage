@@ -7,6 +7,7 @@ var settings = readSettings();
 var uep = bodyParser.urlencoded({
     extended: false
 });
+var pug = require('pug');
 
 function serverLog(text) {
     var date = new Date();
@@ -57,11 +58,13 @@ function findBookmark(name, foundCategory) {
     }
 }
 
-module.exports = function(app) {
+module.exports = function(expressApp) {
+    app = expressApp;
     app.get('/bookmarks/mainView', module.exports.mainView);
     app.get('/bookmarks/deleteView', module.exports.deleteView);
     app.get('/bookmarks/menuView', uep, module.exports.menuView);
     app.get('/bookmarks-module/script.js', module.exports.scriptJS);
+    app.get('/bookmarks/settings', module.exports.settings);
 
     app.post('/bookmarks/addBookmark', uep, module.exports.addBookmark);
     app.post('/bookmarks/deleteBookmark', uep, module.exports.deleteBookmark);
@@ -178,4 +181,12 @@ module.exports.addCategory = function(req, res) {
 
 module.exports.scriptJS = function(req, res) {
     res.sendFile(__dirname + "/script.js");
+};
+
+module.exports.settings = function(req, res) {
+    res.render('bookmarksSettings', settings);
+};
+
+module.exports.getSettings = function() {
+    return pug.renderFile(__dirname + '/bookmarksSettings.pug', settings);
 };

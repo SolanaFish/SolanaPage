@@ -13,11 +13,12 @@ function submitForm(id) {
 }
 
 function toggleSettings() {
-    fetch("/bookmarks/menuView").then(function(res) {
+    fetch("/bookmarks/settings").then(function(res) {
         return res.text();
     }).then(function(res) {
         document.querySelector("#addNewBookmark").innerHTML = res;
     }).then(function() {
         document.querySelector("#collapse").toggle();
+        document.querySelector("#collapse").scrollIntoView();
     });
 }

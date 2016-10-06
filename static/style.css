@@ -17,6 +17,13 @@ paper-card {
     text-align: center;
 }
 
+#mainFab, #settingsFab {
+    position: fixed;
+    left: 4%;
+    bottom: 4%;
+    z-index: 1000;
+}
+
 #settings {
     padding: 15px;
     border: 1px solid #dedede;

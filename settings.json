@@ -35,6 +35,10 @@
             "name": "dialog"
         }, {
             "name": "toast"
+        }, {
+            "name": "fab"
+        }, {
+            "name": "toggle-button"
         }],
         "iron": [{
             "name": "form"

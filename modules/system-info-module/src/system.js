@@ -35,3 +35,7 @@ module.exports.systemInfo = function(req, res) {
 module.exports.scriptJS = function(req, res) {
     res.sendFile(__dirname + "/script.js");
 };
+
+module.exports.getSettings = function() {
+    return null;
+};

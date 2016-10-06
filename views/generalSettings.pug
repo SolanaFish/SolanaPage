@@ -1,0 +1,11 @@
+template(is= "dom-bind", id= "activeModules")= dupa
+    each module in settings.modules
+        div
+            paper-toggle-button(checked=`{{${module.name}}}`)= module.name
+    paper-button(onclick= "submitActiveModules()")
+        iron-icon(icon= "check")
+        |OK
+form(is= "iron-form", id="wallpaperForm", method="get", action="/submitWallpaper")
+    paper-input(name ="some")
+    paper-button(onclick="document.getElementById('#wallpaperForm').submit()")
+        |ok
