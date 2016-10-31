@@ -112,7 +112,6 @@ app.get('/settings', function(req, res) {
 var server = app.listen(8081, function() {
     var host = server.address().address;
     var port = server.address().port;
-    serverLog('Server running on adress http://' + host + ':' + port);
     app.use("/", express.static('.'));
     app.use("/static", express.static('./static'));
     app.set('view engine', 'pug');
