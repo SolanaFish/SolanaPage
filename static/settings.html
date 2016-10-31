@@ -6,6 +6,7 @@
 <link rel="import" href="/bower_components/neon-animation/animations/hero-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="/bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="/bower_components/neon-animation/animations/slide-from-left-animation.html">
 <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="/bower_components/paper-header-panel/paper-header-panel.html">
 
@@ -33,27 +34,38 @@
                         return {
                             'entry': [{
                                 name: 'hero-animation',
-                                id: 'hero',
+                                id: 'heroToSettings',
                                 toPage: this
                             }, {
                                 name: 'fade-in-animation',
                                 node: this
+                            }, {
+                                name: 'slide-from-left-animation',
+                                node: this.$.settingsFab
+                            }, {
+                                name: 'fade-in-animation',
+                                node: this.$.settingsFab
                             }],
-                            'exit': {
+                            'exit': [{
+                                name: 'hero-animation',
+                                id: 'heroToMain',
+                                fromPage: this
+                            }, {
                                 name: 'fade-out-animation',
                                 node: this
-                            }
-                        }
+                            }]
+                        };
                     }
                 },
                 sharedElements: {
                     value: function() {
                         return {
-                            'hero': this.$.header
-                        }
+                            'heroToSettings': this.$.header,
+                            'heroToMain': this.$.settingsFab
+                        };
                     }
                 }
             }
-        })
+        });
     </script>
 </dom-module>

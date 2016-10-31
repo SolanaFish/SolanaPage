@@ -8,6 +8,7 @@ var uep = bodyParser.urlencoded({
     extended: false
 });
 var pug = require('pug');
+var app;
 
 function serverLog(text) {
     var date = new Date();
@@ -188,5 +189,5 @@ module.exports.settings = function(req, res) {
 };
 
 module.exports.getSettings = function() {
-    return pug.renderFile(__dirname + '/bookmarksSettings.pug', settings);
+    return pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings);
 };

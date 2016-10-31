@@ -86,10 +86,15 @@ app.get('/', function(req, res) {
     });
 });
 
+app.get('/app', function(req,res) {
+    res.sendFile(`${__dirname}/static/app.html`);
+});
+
 app.get('/settings', function(req, res) {
     serverLog("Serving settings");
-    console.log(settings);
-    var generalSettings = pug.renderFile('views/generalSettings.pug', {settings: settings});
+    var generalSettings = pug.renderFile('views/generalSettings.pug', {
+        settings: settings
+    });
     var settingsInfo = {
         settings,
         generalSettings,
@@ -111,7 +116,11 @@ var server = app.listen(8081, function() {
     app.use("/", express.static('.'));
     app.use("/static", express.static('./static'));
     app.set('view engine', 'pug');
-    app.set('views', [`${__dirname}/modules/bookmarks-module/src`,`${__dirname}/views`]);
+    var views = [`${__dirname}/views`];
+    settings.modules.forEach(function(moduleItem) {
+        views.push(`${__dirname}/modules/${moduleItem.name}/views`);
+    });
+    app.set('views', views);
     serverLog("Loading modules!");
     loadModules();
     serverLog("Server up!");

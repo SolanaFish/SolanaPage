@@ -17,6 +17,11 @@ paper-card {
     text-align: center;
 }
 
+iframe {
+    border:none;
+    
+}
+
 #mainFab, #settingsFab {
     position: fixed;
     left: 4%;
