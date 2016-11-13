@@ -9,6 +9,7 @@ var uep = bodyParser.urlencoded({
 });
 var playing = false;
 var settings = readSettings();
+var pug = require('pug');
 
 function serverLog(text) {
     var date = new Date();
@@ -100,17 +101,17 @@ module.exports = function(app) {
     } else {
         playing = true;
     }
-    app.get('/media/mainView', module.exports.mainView);
-    app.get('/media-controls-module/script.js', module.exports.scriptJS);
-    app.post('/media/controls', uep, module.exports.controls);
+    app.get('/media/mainView', mainView);
+    app.get('/media-controls-module/script.js', scriptJS);
+    app.post('/media/controls', uep, controls);
     serverLog("Media controls module ready!");
 };
 
-module.exports.scriptJS = function(req, res) {
+var scriptJS = function(req, res) {
     res.sendFile(__dirname + "/script.js");
 };
 
-module.exports.mainView = function(req, res) {
+var mainView = function(req, res) {
     getInfo().then((info) => {
         res.render('media', info);
     }).catch((reason) => {
@@ -118,7 +119,7 @@ module.exports.mainView = function(req, res) {
     });
 };
 
-module.exports.controls = function(req, res) {
+var controls = function(req, res) {
     var action = req.body.action;
     switch (action) {
         case 'play':
@@ -141,5 +142,15 @@ module.exports.controls = function(req, res) {
 };
 
 module.exports.getSettings = function() {
-    return null;
+    return Promise.resolve(null);
+};
+
+module.exports.getMainView = function() {
+    return new Promise((Resolve, Reject) => {
+        getInfo().then((info) => {
+            Resolve(Promise.resolve(pug.renderFile(`${__dirname}/../views/media.pug`, info)));
+        }).catch((err) => {
+            Reject(err);
+        });
+    });
 };

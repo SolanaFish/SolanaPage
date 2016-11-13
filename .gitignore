@@ -3,3 +3,4 @@ node_modules
 thumbnails
 npm-debug.log
 .jshintignore
+uploads

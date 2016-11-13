@@ -2,6 +2,7 @@ const settingsDir = __dirname + "/../settings.json";
 var os = require('os'); // for uptime
 var fs = require("fs"); // for reading settings
 var settings = readSettings();
+var pug = require('pug');
 
 function serverLog(text) {
     var date = new Date();
@@ -14,12 +15,12 @@ function readSettings() {
 }
 
 module.exports = function(app) {
-    app.get('/system-info-module/systemInfo', module.exports.systemInfo);
-    app.get('/system-info-module/script.js', module.exports.scriptJS);
+    app.get('/system-info-module/systemInfo', systemInfo);
+    app.get('/system-info-module/script.js', scriptJS);
     serverLog("System info module ready!");
 };
 
-module.exports.systemInfo = function(req, res) {
+var systemInfo = function(req, res) {
     var uptime = {
         days: Math.floor((os.uptime() / 86400) % 86400),
         hours: Math.floor((os.uptime() / 3600) % 3600),
@@ -32,10 +33,23 @@ module.exports.systemInfo = function(req, res) {
     });
 };
 
-module.exports.scriptJS = function(req, res) {
+var scriptJS = function(req, res) {
     res.sendFile(__dirname + "/script.js");
 };
 
 module.exports.getSettings = function() {
     return null;
+};
+
+module.exports.getMainView = function() {
+    var uptime = {
+        days: Math.floor((os.uptime() / 86400) % 86400),
+        hours: Math.floor((os.uptime() / 3600) % 3600),
+        minutes: Math.floor((os.uptime() / 60) % 60)
+    };
+    return pug.renderFile(`${__dirname}/../views/systemInfo.pug`, {
+        "os": os,
+        "settings": settings,
+        "uptime": uptime
+    });
 };

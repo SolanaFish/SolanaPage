@@ -5,8 +5,8 @@
 				"name": "def",
 				"bookmarks": [
 					{
-						"name": "asdasd",
-						"url": "https://www.twitch.tv/ster"
+						"name": "dupa",
+						"url": "https://github.com/dylanaraps/neofetch"
 					}
 				]
 			},
@@ -20,5 +20,6 @@
 				]
 			}
 		]
-	}
+	},
+	"filename": "/home/solana/Documents/solanapage/SolanaPage/modules/bookmarks-module/src/../views/bookmarksSettings.pug"
 }

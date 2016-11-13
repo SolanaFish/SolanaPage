@@ -1,23 +1,3 @@
-function bookmarks() {
-    fetch('/bookmarks/mainView').then(function(res) {
-        return res.text();
-    }).then(function(res) {
-        document.querySelector("#bookmarks-module").innerHTML = res;
-        var template = document.querySelector("#bookmarksTemplate");
-        template.page = 0;
-    }).catch(console.error);
-}
-
-function delBookmarks() {
-    fetch('/bookmarks/deleteView').then(function(res) {
-        return res.text();
-    }).then(function(res) {
-        document.querySelector("#bookmarks").innerHTML = res;
-        var template = document.querySelector("#bookmarksTemplate");
-        template.page = 0;
-    }).catch(console.error);
-}
-
 function addBookmark() {
     var template = document.querySelector("#addBookmarkTemplate");
     if (template.category == "newCategory") {
@@ -26,19 +6,18 @@ function addBookmark() {
         if (template.category === "") {
             noCategoryToast.open();
         } else {
-            submitForm('addBookmark');
-            bookmarks();
+            template.$.addBookmarkForm.submit();
         }
     }
 }
 
 function sendNewCategory(categoryName) {
     var xhttp = new XMLHttpRequest();
+    var addBookmark = document.querySelector("#addBookmark");
+    addBookmark.category.value = categoryName;
     xhttp.open("POST", "/bookmarks/addNewCategory", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("name=" + categoryName);
-    var addBookmark = document.querySelector("#addBookmark");
-    addBookmark.category.value = categoryName;
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             submitForm('addBookmark');
@@ -52,27 +31,6 @@ function deleteCategory(categoryName) {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("name=" + categoryName);
     delBookmarks();
-}
-
-var deleteBookmarksMode = false;
-
-function deleteBookmarks() { // TODO: deCANCER the animation
-    document.querySelector("#bookmarksColapse").toggle();
-
-    sleep(500).then(() => {
-        if (!deleteBookmarksMode) {
-            delBookmarks();
-            deleteBookmarksMode = true;
-        } else {
-            deleteBookmarksMode = false;
-            bookmarks();
-        }
-        sleep(300).then(() => {
-            if (deleteBookmarksMode) {
-                document.querySelector("#bookmarksColapse").toggle();
-            }
-        });
-    });
 }
 
 function deleteBookmark(name, category) {

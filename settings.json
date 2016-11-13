@@ -1,53 +1,19 @@
 {
-    "modules": [{
-        "name": "bookmarks-module",
-        "active": true,
-        "jsEntry": "bookmarks"
-    }, {
-        "name": "system-info-module",
-        "active": true,
-        "jsEntry": "systemInfoStart"
-    }, {
-        "name": "media-controls-module",
-        "active": true,
-        "jsEntry": "media"
-    }],
-    "imports": {
-        "paper": [{
-            "name": "card"
-        }, {
-            "name": "material"
-        }, {
-            "name": "input"
-        }, {
-            "name": "button"
-        }, {
-            "name": "tabs"
-        }, {
-            "name": "dropdown-menu"
-        }, {
-            "name": "listbox"
-        }, {
-            "name": "item"
-        }, {
-            "name": "menu"
-        }, {
-            "name": "dialog"
-        }, {
-            "name": "toast"
-        }, {
-            "name": "fab"
-        }, {
-            "name": "toggle-button"
-        }],
-        "iron": [{
-            "name": "form"
-        }, {
-            "name": "icons"
-        }, {
-            "name": "collapse"
-        }, {
-            "name": "pages"
-        }]
-    }
+    "modules": [
+        {
+            "name": "bookmarks-module",
+            "active": true,
+            "jsEntry": "bookmarks"
+        },
+        {
+            "name": "system-info-module",
+            "active": true,
+            "jsEntry": "systemInfoStart"
+        },
+        {
+            "name": "media-controls-module",
+            "active": true,
+            "jsEntry": "media"
+        }
+    ]
 }

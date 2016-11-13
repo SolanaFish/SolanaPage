@@ -1,5 +1,5 @@
 body {
-    background-image: url("wall.jpg");
+    background-image: url("/wallpaper.jpg");
     background-color: #E91E63;
     font-family: 'Roboto', sans-serif;
 }
@@ -17,9 +17,8 @@ paper-card {
     text-align: center;
 }
 
-iframe {
-    border:none;
-    
+iron-collapse {
+    margin: 2%;
 }
 
 #mainFab, #settingsFab {
@@ -29,25 +28,7 @@ iframe {
     z-index: 1000;
 }
 
-#settings {
-    padding: 15px;
-    border: 1px solid #dedede;
-    background-color: white;
-}
-
-#settingsButton {
-    background-color: white;
-}
-
-#collapse {
-    padding-top: 1%;
-}
-
-#settings {
-    margin-left: 2%;
-}
-
-#bookmark-tabs {
+#bookmarkTabs {
     background-color: #D81B60;
     color: white;
 }
@@ -55,9 +36,19 @@ iframe {
 .deleteButton {
     color: white;
     background-color: #EF5350;
+    width: 100%;
 }
 
 .bookmarksLink {
     font-size: 20px;
     color: #D81B60;
+}
+
+.bookmarkTabs {
+    background-color: #D81B60;
+    color: white;
+}
+
+.collapseButton {
+    width: 100%;
 }

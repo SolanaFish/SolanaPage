@@ -2,10 +2,10 @@ paper-material(elevation= "1")
     iron-collapse(id= "bookmarksColapse", opened= "true")
         div(id= "bookmarks")
             template(is= "dom-bind", id= "bookmarksTemplate")
-                paper-tabs(selected= "{{page}}" id="bookmark-tabs")
+                paper-tabs(selected= "{{page}}" id="bookmarkTabs")
                     each category in bookmarks.categories
                         paper-tab= category.name
-                iron-pages(selected= "{{page}}" id="test")
+                iron-pages(selected= "{{page}}" id="bookmarkPages")
                     each category in bookmarks.categories
                         div
                             each bookmark in category.bookmarks

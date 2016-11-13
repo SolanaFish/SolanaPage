@@ -12,17 +12,17 @@
 
 <dom-module id="settings-page">
     <template>
-        <paper-fab icon="done" id="settingsFab" onclick="app.selected=0"></paper-fab>
-            <paper-header-panel class="flex">
-                <paper-toolbar id="header">
-                    <div>
-                        test
-                    </div>
-                </paper-toolbar>
-                <div class="flex">
-                    <iframe width="100%" height="1000" src="/settings"></iframe>
+        <paper-fab icon="done" id="settingsFab" onclick="app.selected=0; document.title='SolanaPage'"></paper-fab>
+        <paper-header-panel class= "flex">
+            <paper-toolbar id= "header">
+                <div>
+                    Settings
                 </div>
-            </paper-header-panel>
+            </paper-toolbar>
+            <div>
+                <content></content>
+            </div>
+        </paper-header-panel>
     </template>
     <script>
         Polymer({
