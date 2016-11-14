@@ -13,6 +13,7 @@ SolanaPage is a small, modular new Tab page.
 - Node 6.6
 - Playerctl (for media controls module)
 - GraphicsMagick 1.3.25 (for bookmarks module)
+- forever `npm install forever -g`
 
 ## Usage
 

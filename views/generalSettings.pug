@@ -1,12 +1,12 @@
 template(is= "dom-bind", id= "activeModules")= dupa
-    each module in settings.modules
-        div
-            paper-toggle-button(checked=`{{${module.name}}}`)= module.name
+    div(id='activeModulesDiv')
+        each module in settings.modules
+            paper-toggle-button(id='test', name=module.name, checked= `${module.active}`)= module.name
     paper-button(onclick= "submitActiveModules()")
         iron-icon(icon= "check")
         |OK
-form(is= "iron-form", id="wallpaperForm", method="get", action="/submitWallpaper")
-    paper-input(name ="some")
-    paper-button(onclick="document.getElementById('#wallpaperForm').submit()")
-        iron-icon(icon= "check")
-        |ok
+    form(id="wallpaperForm", method="post", action="/changeWallpaper", enctype="multipart/form-data")
+        input(name ="wallpaper", type="file", id="wallpaper")
+        paper-button(onclick="document.getElementById('wallpaperForm').submit()")
+            iron-icon(icon= "check")
+            |ok

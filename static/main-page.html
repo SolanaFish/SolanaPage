@@ -10,18 +10,14 @@
 
 <dom-module id="main-page">
     <template>
-        <paper-fab icon="build" id="mainFab" onclick="app.selected=1"></paper-fab>
-        <div id="mainContent" class="flex">
-            dupa
-            <!-- <iframe width="100%" height="1000" src="/"></iframe> -->
+        <paper-fab icon="build" id="mainFab" onclick="app.selected=1; document.title='SolanaPage - settings'"></paper-fab>
+        <div id= "mainContent">
+            <content select="div"></content>
         </div>
     </template>
     <script>
         Polymer({
             is: 'main-page',
-            factoryImpl: function() {
-                console.log("works");
-            },
             behaviors: [Polymer.NeonSharedElementAnimatableBehavior],
             properties: {
                 animationConfig: {
@@ -59,17 +55,5 @@
                 }
             }
         });
-        function mainPageSetup() {
-            fetch('/').then(function(res) {
-                return res.text();
-            }).then(function(res) {
-                console.log(res);
-                document.querySelector("#mainContent").innerHTML = res;
-                // this.$.mainContent = res;
-                // var template = document.querySelector("#bookmarksTemplate");
-                // template.page = 0;
-            }).catch(console.error);
-        }
-        // window.addEventListener("WebComponentsReady", mainPageSetup());
     </script>
 </dom-module>

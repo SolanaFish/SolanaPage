@@ -1,7 +1,8 @@
-iron-collapse(id= "addBookmark", opened)= "Add bookmark"
+paper-button(class= "collapseButton", onclick="document.getElementById('addBookmark').toggle()", toggles)= 'Add bookmark'
+iron-collapse(id= "addBookmark")
     div
         template(is= "dom-bind", id="addBookmarkTemplate")
-            form(is= "iron-form", id= "addBookmark", action= "/bookmarks/addBookmark", method="POST")
+            form(is= "iron-form", id= "addBookmarkForm", action= "/bookmarks/addBookmark", method="POST")
                 paper-input(label= "Name for your bookmark", name= "bookmarkName")
                 br
                 paper-input(label= "Url for your bookmark", name= "bookmarkLink")
@@ -15,8 +16,8 @@ iron-collapse(id= "addBookmark", opened)= "Add bookmark"
                 paper-button(onclick= "addBookmark()")
                     iron-icon(icon="check")
                     |Add
-
-iron-collapse(id= "deleteCategory", opened)= "Delete category"
+paper-button(class= "collapseButton", onclick="document.getElementById('deleteCategory').toggle()", toggles)= 'Delete category'
+iron-collapse(id= "deleteCategory")
     div
         each category in bookmarks.categories
             paper-card(image="thumbnails/" + category.bookmarks[0].name  + ".png", heading= category.name)
@@ -25,11 +26,11 @@ iron-collapse(id= "deleteCategory", opened)= "Delete category"
                         iron-icon(icon= "clear")
                         | Delete Category
 
-
-iron-collapse(id= "deleteBookmark", opened)= "Delete bookmark"
+paper-button(class= "collapseButton", onclick="document.getElementById('deleteBookmark').toggle()", toggles)= 'Delete bookmark'
+iron-collapse(id= "deleteBookmark")
     div
         template(is= "dom-bind", id= "bookmarsToDelete")
-            paper-tabs(selected= "{{page}}" id="bookmark-tabs")
+            paper-tabs(selected= "{{page}}" id="deleteBookmarksTab", class= " bookmarkTabs")
                 each category in bookmarks.categories
                     paper-tab= category.name
             iron-pages(selected= "{{page}}" id="test")
@@ -38,6 +39,6 @@ iron-collapse(id= "deleteBookmark", opened)= "Delete bookmark"
                         each bookmark in category.bookmarks
                             paper-card(image= "thumbnails/" + bookmark.name  + ".png", id= bookmark.name, heading= bookmark.name)
                                 div(class= "card-actions")
-                                    paper-button(onclick="deleteBookmark('" + bookmark.name + "','" + category.name + "')", class= "deleteButton")
+                                    paper-button(onclick=`deleteBookmark('${bookmark.name}','${category.name}')`, class= "deleteButton")
                                         iron-icon(icon="clear")
                                         |DELETE

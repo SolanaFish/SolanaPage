@@ -61,20 +61,20 @@ function findBookmark(name, foundCategory) {
 
 module.exports = function(expressApp) {
     app = expressApp;
-    app.get('/bookmarks/mainView', module.exports.mainView);
-    app.get('/bookmarks/deleteView', module.exports.deleteView);
-    app.get('/bookmarks/menuView', uep, module.exports.menuView);
-    app.get('/bookmarks-module/script.js', module.exports.scriptJS);
-    app.get('/bookmarks/settings', module.exports.settings);
+    app.get('/bookmarks/mainView', mainView);
+    app.get('/bookmarks/deleteView', deleteView);
+    app.get('/bookmarks/menuView', uep, menuView);
+    app.get('/bookmarks-module/script.js', scriptJS);
+    app.get('/bookmarks/settings', settingsView);
 
-    app.post('/bookmarks/addBookmark', uep, module.exports.addBookmark);
-    app.post('/bookmarks/deleteBookmark', uep, module.exports.deleteBookmark);
-    app.post('/bookmarks/deleteCategory', uep, module.exports.deleteCategory);
-    app.post('/bookmarks/addNewCategory', uep, module.exports.addCategory);
+    app.post('/bookmarks/addBookmark', uep, addBookmark);
+    app.post('/bookmarks/deleteBookmark', uep, deleteBookmark);
+    app.post('/bookmarks/deleteCategory', uep, deleteCategory);
+    app.post('/bookmarks/addNewCategory', uep, addCategory);
     serverLog("Bookmarks module ready!");
 };
 
-module.exports.mainView = function(req, res) {
+var mainView = function(req, res) {
     serverLog("Serving bookmarks view");
     if (settings.bookmarks.categories.length == 1) {
         res.render('nocategories', {
@@ -87,7 +87,7 @@ module.exports.mainView = function(req, res) {
     }
 };
 
-module.exports.deleteView = function(req, res) {
+var deleteView = function(req, res) {
     serverLog("Serving delete bookmarks view");
 
     res.render('deleteBookmarks', {
@@ -95,13 +95,13 @@ module.exports.deleteView = function(req, res) {
     });
 };
 
-module.exports.menuView = function(req, res) {
+var menuView = function(req, res) {
     res.render('addBookmarkMenu', {
         bookmarks: settings.bookmarks
     });
 };
 
-module.exports.addBookmark = function(req, res) { //TODO: use id for names
+var addBookmark = function(req, res) { //TODO: use id for names
     var name = req.body.bookmarkName;
     var link = req.body.bookmarkLink;
     var category = req.body.category;
@@ -137,7 +137,7 @@ module.exports.addBookmark = function(req, res) { //TODO: use id for names
     res.sendStatus(200);
 };
 
-module.exports.deleteBookmark = function(req, res) { // TODO: delete old thumbnail
+var deleteBookmark = function(req, res) { // TODO: delete old thumbnail
     var bookmark = req.body.name;
     var category = req.body.category;
 
@@ -156,7 +156,7 @@ module.exports.deleteBookmark = function(req, res) { // TODO: delete old thumbna
     res.redirect('back');
 };
 
-module.exports.deleteCategory = function(req, res) {
+var deleteCategory = function(req, res) {
     var categoryName = req.body.name;
     serverLog("Deleting category: " + categoryName);
     var foundCategory = findCategory(categoryName);
@@ -166,7 +166,7 @@ module.exports.deleteCategory = function(req, res) {
     }
 };
 
-module.exports.addCategory = function(req, res) {
+var addCategory = function(req, res) {
     var categoryName = req.body.name;
     if (findCategory(categoryName) === null) {
         serverLog("Adding category: " + categoryName);
@@ -180,14 +180,26 @@ module.exports.addCategory = function(req, res) {
     }
 };
 
-module.exports.scriptJS = function(req, res) {
+var scriptJS = function(req, res) {
     res.sendFile(__dirname + "/script.js");
 };
 
-module.exports.settings = function(req, res) {
+var settingsView = function(req, res) {
     res.render('bookmarksSettings', settings);
 };
 
 module.exports.getSettings = function() {
-    return pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings);
+    return Promise.resolve(pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings));
+};
+
+module.exports.getMainView = function() {
+    if (settings.bookmarks.categories.length == 1) {
+        return Promise.resolve(pug.renderFile(`${__dirname}/../views/nocategories.pug`, {
+            bookmarks: settings.bookmarks
+        }));
+    } else {
+        return Promise.resolve(pug.renderFile(`${__dirname}/../views/categories.pug`, {
+            bookmarks: settings.bookmarks
+        }));
+    }
 };
