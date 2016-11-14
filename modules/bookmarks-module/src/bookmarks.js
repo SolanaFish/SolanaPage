@@ -190,9 +190,6 @@ var settingsView = function(req, res) {
 
 module.exports.getSettings = function() {
     return Promise.resolve(pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings));
-    // return new Promise(function(resolve, reject) {
-    //     resolve(pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings));
-    // });
 };
 
 module.exports.getMainView = function() {

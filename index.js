@@ -53,7 +53,11 @@ var settings = {
             name: "media-controls-module",
             active: true,
             jsEntry: "media"
-        }],
+        }, {
+            name: "reddit-wallpapers-module",
+            active: true,
+            jsEntry: "reddit"
+        }]
     }
 };
 
