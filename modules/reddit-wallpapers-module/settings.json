@@ -1,3 +1,7 @@
 {
-    "subreddits": []
+    "subreddits": [
+        "EarthPorn"
+    ],
+    "refresh": 120,
+    "links": "85"
 }

@@ -1,0 +1,7 @@
+a(href= wall.url id= "wallpaperInfoURL", class="clearfix")
+    img(src= wall.url, width="250", height="250")
+    br
+    = wall.title.slice(0,30)+"..."
+br
+="from: "
+a(href= `https://reddit.com${wall.permalink}`, style="text-decoration:none;color:black;")= wall.subreddit
