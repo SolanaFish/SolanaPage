@@ -55,11 +55,4 @@ html
                 document.addEventListener('DOMContentLoaded', function(event) {
                     app.selected=0;
                 });
-                document.onreadystatechange = function () {
-                    if(document.readyState == "complete") {
-                        bookmarkTabs.selected = 0;
-                        deleteBookmarksTab.selected = 0;
-                    }
-                }
-
             script(type="text/javascript", src="static/mainpage.js")

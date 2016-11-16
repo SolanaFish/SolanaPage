@@ -6,7 +6,7 @@ template(is= "dom-bind", id= "activeModules")= dupa
         iron-icon(icon= "check")
         |OK
     form(id="wallpaperForm", method="post", action="/changeWallpaper", enctype="multipart/form-data")
-        input(name ="wallpaper", type="file", id="wallpaper")
+        paper-input(name ="wallpaper", type="file", id="wallpaper")
         paper-button(onclick="document.getElementById('wallpaperForm').submit()")
             iron-icon(icon= "check")
             |ok

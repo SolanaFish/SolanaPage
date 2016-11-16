@@ -18,6 +18,12 @@
     <script>
         Polymer({
             is: 'main-page',
+            attached: function() {
+                this.async(() => {
+                    bookmarkTabs.selected = 0;
+                    deleteBookmarksTab.selected = 0;
+                }, 1);
+            },
             behaviors: [Polymer.NeonSharedElementAnimatableBehavior],
             properties: {
                 animationConfig: {
