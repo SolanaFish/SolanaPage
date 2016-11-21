@@ -97,10 +97,12 @@ module.exports = (app) => {
     app.get('/reddit-wallpapers-module/script.js', scriptJS);
     app.post('/redditWallpaper/setRefresh', uep, setRefresh);
     app.post('/redditWallpaper/setSubreddits', uep, setSubreddits);
-    app.post('/redditWallpaper/setLinks',uep, setLinks);
+    app.post('/redditWallpaper/setLinks', uep, setLinks);
 
     serverLog('Reddit wallpaper module ready!');
 };
+
+module.exports.settings = settings;
 
 var randomWall = (req, res) => {
     var wall = getRandomWallpaper();
