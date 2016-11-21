@@ -1,5 +1,5 @@
 {
-  "name": "solana-home",
+  "name": "solana-page",
   "version": "1.0.0",
   "description": "Home page made by SolanaFish",
   "main": "index.js",
@@ -9,8 +9,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "node index.js"
   },
-  "author": "SolanaFish",
-  "license": "ISC",
+  "repository": {
+      "type":"git",
+      "url": "git+https://github.com/SolanaFish/SolanaPage.git"
+  },
+  "author": "SolanaFish <github.com/SolanaFish>",
+  "license": "MIT",
+  "bugs":"https://github.com/SolanaFish/SolanaPage/issues",
+  "homepage": "https://github.com/SolanaFish/SolanaPage",
   "dependencies": {
     "body-parser": "^1.15.1",
     "busboy": "^0.2.13",
