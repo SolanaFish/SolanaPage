@@ -62,7 +62,6 @@ cd SolanaPage
 - To stop the server run `npm stop`
 - To run server just once (without using forever) `npm run debug`
 - To run tests `npm run tests` (WIP :< )
-
     When the server is running go to [http://127.0.0.1:8081/](http://127.0.0.1:8081/) or set it as your home webside.
 
 ### How to add modules
