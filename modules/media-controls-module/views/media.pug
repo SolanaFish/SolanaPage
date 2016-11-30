@@ -1,17 +1,18 @@
 div(id= "media-controlls")
     paper-material
-        img(src= imgUrl)
-        br
-        = title
-        b  by 
-        = artist
-        br
-        paper-button(onClick= "prev()")
-            iron-icon(icon= "av:fast-rewind")
-            |prev
-        paper-button(onClick= "play()")
-            iron-icon(icon= "av:play-arrow")
-            |play
-        paper-button(onClick= "next()")
-            iron-icon(icon= "av:fast-forward")
-            |next
+        div(class= 'container')
+            img(src= imgUrl)
+            div(class= "flexChild", style= "margin:1%;")
+                = ` ${title} `
+                b  by
+                = ` ${artist} `
+                br
+                paper-button(onClick= "prev()")
+                    iron-icon(icon= "av:fast-rewind")
+                    |prev
+                paper-button(onClick= "play()")
+                    iron-icon(icon= "av:play-arrow")
+                    |play
+                paper-button(onClick= "next()")
+                    iron-icon(icon= "av:fast-forward")
+                    |next
