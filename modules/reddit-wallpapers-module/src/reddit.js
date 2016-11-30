@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
 var readyUrls = [];
 const pug = require('pug');
+const nodeFetchSync = require('sync-request');
 
 const uep = bodyParser.urlencoded({
     extended: false
@@ -18,7 +19,8 @@ var settings = {
     current: {
         subreddits: ["EarthPorn"],
         refresh: 120,
-        links: 50
+        links: 50,
+        checkUrls: false
     },
     save: () => {
         serverLog('Saving reddit settings to local file');
@@ -37,10 +39,14 @@ function getRandomWallpaper() {
 }
 
 function updateUrls() {
-    fetchURLs().then((value) => {
-        readyUrls = value;
-    }).catch((err) => {
-        serverLog(err);
+    return new Promise((resolve, reject) => {
+        fetchURLs().then((value) => {
+            readyUrls = value;
+            resolve('Fetched ' + readyUrls.length + ' new wallpapers');
+        }).catch((err) => {
+            serverLog(err);
+            reject('Error fetching urls');
+        });
     });
 }
 
@@ -73,12 +79,33 @@ function getUrlsFromSubreddit(subreddit) {
                 var permalink = element.data.permalink;
                 var subreddit = element.data.subreddit;
                 var title = element.data.title;
-                urls.push({
-                    url,
-                    permalink,
-                    subreddit,
-                    title
-                });
+
+                if (settings.current.checkUrls) {
+                    var res;
+                    try {
+                        res = nodeFetchSync('GET', url, {
+                            timeout: 500
+                        });
+                    } catch (e) {
+                    } finally {
+                        if (res && res.statusCode != 404) {
+                            urls.push({
+                                url,
+                                permalink,
+                                subreddit,
+                                title
+                            });
+                        }
+                    }
+                } else {
+                    urls.push({
+                        url,
+                        permalink,
+                        subreddit,
+                        title
+                    });
+                }
+
             });
             resolve(urls);
         }).catch((err) => {
@@ -88,21 +115,25 @@ function getUrlsFromSubreddit(subreddit) {
 }
 
 module.exports = (app) => {
+    serverLog('Loading reddit wallpaper module!');
     settings.load();
-
-    updateUrls();
-    setInterval(updateUrls, settings.current.refresh * 60 * 1000);
 
     app.get('/randomWallpaper', randomWall);
     app.get('/reddit-wallpapers-module/script.js', scriptJS);
     app.post('/redditWallpaper/setRefresh', uep, setRefresh);
     app.post('/redditWallpaper/setSubreddits', uep, setSubreddits);
     app.post('/redditWallpaper/setLinks', uep, setLinks);
+    app.post('/redditWallpaper/checkUrls', uep, checkUrls);
 
-    serverLog('Reddit wallpaper module ready!');
+    setInterval(updateUrls, settings.current.refresh * 60 * 1000);
+    updateUrls().then((value) => {
+        serverLog(value);
+        serverLog('Reddit wallpaper module ready!');
+    }).catch((err) => {
+        serverLog(err);
+    });
+
 };
-
-module.exports.settings = settings;
 
 var randomWall = (req, res) => {
     var wall = getRandomWallpaper();
@@ -139,6 +170,16 @@ var setLinks = (req, res) => {
 
 var setSubreddits = (req, res) => {
     settings.current.subreddits = JSON.parse(req.body.subs);
+    settings.save();
+    res.sendStatus(200);
+};
+
+var checkUrls = (req, res) => {
+    if (req.body.checked == 'true') {
+        settings.current.checkUrls = true;
+    } else {
+        settings.current.checkUrls = false;
+    }
     settings.save();
     res.sendStatus(200);
 };

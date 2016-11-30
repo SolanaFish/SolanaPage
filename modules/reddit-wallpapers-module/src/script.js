@@ -58,6 +58,19 @@ function submitSubreddits() {
     };
 }
 
+function submitCheckUrlsButton() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/redditWallpaper/checkUrls", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("checked=" + document.getElementById('checkUrlsButton').checked);
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const toast = document.getElementById('checkUrlsToast');
+            toast.open();
+        }
+    };
+}
+
 
 function setupSlider() {
     var refreshSlider = document.getElementById('redditRefreshSlider');
@@ -67,6 +80,10 @@ function setupSlider() {
     var linksSlider = document.getElementById('redditLinksSlider');
     linksSlider.addEventListener('change', () => {
         submitLinks();
+    });
+    var checkUrlsButton = document.getElementById('checkUrlsButton');
+    checkUrlsButton.addEventListener('change', ()=> {
+        submitCheckUrlsButton();
     });
     var redditInputs = document.getElementById('redditInputs');
     var lastChildListen = () => {

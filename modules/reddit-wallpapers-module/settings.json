@@ -3,5 +3,6 @@
         "EarthPorn"
     ],
     "refresh": 120,
-    "links": "135"
+    "links": 50,
+    "checkUrls": false
 }
