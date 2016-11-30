@@ -10,12 +10,12 @@
     "debug": "node index.js"
   },
   "repository": {
-      "type":"git",
-      "url": "git+https://github.com/SolanaFish/SolanaPage.git"
+    "type": "git",
+    "url": "git+https://github.com/SolanaFish/SolanaPage.git"
   },
   "author": "SolanaFish <github.com/SolanaFish>",
   "license": "MIT",
-  "bugs":"https://github.com/SolanaFish/SolanaPage/issues",
+  "bugs": "https://github.com/SolanaFish/SolanaPage/issues",
   "homepage": "https://github.com/SolanaFish/SolanaPage",
   "dependencies": {
     "body-parser": "^1.15.1",
@@ -28,9 +28,12 @@
     "observe-js": "^0.5.7",
     "polymer": "^0.5.0",
     "pug": "^2.0.0-beta5",
+    "sync-request": "^3.0.1",
     "webshot": "git+https://github.com/brenden/node-webshot.git"
   },
   "devDependencies": {
-    "mocha": "^3.1.2"
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2",
+    "rewire": "^2.5.2"
   }
 }
