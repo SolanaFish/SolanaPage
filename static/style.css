@@ -36,17 +36,18 @@ iron-collapse {
 }
 
 #redditRefreshSlider {
-    --paper-slider-height:5px;
-    width:100%;
+    --paper-slider-height: 5px;
+    width: 100%;
 }
+
 #redditLinksSlider {
-    --paper-slider-height:5px;
-    width:100%;
+    --paper-slider-height: 5px;
+    width: 100%;
 }
 
 #wallpaperInfoURL {
     color: black;
-    font-size:130%;
+    font-size: 130%;
     padding: 2%;
     padding-bottom: 1%;
     text-decoration: none;
@@ -73,19 +74,19 @@ iron-collapse {
 }
 
 .error {
-    color:#D50000;
+    color: #D50000;
     size: 150%;
 }
 
 .clearfix:after {
-    content:"";
-    clear:both;
+    content: "";
+    clear: both;
 }
 
 .wallpaperInfoDiv {
-    font-size:85%;
+    font-size: 85%;
     text-decoration: none;
-    color:black;
+    color: black;
     text-align: left;
     padding: 2%;
     padding-top: 0%;
