@@ -1,21 +1,32 @@
-var assert = require('assert');
+const rewire = require('rewire');
+const chai = require('chai');
+const should = chai.should();
 const express = require('express');
-describe('reddit-wallpapers-module', () => {
+
+describe('reddit-wallpapers-module', function() {
     var redditModule;
     var app;
-    before(() => {
+    before(function() {
         app = express();
-    });
-    beforeEach(() => {
-        redditModule = require('../modules/reddit-wallpapers-module');
+        redditModule = rewire('../modules/reddit-wallpapers-module/src/reddit.js');
         redditModule(app);
     });
-    describe('settings', () => {
-        it('should have array of subreddits, refresh time, and amount of liks to fetch', () => {
-            redditModule.settings.current.should.have.deep.members({
-                refresh: 120,
-                links: 50
-            });
-        });
+    beforeEach(function() {});
+    it('Should have all settings loaded', () => {
+        var settings = redditModule.__get__('settings');
+        settings.current.should.have.property('subreddits');
+        settings.current.should.have.property('refresh');
+        settings.current.should.have.property('links');
+    });
+    it('Should have meaningful values in current settings', () => {
+        var settings = redditModule.__get__('settings');
+        settings.current.refresh.should.be.above(0);
+        settings.current.links.should.be.above(0);
+    });
+    it('Should be able to send new random wallpaper', () => {
+        var getRandomWallpaper = redditModule.__get__('getRandomWallpaper');
+        var wallUrl = getRandomWallpaper();
+        console.log(wallUrl);
+        wallUrl.should.not.be.empty();
     });
 });

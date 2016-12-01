@@ -11,6 +11,8 @@ function redditWallpaper() {
     }).catch(console.error);
 }
 
+// Settings
+
 function submitRefresh() {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/redditWallpaper/setRefresh", true);
