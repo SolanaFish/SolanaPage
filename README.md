@@ -95,9 +95,19 @@ cd SolanaPage
     ```
 - Required methods and routes
     - Module constructor
-        - Contructor should take `express app` object as an only argument.
+        - Contructor should take `express app` object as an only argument, and return a promise that is resolved when the module is loaded.
         ```JavaScript
         module.exports = (app) => {
+            return new Promise((resolve, reject) => {
+                // Load module
+                settings.load();
+                // Setup routes using app object
+                app.get('/*', (req, res)=> {
+                    res.send('k');
+                });
+                // Resolve the promise
+                resolve()
+            });
         };
         ```
     - Module has to implement `getMainView` and `getSettings` methods that return a promise that resolves to html code of main page and settings of a module (or return null if your module doesn't show anyting on settings or main pages)

@@ -62,14 +62,22 @@ var settings = {
 };
 
 function loadModules() {
-    settings.load();
-    serverLog("Loading modules!");
-    for (var module in settings.current.modules) {
-        if (settings.current.modules[module].active) {
-            modules[module] = require("./modules/" + settings.current.modules[module].name);
-            modules[module](app);
+    return new Promise((resolve, reject) => {
+        settings.load();
+        serverLog("Loading modules!");
+        var promises = [];
+        for (var module in settings.current.modules) {
+            if (settings.current.modules[module].active) {
+                modules[module] = require("./modules/" + settings.current.modules[module].name);
+                promises.push(modules[module](app));
+            }
         }
-    }
+        Promise.all(promises).then(() => {
+            resolve(`Loaded ${promises.length} modules!`);
+        }).catch((err)=> {
+            reject(err);
+        });
+    });
 }
 
 function serverLog(text) {
@@ -182,6 +190,8 @@ var server = app.listen(8081, function() {
         views.push(`${__dirname}/modules/${moduleItem.name}/views`);
     });
     app.set('views', views);
-    loadModules();
-    serverLog("Server up!");
+    loadModules().then((res) => {
+        serverLog(res);
+        serverLog("Server up!");
+    });
 });
