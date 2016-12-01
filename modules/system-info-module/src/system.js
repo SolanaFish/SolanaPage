@@ -15,9 +15,12 @@ function readSettings() {
 }
 
 module.exports = function(app) {
-    app.get('/system-info-module/systemInfo', systemInfo);
-    app.get('/system-info-module/script.js', scriptJS);
-    serverLog("System info module ready!");
+    return new Promise(function(resolve, reject) {
+        app.get('/system-info-module/systemInfo', systemInfo);
+        app.get('/system-info-module/script.js', scriptJS);
+        serverLog("System info module ready!");
+        resolve();
+    });
 };
 
 var systemInfo = function(req, res) {

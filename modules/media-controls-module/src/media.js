@@ -107,10 +107,13 @@ function getInfo() {
 }
 
 module.exports = function(app) {
-    settings.load();
-    app.get('/media-controls-module/script.js', scriptJS);
-    app.post('/media/controls', uep, controls);
-    serverLog("Media controls module ready!");
+    return new Promise(function(resolve, reject) {
+        settings.load();
+        app.get('/media-controls-module/script.js', scriptJS);
+        app.post('/media/controls', uep, controls);
+        serverLog("Media controls module ready!");
+        resolve();
+    });
 };
 
 var scriptJS = function(req, res) {

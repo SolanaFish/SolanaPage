@@ -115,22 +115,26 @@ function getUrlsFromSubreddit(subreddit) {
 }
 
 module.exports = (app) => {
-    serverLog('Loading reddit wallpaper module!');
-    settings.load();
+    return new Promise(function(resolve, reject) {
+        serverLog('Loading reddit wallpaper module!');
+        settings.load();
 
-    app.get('/randomWallpaper', randomWall);
-    app.get('/reddit-wallpapers-module/script.js', scriptJS);
-    app.post('/redditWallpaper/setRefresh', uep, setRefresh);
-    app.post('/redditWallpaper/setSubreddits', uep, setSubreddits);
-    app.post('/redditWallpaper/setLinks', uep, setLinks);
-    app.post('/redditWallpaper/checkUrls', uep, checkUrls);
+        app.get('/randomWallpaper', randomWall);
+        app.get('/reddit-wallpapers-module/script.js', scriptJS);
+        app.post('/redditWallpaper/setRefresh', uep, setRefresh);
+        app.post('/redditWallpaper/setSubreddits', uep, setSubreddits);
+        app.post('/redditWallpaper/setLinks', uep, setLinks);
+        app.post('/redditWallpaper/checkUrls', uep, checkUrls);
 
-    setInterval(updateUrls, settings.current.refresh * 60 * 1000);
-    updateUrls().then((value) => {
-        serverLog(value);
-        serverLog('Reddit wallpaper module ready!');
-    }).catch((err) => {
-        serverLog(err);
+        setInterval(updateUrls, settings.current.refresh * 60 * 1000);
+        updateUrls().then((value) => {
+            serverLog(value);
+            serverLog('Reddit wallpaper module ready!');
+            resolve();
+        }).catch((err) => {
+            serverLog(err);
+            reject(err);
+        });
     });
 
 };

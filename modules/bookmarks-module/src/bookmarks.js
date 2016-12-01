@@ -8,7 +8,6 @@ var uep = bodyParser.urlencoded({
     extended: false
 });
 var pug = require('pug');
-var app;
 
 function serverLog(text) {
     var date = new Date();
@@ -59,19 +58,21 @@ function findBookmark(name, foundCategory) {
     }
 }
 
-module.exports = function(expressApp) {
-    app = expressApp;
-    app.get('/bookmarks/mainView', mainView);
-    app.get('/bookmarks/deleteView', deleteView);
-    app.get('/bookmarks/menuView', uep, menuView);
-    app.get('/bookmarks-module/script.js', scriptJS);
-    app.get('/bookmarks/settings', settingsView);
+module.exports = function(app) {
+    return new Promise(function(resolve, reject) {
+        app.get('/bookmarks/mainView', mainView);
+        app.get('/bookmarks/deleteView', deleteView);
+        app.get('/bookmarks/menuView', uep, menuView);
+        app.get('/bookmarks-module/script.js', scriptJS);
+        app.get('/bookmarks/settings', settingsView);
 
-    app.post('/bookmarks/addBookmark', uep, addBookmark);
-    app.post('/bookmarks/deleteBookmark', uep, deleteBookmark);
-    app.post('/bookmarks/deleteCategory', uep, deleteCategory);
-    app.post('/bookmarks/addNewCategory', uep, addCategory);
-    serverLog("Bookmarks module ready!");
+        app.post('/bookmarks/addBookmark', uep, addBookmark);
+        app.post('/bookmarks/deleteBookmark', uep, deleteBookmark);
+        app.post('/bookmarks/deleteCategory', uep, deleteCategory);
+        app.post('/bookmarks/addNewCategory', uep, addCategory);
+        serverLog("Bookmarks module ready!");
+        resolve();
+    });
 };
 
 var mainView = function(req, res) {
