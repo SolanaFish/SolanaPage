@@ -1,80 +1,91 @@
 const settingsDir = __dirname + "/../settings.json";
-var sys = require('sys');
-var exec = require('child_process').exec;
-var execSync = require('child_process').execSync;
 var fs = require("fs"); // for reading settings
+var exec = require('child_process').exec;
+var pug = require('pug');
 var bodyParser = require('body-parser'); // Basic parser (no multipart support)
 var uep = bodyParser.urlencoded({
     extended: false
 });
-var playing = false;
-var settings = readSettings();
-var pug = require('pug');
 
 function serverLog(text) {
     var date = new Date();
     console.log("[ " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " ] " + text);
 }
 
-function readSettings() {
-    if (fs.existsSync(settingsDir)) {
-        var settingsFile = fs.readFileSync(settingsDir);
-        return JSON.parse(settingsFile);
-    } else { // If setttngs file does not exits, generate new one
-        var newSettings = {
-            "controlCommands": {
-                "next": "playerctl next",
-                "prev": "playerctl previous",
-                "play": "playerctl play",
-                "pause": "playerctl pause",
-                "status": "playerctl status"
-            },
-            "infoCommands": {
-                "title": "playerctl metadata title",
-                "artist": "playerctl metadata artist",
-                "url": "playerctl metadata mpris:artUrl"
-            }
-        };
-        var settingsString = JSON.stringify(newSettings, null, "	");
-        fs.writeFileSync(settingsDir, settingsString);
-        return newSettings;
+var settings = {
+    load: () => {
+        if (fs.existsSync(settingsDir)) {
+            settings.current = JSON.parse(fs.readFileSync(settingsDir));
+        }
+    },
+    current: {
+        controlCommands: {
+            next: "playerctl next",
+            prev: "playerctl previous",
+            play: "playerctl play-pause"
+        },
+        infoCommands: {
+            title: "playerctl metadata title",
+            artist: "playerctl metadata artist",
+            url: "playerctl metadata mpris:artUrl"
+        }
+    },
+    save: () => {
+        serverLog('Saving media module settings to local file');
+        var stringified = JSON.stringify(settings.current, null, 4);
+        fs.writeFileSync(settingsDir, stringified);
+    },
+};
+
+var mediaControls = {
+    play: () => {
+        return new Promise((resolve, reject) => {
+            exec(settings.current.controlCommands.play, (error, stdout, stderr) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve();
+            });
+        });
+    },
+    next: () => {
+        return new Promise((resolve, reject) => {
+            exec(settings.current.controlCommands.next, (error, stdout, stderr) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve();
+            });
+        });
+    },
+    prev: () => {
+        return new Promise((resolve, reject) => {
+            exec(settings.current.controlCommands.prev, (error, stdout, stderr) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve();
+            });
+        });
     }
-}
-
-function play() {
-    if (playing) {
-        exec(settings.controlCommands.pause);
-    } else {
-        exec(settings.controlCommands.play);
-    }
-    playing = !playing;
-}
-
-function next() {
-    exec(settings.controlCommands.next);
-}
-
-function prev() {
-    exec(settings.controlCommands.prev);
-}
-
-var title, artist, url;
+};
 
 function getInfo() {
+    var title, artist, url;
     return new Promise(function(resolve, reject) {
-        exec(settings.infoCommands.title, (error, stdout, stderr) => {
+        exec(settings.current.infoCommands.title, (error, stdout, stderr) => {
             if (error) {
                 console.log("Error while getting song title");
             } else {
                 title = stdout;
             }
-            exec(settings.infoCommands.artist, (error, stdout, stderr) => {
+            exec(settings.current.infoCommands.artist, (error, stdout, stderr) => {
                 if (error) {
                     console.log("Error while getting song artist");
                 } else {
                     artist = stdout;
                 }
-                exec(settings.infoCommands.url, (error, stdout, stderr) => {
+                exec(settings.current.infoCommands.url, (error, stdout, stderr) => {
                     if (error) {
                         console.log("Error while getting song url");
                     } else {
@@ -96,12 +107,7 @@ function getInfo() {
 }
 
 module.exports = function(app) {
-    if (execSync(settings.controlCommands.status).toString().indexOf("Paused") > -1 || execSync(settings.controlCommands.status).toString().indexOf("Stopped") > -1) { // check status of player
-        playing = false;
-    } else {
-        playing = true;
-    }
-    app.get('/media/mainView', mainView);
+    settings.load();
     app.get('/media-controls-module/script.js', scriptJS);
     app.post('/media/controls', uep, controls);
     serverLog("Media controls module ready!");
@@ -111,34 +117,47 @@ var scriptJS = function(req, res) {
     res.sendFile(__dirname + "/script.js");
 };
 
-var mainView = function(req, res) {
-    getInfo().then((info) => {
-        res.render('media', info);
-    }).catch((reason) => {
-        serverLog("Error: " + reason);
-    });
-};
-
 var controls = function(req, res) {
-    var action = req.body.action;
-    switch (action) {
+    switch (req.body.action) {
         case 'play':
             {
-                play();
+                mediaControls.play().then(() => {
+                    getInfo().then((info) => {
+                        res.json(info);
+                    });
+                }).catch((err) => {
+                    res.sendStatus(503);
+                });
             }
             break;
         case 'next':
             {
-                next();
+                mediaControls.next().then(() => {
+                    getInfo().then((info) => {
+                        res.json(info);
+                    });
+                }).catch((err) => {
+                    res.sendStatus(503);
+                });
             }
             break;
         case 'prev':
             {
-                prev();
+                mediaControls.prev().then(() => {
+                    getInfo().then((info) => {
+                        res.json(info);
+                    });
+                }).catch((err) => {
+                    res.sendStatus(503);
+                });
             }
             break;
+        case 'update': {
+            getInfo().then((info) => {
+                res.json(info);
+            });
+        } break;
     }
-    res.sendStatus(200);
 };
 
 module.exports.getSettings = function() {

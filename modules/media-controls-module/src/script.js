@@ -1,31 +1,18 @@
-function media() {
-    fetch('/media/mainView').then(function(res) {
-        return res.text();
-    }).then(function(res) {
-        document.querySelector("#media-controls-module").innerHTML = res;
-    }).catch(console.error);
-}
-
-function play() {
+function mediaSend(action= 'update') {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/media/controls", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("action=play");
-    media();
+    xhttp.send("action=" + action);
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+            var res = JSON.parse(this.responseText);
+            var cover = document.getElementById('cover');
+            var title = document.getElementById('title');
+            var artist = document.getElementById('artist');
+            cover.src = res.imgUrl;
+            title.innerHTML = res.title;
+            artist.innerHTML = res.artist;
+        }
+    };
 }
-
-function prev() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/media/controls", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("action=prev");
-    media();
-}
-
-function next() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/media/controls", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("action=next");
-    media();
-}
+setInterval(mediaSend, 10000);
