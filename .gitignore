@@ -1,6 +1,7 @@
 bower_components
 node_modules
-thumbnails
+thumbnails/*
+!thumbnails/placeholder.png
 npm-debug.log
 .jshintignore
 uploads
@@ -8,4 +9,3 @@ modules/bookmarks-module/settings.json
 modules/media-controls-module/settings.json
 modules/reddit-wallpapers-module/settings.json
 modules/system-info-module/settings.json
-!placeholder.png
