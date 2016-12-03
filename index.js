@@ -74,7 +74,7 @@ function loadModules() {
         }
         Promise.all(promises).then(() => {
             resolve(`Loaded ${promises.length} modules!`);
-        }).catch((err)=> {
+        }).catch((err) => {
             reject(err);
         });
     });
@@ -178,6 +178,16 @@ app.post('/updateModules', uep, (req, res) => {
 
 app.post('/changeWallpaper', upload.single('wallpaper'), (req, res) => {
     res.redirect('/');
+});
+
+app.get('/thumbnails/:id', (req, res) => {
+    fs.access(`thumbnails/${req.params.id}`, (err) => {
+        if (err) {
+            res.sendFile(`${__dirname}/thumbnails/placeholder.png`);
+        } else {
+            res.sendFile(`${__dirname}/thumbnails/${req.params.id}`);
+        }
+    });
 });
 
 
