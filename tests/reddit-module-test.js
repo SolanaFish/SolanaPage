@@ -13,7 +13,7 @@ describe('reddit-wallpapers-module', function() {
         redditModule = rewire('../modules/reddit-wallpapers-module/src/reddit.js');
         redditModule(app).then(() => {
             redditModule.__set__({
-                settingsDir: './testsettings.json'
+                settingsDir: './reddittestsettings.json'
             })
             done();
         });
