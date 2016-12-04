@@ -12,6 +12,9 @@ describe('reddit-wallpapers-module', function() {
         app = express();
         redditModule = rewire('../modules/reddit-wallpapers-module/src/reddit.js');
         redditModule(app).then(() => {
+            redditModule.__set__({
+                settingsDir: './testsettings.json'
+            })
             done();
         });
     });
@@ -70,11 +73,60 @@ describe('reddit-wallpapers-module', function() {
         });
     });
     it('Should be able to send new wallpaper', (done) => {
+        var fakeUrls = [{
+            url: 'url1',
+            permalink: 'perma1',
+            subreddit: 'subreddit1',
+            title: 'title1'
+        }];
+        redditModule.__set__({
+            readyUrls: fakeUrls
+        })
         chai.request(app)
             .get('/randomWallpaper')
             .end((err, res) => {
                 res.should.have.status(200);
-                
+                res.body.should.have.property('wallUrl').and.equal(fakeUrls[0].url);
+                res.body.should.have.property('info').and.not.be.empty;
+                done();
+            });
+    });
+    it('Should be able to set refresh', (done) => {
+        chai.request(app)
+            .post('/redditWallpaper/setRefresh')
+            .set('content-type', 'application/x-www-form-urlencoded')
+            .send({
+                refresh: 420
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                redditModule.__get__('settings').current.refresh.should.be.equal(420);
+                done();
+            });
+    });
+    it('Should be able to set number of links to fetch from subreddits', (done) => {
+        chai.request(app)
+            .post('/redditWallpaper/setLinks')
+            .set('content-type', 'application/x-www-form-urlencoded')
+            .send({
+                links: 420
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                redditModule.__get__('settings').current.links.should.be.equal(420);
+                done();
+            });
+    });
+    it('Should be able to set subreddits', (done) => {
+        chai.request(app)
+            .post('/redditWallpaper/setSubreddits')
+            .set('content-type', 'application/x-www-form-urlencoded')
+            .send({
+                subs: JSON.stringify(['reddit1', 'reddit2'])
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                redditModule.__get__('settings').current.subreddits.should.be.eql(['reddit1', 'reddit2']);
                 done();
             });
     });
