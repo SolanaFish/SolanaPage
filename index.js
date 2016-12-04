@@ -203,5 +203,7 @@ var server = app.listen(8081, function() {
     loadModules().then((res) => {
         serverLog(res);
         serverLog("Server up!");
+    }).catch((err)=> {
+        console.log(err);
     });
 });
