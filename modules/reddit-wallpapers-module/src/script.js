@@ -48,9 +48,9 @@ function submitSubreddits() {
     Array.prototype.slice.call(redditInputs.children).forEach((child) => {
         if (child.value) {
             message.push(child.value);
-            console.log(message.toString());
         }
     });
+    console.log("subs=" + JSON.stringify(message));
     xhttp.send("subs=" + JSON.stringify(message));
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {

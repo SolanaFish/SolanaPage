@@ -1,4 +1,4 @@
-const settingsDir = "./modules/reddit-wallpapers-module/settings.json";
+let settingsDir = "./modules/reddit-wallpapers-module/settings.json";
 const fs = require('fs');
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
@@ -155,7 +155,7 @@ var scriptJS = (req, res) => {
 };
 
 var setRefresh = (req, res) => {
-    const refresh = req.body.refresh;
+    const refresh = parseInt(req.body.refresh);
     if (refresh != settings.current.refresh) {
         settings.current.refresh = refresh;
         settings.save();
@@ -164,7 +164,7 @@ var setRefresh = (req, res) => {
 };
 
 var setLinks = (req, res) => {
-    const links = req.body.links;
+    const links = parseInt(req.body.links);
     if (links != settings.current.links) {
         settings.current.links = links;
         settings.save();
