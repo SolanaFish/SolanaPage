@@ -1,4 +1,4 @@
-const settingsDir = __dirname + "/../settings.json";
+let settingsDir = __dirname + "/../settings.json";
 var fs = require("fs"); // for reading settings
 var exec = require('child_process').exec;
 var pug = require('pug');
