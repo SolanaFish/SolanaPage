@@ -22,7 +22,7 @@ Incoming !
     - store bookmarks in categories
     - great organization
 - Media controls module
-    - controll your music player
+    - control your music player
     - see album cover (spotify only)
 - System info module
     - preview realtime information about your system
@@ -31,7 +31,7 @@ Incoming !
     - system uptime
 - Reddit wallpapers module
     - random wallpapers form subreddits
-    - customize waht subreddits to use
+    - customize what subreddits to use
     - go to reddit post of current wallpaper
 
 ## Requirements
@@ -45,7 +45,7 @@ Incoming !
 - Bookmarks module
     - [GraphicsMagick 1.3+](http://www.graphicsmagick.org/README.html)
 - Media controls module
-    - [Playerctl (or you can use your own comands)](https://github.com/acrisci/playerctl)
+    - [Playerctl (or you can use your own commands)](https://github.com/acrisci/playerctl)
 
 ## Usage
 
@@ -95,7 +95,7 @@ cd SolanaPage
     ```
 - Required methods and routes
     - Module constructor
-        - Contructor should take `express app` object as an only argument, and return a promise that is resolved when the module is loaded.
+        - Constructor should take `express app` object as an only argument, and return a promise that is resolved when the module is loaded.
         ```JavaScript
         module.exports = (app) => {
             return new Promise((resolve, reject) => {
@@ -110,7 +110,7 @@ cd SolanaPage
             });
         };
         ```
-    - Module has to implement `getMainView` and `getSettings` methods that return a promise that resolves to html code of main page and settings of a module (or return null if your module doesn't show anyting on settings or main pages)
+    - Module has to implement `getMainView` and `getSettings` methods that return a promise that resolves to html code of main page and settings of a module (or return null if your module doesn't show anything on settings or main pages)
     ```JavaScript
     module.exports.getSettings = () => {
         return new Promise((resolve, reject) => {
