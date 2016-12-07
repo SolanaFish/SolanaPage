@@ -1,4 +1,4 @@
-const settingsDir = "./modules/bookmarks-module/settings.json";
+let settingsDir = "./modules/bookmarks-module/settings.json";
 const fs = require("fs"); // for saving thumbnails
 const webshot = require('webshot'); // for rendering webside
 const gm = require('gm'); // resizing thumbnails
