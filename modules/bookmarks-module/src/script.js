@@ -37,6 +37,6 @@ function deleteBookmark(name, category) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/bookmarks/deleteBookmark", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("name=" + name + "&category=" + category);
+    xhttp.send("url=" + name + "&category=" + category);
     delBookmarks();
 }

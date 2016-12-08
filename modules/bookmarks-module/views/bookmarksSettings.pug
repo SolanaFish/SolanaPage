@@ -39,6 +39,6 @@ iron-collapse(id= "deleteBookmark")
                         each bookmark in category.bookmarks
                             paper-card(image= `thumbnails/${bookmark.thumbnail}`, id= bookmark.name, heading= bookmark.name)
                                 div(class= "card-actions")
-                                    paper-button(onclick=`deleteBookmark('${bookmark.name}','${category.name}')`, class= "deleteButton")
+                                    paper-button(onclick=`deleteBookmark('${bookmark.url}','${category.name}')`, class= "deleteButton")
                                         iron-icon(icon="clear")
                                         |DELETE

@@ -101,11 +101,13 @@ var addBookmark = function(req, res) {
         } else {
             res.sendStatus(501);
         }
+    } else {
+        res.sendStatus(501);
     }
 };
 
 var deleteBookmark = function(req, res) {
-    var bookmark = req.body.name;
+    var bookmark = req.body.url;
     var category = req.body.category;
 
     var foundCategory = findCategory(category);
@@ -114,8 +116,9 @@ var deleteBookmark = function(req, res) {
         var foundBookmark = findBookmark(bookmark, foundCategory);
         if (foundBookmark != -1) {
             var delBookmark = settings.current.bookmarks.categories[foundCategory].bookmarks[foundBookmark];
-            fs.unlink(delBookmark.url, (err) => {
+            fs.unlink(`./thumbnails/${delBookmark.thumbnail}`, (err) => {
                 if (err) {
+                    console.log(err);
                     res.sendStatus(501);
                 } else {
                     settings.current.bookmarks.categories[foundCategory].bookmarks.splice(foundBookmark, 1);
@@ -132,15 +135,18 @@ var deleteCategory = function(req, res) {
     var foundCategory = findCategory(category);
     if (foundCategory != -1) {
         var delCategory = settings.current.bookmarks.categories[foundCategory];
-        delCategory.forEach((bookmark) => {
-            fs.unlink(bookmark.url, (err) => {
-                if (err) {
-                    console.log(err);
-                }
+        if(delCategory.length > 0) {
+            delCategory.forEach((bookmark) => {
+                fs.unlink(`./thumbnails/${delBookmark.thumbnail}`, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
             });
-        });
+        }
         settings.current.bookmarks.categories.splice(foundCategory, 1);
         settings.save();
+        res.sendStatus(200);
     } else {
         res.sendStatus(501);
     }
