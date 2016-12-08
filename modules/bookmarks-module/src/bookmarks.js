@@ -119,7 +119,7 @@ var deleteBookmark = function(req, res) {
                     res.sendStatus(501);
                 } else {
                     settings.current.bookmarks.categories[foundCategory].bookmarks.splice(foundBookmark, 1);
-                    saveSettings();
+                    settings.save();
                     res.sendStatus(200);
                 }
             });
@@ -140,7 +140,7 @@ var deleteCategory = function(req, res) {
             });
         });
         settings.current.bookmarks.categories.splice(foundCategory, 1);
-        saveSettings();
+        settings.save();
     } else {
         res.sendStatus(501);
     }
@@ -148,14 +148,16 @@ var deleteCategory = function(req, res) {
 
 var addCategory = function(req, res) {
     var categoryName = req.body.name;
-    if (findCategory(categoryName) != -1) {
+    if (findCategory(categoryName) == -1) {
         var newCategory = {
             name: categoryName,
             bookmarks: []
         };
         settings.current.bookmarks.categories.push(newCategory);
-        saveSettings();
+        settings.save();
         res.sendStatus(200);
+    } else {
+        res.sendStatus(501);
     }
 };
 
