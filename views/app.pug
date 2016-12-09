@@ -25,4 +25,11 @@ block append scripts
 block append css
     each module in modules
         if module.css
+            = '\n'
+            != module.css
+
+block append cssCustom
+    each module in modules
+        if module.css
+            = '\n'
             != module.css

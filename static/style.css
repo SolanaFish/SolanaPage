@@ -14,7 +14,7 @@ paper-material {
 
 #mainFab, #settingsFab {
     position: fixed;
-    left: 4%;
-    bottom: 4%;
+    left: 3%;
+    bottom: 3%;
     z-index: 1000;
 }
