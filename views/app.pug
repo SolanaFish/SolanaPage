@@ -17,5 +17,7 @@ block append settings-page
                     != module.settingsView
 
 block append scripts
-    each module in settings.modules
-        script(type= "text/javascript", src=`/${module.name}/script.js`)
+    each module in modules
+        if module.script
+            script(type= "text/javascript")
+                != module.script

@@ -120,7 +120,6 @@ module.exports = (app) => {
         settings.load();
 
         app.get('/randomWallpaper', randomWall);
-        app.get('/reddit-wallpapers-module/script.js', scriptJS);
         app.post('/redditWallpaper/setRefresh', uep, setRefresh);
         app.post('/redditWallpaper/setSubreddits', uep, setSubreddits);
         app.post('/redditWallpaper/setLinks', uep, setLinks);
@@ -196,4 +195,16 @@ module.exports.getSettings = () => {
 
 module.exports.getMainView = () => {
     return null;
+};
+
+module.exports.getScript = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/script.js`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
+        });
+    });
 };

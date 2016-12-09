@@ -87,12 +87,8 @@ function serverLog(text) {
 
 app.get('/', function(req, res) {
     serverLog("Serving main page");
-    var generalSettings = pug.renderFile('views/generalSettings.pug', {
-        settings: settings.current
-    });
     var renderInfo = {
         settings: settings.current,
-        generalSettings,
         modules: [],
     };
     renderInfo.modules.push({
@@ -106,14 +102,15 @@ app.get('/', function(req, res) {
         modules.forEach((moduleItem) => {
             settingsPromises.push(moduleItem.getSettings());
         });
-        var settingsRendered = [];
         Promise.all(settingsPromises).then((value) => {
+            var settingsRendered = [];
             value.forEach((promiseValue) => {
                 settingsRendered.push(promiseValue);
             });
             Resolve(settingsRendered);
         }).catch((err) => {
             console.log(err);
+            res.sendStatus(501);
         });
     });
     var mainReady = new Promise((Resolve, Reject) => {
@@ -121,22 +118,41 @@ app.get('/', function(req, res) {
         modules.forEach((moduleItem) => {
             mainPromises.push(moduleItem.getMainView());
         });
-        var mainRendered = [];
         Promise.all(mainPromises).then((value) => {
+            var mainRendered = [];
             value.forEach((promiseValue) => {
                 mainRendered.push(promiseValue);
             });
             Resolve(mainRendered);
         }).catch((err) => {
             console.log(err);
+            res.sendStatus(501);
         });
     });
-    Promise.all([mainReady, settingsReady]).then((value) => {
+
+    var scriptsReady = new Promise((Resolve, Reject)=> {
+        var scriptPromises = [];
+        modules.forEach((moduleItem)=> {
+            scriptPromises.push(moduleItem.getScript());
+        });
+        Promise.all(scriptPromises).then((value)=> {
+            var scripts = [];
+            value.forEach((script) => {
+                scripts.push(script);
+            });
+            Resolve(scripts);
+        }).catch((err)=> {
+            console.log(err);
+            res.sendStatus(501);
+        });
+    });
+    Promise.all([mainReady, settingsReady, scriptsReady]).then((value) => {
         modules.forEach((moduleItem, argIndex) => {
             var moduleObject = {
                 module: moduleItem.name,
                 mainView: value[0][argIndex],
-                settingsView: value[1][argIndex]
+                settingsView: value[1][argIndex],
+                script: value[2][argIndex]
             };
             renderInfo.modules.push(moduleObject);
         });

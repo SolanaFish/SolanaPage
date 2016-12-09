@@ -57,3 +57,7 @@ module.exports.getMainView = function() {
         "uptime": uptime
     });
 };
+
+module.exports.getScript = function() {
+    return null;
+};

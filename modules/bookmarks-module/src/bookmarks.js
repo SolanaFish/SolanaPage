@@ -53,7 +53,6 @@ function findBookmark(url, category) {
 module.exports = function(app) {
     return new Promise(function(resolve, reject) {
         settings.load();
-        app.get('/bookmarks-module/script.js', scriptJS);
 
         app.post('/bookmarks/addBookmark', uep, addBookmark);
         app.post('/bookmarks/deleteBookmark', uep, deleteBookmark);
@@ -185,4 +184,16 @@ module.exports.getMainView = function() {
             bookmarks: settings.current.bookmarks
         }));
     }
+};
+
+module.exports.getScript = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/script.js`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
+        });
+    });
 };

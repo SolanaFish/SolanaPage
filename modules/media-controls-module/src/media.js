@@ -109,7 +109,6 @@ function getInfo() {
 module.exports = function(app) {
     return new Promise(function(resolve, reject) {
         settings.load();
-        app.get('/media-controls-module/script.js', scriptJS);
         app.post('/media/controls', uep, controls);
         serverLog("Media controls module ready!");
         resolve();
@@ -173,6 +172,18 @@ module.exports.getMainView = function() {
             Resolve(Promise.resolve(pug.renderFile(`${__dirname}/../views/media.pug`, info)));
         }).catch((err) => {
             Reject(err);
+        });
+    });
+};
+
+module.exports.getScript = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/script.js`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
         });
     });
 };
