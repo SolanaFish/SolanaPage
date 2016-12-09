@@ -172,6 +172,22 @@ cd SolanaPage
     };
     ```
 
+    - Module has to export `getCss` method that returns a promise that resolves to Css code that you want to include on the page:
+
+    ```javascript
+    module.exports.getCss = function() {
+        return new Promise(function(resolve, reject) {
+            fs.readFile(`${__dirname}/style.css`, (err, data) => {
+                if(err) {
+                    resolve();
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+    };
+    ```
+
     - If you don't need some of these elements just return function that returns null
 
     ```javascript

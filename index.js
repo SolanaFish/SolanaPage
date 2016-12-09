@@ -91,77 +91,105 @@ app.get('/', function(req, res) {
         settings: settings.current,
         modules: [],
     };
-    renderInfo.modules.push({
-        module: "General settings",
-        settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
-            settings: settings.current
-        })
-    });
-    var settingsReady = new Promise((Resolve, Reject) => {
-        var settingsPromises = [];
-        modules.forEach((moduleItem) => {
-            settingsPromises.push(moduleItem.getSettings());
-        });
-        Promise.all(settingsPromises).then((value) => {
-            var settingsRendered = [];
-            value.forEach((promiseValue) => {
-                settingsRendered.push(promiseValue);
-            });
-            Resolve(settingsRendered);
-        }).catch((err) => {
+    var generalCss = fs.readFile('./static/style.css', (err, data)=> {
+        if(err) {
             console.log(err);
             res.sendStatus(501);
-        });
-    });
-    var mainReady = new Promise((Resolve, Reject) => {
-        var mainPromises = [];
-        modules.forEach((moduleItem) => {
-            mainPromises.push(moduleItem.getMainView());
-        });
-        Promise.all(mainPromises).then((value) => {
-            var mainRendered = [];
-            value.forEach((promiseValue) => {
-                mainRendered.push(promiseValue);
+        } else {
+            renderInfo.modules.push({
+                module: "General",
+                settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
+                    settings: settings.current
+                }),
+                css: data
             });
-            Resolve(mainRendered);
-        }).catch((err) => {
-            console.log(err);
-            res.sendStatus(501);
-        });
-    });
+            var settingsReady = new Promise((Resolve, Reject) => {
+                var settingsPromises = [];
+                modules.forEach((moduleItem) => {
+                    settingsPromises.push(moduleItem.getSettings());
+                });
+                Promise.all(settingsPromises).then((value) => {
+                    var settingsRendered = [];
+                    value.forEach((promiseValue) => {
+                        settingsRendered.push(promiseValue);
+                    });
+                    Resolve(settingsRendered);
+                }).catch((err) => {
+                    console.log(err);
+                    res.sendStatus(501);
+                });
+            });
+            var mainReady = new Promise((Resolve, Reject) => {
+                var mainPromises = [];
+                modules.forEach((moduleItem) => {
+                    mainPromises.push(moduleItem.getMainView());
+                });
+                Promise.all(mainPromises).then((value) => {
+                    var mainRendered = [];
+                    value.forEach((promiseValue) => {
+                        mainRendered.push(promiseValue);
+                    });
+                    Resolve(mainRendered);
+                }).catch((err) => {
+                    console.log(err);
+                    res.sendStatus(501);
+                });
+            });
 
-    var scriptsReady = new Promise((Resolve, Reject)=> {
-        var scriptPromises = [];
-        modules.forEach((moduleItem)=> {
-            scriptPromises.push(moduleItem.getScript());
-        });
-        Promise.all(scriptPromises).then((value)=> {
-            var scripts = [];
-            value.forEach((script) => {
-                scripts.push(script);
+            var scriptsReady = new Promise((Resolve, Reject) => {
+                var scriptPromises = [];
+                modules.forEach((moduleItem) => {
+                    scriptPromises.push(moduleItem.getScript());
+                });
+                Promise.all(scriptPromises).then((value) => {
+                    var scripts = [];
+                    value.forEach((script) => {
+                        scripts.push(script);
+                    });
+                    Resolve(scripts);
+                }).catch((err) => {
+                    console.log(err);
+                    res.sendStatus(501);
+                });
             });
-            Resolve(scripts);
-        }).catch((err)=> {
-            console.log(err);
-            res.sendStatus(501);
-        });
-    });
-    Promise.all([mainReady, settingsReady, scriptsReady]).then((value) => {
-        modules.forEach((moduleItem, argIndex) => {
-            var moduleObject = {
-                module: moduleItem.name,
-                mainView: value[0][argIndex],
-                settingsView: value[1][argIndex],
-                script: value[2][argIndex]
-            };
-            renderInfo.modules.push(moduleObject);
-        });
-        res.render('app', renderInfo);
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).send({
-            error: 'Something went wrong, sorry'
-        });
+
+            var cssReady = new Promise((Resolve, Reject) => {
+                var cssPromises = [];
+                modules.forEach((moduleItem) => {
+                    cssPromises.push(moduleItem.getCss());
+                });
+                Promise.all(cssPromises).then((value) => {
+                    var csses = [];
+                    value.forEach((css) => {
+                        csses.push(css);
+                    });
+                    Resolve(csses);
+                }).catch((err) => {
+                    console.log(err);
+                    res.sendStatus(501);
+                });
+            });
+
+            Promise.all([mainReady, settingsReady, scriptsReady, cssReady]).then((value) => {
+                modules.forEach((moduleItem, argIndex) => {
+                    var moduleObject = {
+                        module: moduleItem.name,
+                        mainView: value[0][argIndex],
+                        settingsView: value[1][argIndex],
+                        script: value[2][argIndex],
+                        css: value[3][argIndex]
+                    };
+                    renderInfo.modules.push(moduleObject);
+                });
+                res.render('app', renderInfo);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send({
+                    error: 'Something went wrong, sorry'
+                });
+            });
+
+        }
     });
 });
 
@@ -219,7 +247,7 @@ var server = app.listen(8081, function() {
     loadModules().then((res) => {
         serverLog(res);
         serverLog("Server up!");
-    }).catch((err)=> {
+    }).catch((err) => {
         console.log(err);
     });
 });

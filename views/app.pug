@@ -21,3 +21,8 @@ block append scripts
         if module.script
             script(type= "text/javascript")
                 != module.script
+
+block append css
+    each module in modules
+        if module.css
+            != module.css

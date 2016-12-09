@@ -43,24 +43,10 @@ html
         link(rel= "import", href= "/bower_components/iron-icons/iron-icons.html")
         link(rel= "import", href= "/bower_components/iron-collapse/iron-collapse.html")
         link(rel= "import", href= "/bower_components/iron-pages/iron-pages.html")
-        style(is= 'custom-style').
-            .container {
-                @apply(--layout-horizontal);
-                @apply(--layout-flex);
-            }
-            .wideSlider {
-                --paper-progress-active-color: #D81B60;
-                width: 100%;
-            }
-            .coreSlider {
-                --paper-progress-active-color: #D81B60;
-                width: 100%;
-                margin:10px;
-                @apply(--layout-flex);
-            }
-            .flexChild {
-                @apply(--layout-flex);
-            }
+        style(is= 'custom-style')
+            block css
+            
+
 
     body(class= "fullbleed vertical layout")
         template(is= "dom-bind", id="app")

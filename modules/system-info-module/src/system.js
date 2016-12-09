@@ -61,3 +61,15 @@ module.exports.getMainView = function() {
 module.exports.getScript = function() {
     return null;
 };
+
+module.exports.getCss = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/style.css`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
