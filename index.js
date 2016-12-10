@@ -62,14 +62,22 @@ var settings = {
 };
 
 function loadModules() {
-    settings.load();
-    serverLog("Loading modules!");
-    for (var module in settings.current.modules) {
-        if (settings.current.modules[module].active) {
-            modules[module] = require("./modules/" + settings.current.modules[module].name);
-            modules[module](app);
+    return new Promise((resolve, reject) => {
+        settings.load();
+        serverLog("Loading modules!");
+        var promises = [];
+        for (var module in settings.current.modules) {
+            if (settings.current.modules[module].active) {
+                modules[module] = require("./modules/" + settings.current.modules[module].name);
+                promises.push(modules[module](app));
+            }
         }
-    }
+        Promise.all(promises).then(() => {
+            resolve(`Loaded ${promises.length} modules!`);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
 }
 
 function serverLog(text) {
@@ -79,65 +87,109 @@ function serverLog(text) {
 
 app.get('/', function(req, res) {
     serverLog("Serving main page");
-    var generalSettings = pug.renderFile('views/generalSettings.pug', {
-        settings: settings.current
-    });
     var renderInfo = {
         settings: settings.current,
-        generalSettings,
         modules: [],
     };
-    renderInfo.modules.push({
-        module: "General settings",
-        settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
-            settings: settings.current
-        })
-    });
-    var settingsReady = new Promise((Resolve, Reject) => {
-        var settingsPromises = [];
-        modules.forEach((moduleItem) => {
-            settingsPromises.push(moduleItem.getSettings());
-        });
-        var settingsRendered = [];
-        Promise.all(settingsPromises).then((value) => {
-            value.forEach((promiseValue) => {
-                settingsRendered.push(promiseValue);
-            });
-            Resolve(settingsRendered);
-        }).catch((err) => {
+    var generalCss = fs.readFile('./static/style.css', (err, data)=> {
+        if(err) {
             console.log(err);
-        });
-    });
-    var mainReady = new Promise((Resolve, Reject) => {
-        var mainPromises = [];
-        modules.forEach((moduleItem) => {
-            mainPromises.push(moduleItem.getMainView());
-        });
-        var mainRendered = [];
-        Promise.all(mainPromises).then((value) => {
-            value.forEach((promiseValue) => {
-                mainRendered.push(promiseValue);
+            res.sendStatus(501);
+        } else {
+            renderInfo.modules.push({
+                module: "General",
+                settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
+                    settings: settings.current
+                }),
+                css: data
             });
-            Resolve(mainRendered);
-        }).catch((err) => {
-            console.log(err);
-        });
-    });
-    Promise.all([mainReady, settingsReady]).then((value) => {
-        modules.forEach((moduleItem, argIndex) => {
-            var moduleObject = {
-                module: moduleItem.name,
-                mainView: value[0][argIndex],
-                settingsView: value[1][argIndex]
-            };
-            renderInfo.modules.push(moduleObject);
-        });
-        res.render('app', renderInfo);
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).send({
-            error: 'Something went wrong, sorry'
-        });
+            var settingsReady = new Promise((Resolve, Reject) => {
+                var settingsPromises = [];
+                modules.forEach((moduleItem) => {
+                    settingsPromises.push(moduleItem.getSettings());
+                });
+                Promise.all(settingsPromises).then((value) => {
+                    var settingsRendered = [];
+                    value.forEach((promiseValue) => {
+                        settingsRendered.push(promiseValue);
+                    });
+                    Resolve(settingsRendered);
+                }).catch((err) => {
+                    console.log(err);
+                    res.sendStatus(501);
+                });
+            });
+            var mainReady = new Promise((Resolve, Reject) => {
+                var mainPromises = [];
+                modules.forEach((moduleItem) => {
+                    mainPromises.push(moduleItem.getMainView());
+                });
+                Promise.all(mainPromises).then((value) => {
+                    var mainRendered = [];
+                    value.forEach((promiseValue) => {
+                        mainRendered.push(promiseValue);
+                    });
+                    Resolve(mainRendered);
+                }).catch((err) => {
+                    console.log(err);
+                    res.sendStatus(501);
+                });
+            });
+
+            var scriptsReady = new Promise((Resolve, Reject) => {
+                var scriptPromises = [];
+                modules.forEach((moduleItem) => {
+                    scriptPromises.push(moduleItem.getScript());
+                });
+                Promise.all(scriptPromises).then((value) => {
+                    var scripts = [];
+                    value.forEach((script) => {
+                        scripts.push(script);
+                    });
+                    Resolve(scripts);
+                }).catch((err) => {
+                    console.log(err);
+                    res.sendStatus(501);
+                });
+            });
+
+            var cssReady = new Promise((Resolve, Reject) => {
+                var cssPromises = [];
+                modules.forEach((moduleItem) => {
+                    cssPromises.push(moduleItem.getCss());
+                });
+                Promise.all(cssPromises).then((value) => {
+                    var csses = [];
+                    value.forEach((css) => {
+                        csses.push(css);
+                    });
+                    Resolve(csses);
+                }).catch((err) => {
+                    console.log(err);
+                    res.sendStatus(501);
+                });
+            });
+
+            Promise.all([mainReady, settingsReady, scriptsReady, cssReady]).then((value) => {
+                modules.forEach((moduleItem, argIndex) => {
+                    var moduleObject = {
+                        module: moduleItem.name,
+                        mainView: value[0][argIndex],
+                        settingsView: value[1][argIndex],
+                        script: value[2][argIndex],
+                        css: value[3][argIndex]
+                    };
+                    renderInfo.modules.push(moduleObject);
+                });
+                res.render('app', renderInfo);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send({
+                    error: 'Something went wrong, sorry'
+                });
+            });
+
+        }
     });
 });
 
@@ -172,6 +224,16 @@ app.post('/changeWallpaper', upload.single('wallpaper'), (req, res) => {
     res.redirect('/');
 });
 
+app.get('/thumbnails/:id', (req, res) => {
+    fs.access(`thumbnails/${req.params.id}`, (err) => {
+        if (err) {
+            res.sendFile(`${__dirname}/thumbnails/placeholder.png`);
+        } else {
+            res.sendFile(`${__dirname}/thumbnails/${req.params.id}`);
+        }
+    });
+});
+
 
 var server = app.listen(8081, function() {
     app.use("/", express.static('.'));
@@ -182,6 +244,10 @@ var server = app.listen(8081, function() {
         views.push(`${__dirname}/modules/${moduleItem.name}/views`);
     });
     app.set('views', views);
-    loadModules();
-    serverLog("Server up!");
+    loadModules().then((res) => {
+        serverLog(res);
+        serverLog("Server up!");
+    }).catch((err) => {
+        console.log(err);
+    });
 });

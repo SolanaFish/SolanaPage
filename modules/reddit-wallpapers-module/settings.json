@@ -1,8 +1,9 @@
 {
     "subreddits": [
-        "EarthPorn"
+        "EarthPorn",
+        "villagePorn"
     ],
     "refresh": 120,
-    "links": 50,
+    "links": 25,
     "checkUrls": false
 }

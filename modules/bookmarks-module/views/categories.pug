@@ -8,4 +8,8 @@ div(id= "bookmarks")
                 each category in bookmarks.categories
                         each bookmark in category.bookmarks
                             a(href= bookmark.url, class= "bookmarksLink")
-                                paper-card(image= "thumbnails/" + bookmark.name  + ".png", id= bookmark.name, placeholderImage= "/static/wall.jpg")= bookmark.name
+                                paper-card(image= `thumbnails/${bookmark.thumbnail}`)= bookmark.name
+style(is= "custom-style").
+    #bookmarkTabs {
+        --paper-tabs-selection-bar-color:#0091EA;
+    }

@@ -1,0 +1,10 @@
+.wideSlider {
+    --paper-progress-active-color: #D81B60;
+    width: 100%;
+}
+.coreSlider {
+    --paper-progress-active-color: #D81B60;
+    width: 100%;
+    margin:10px;
+    @apply(--layout-flex);
+}

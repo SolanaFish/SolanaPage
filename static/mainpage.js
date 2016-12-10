@@ -23,3 +23,7 @@ function submitActiveModules() {
         }
     };
 }
+
+document.addEventListener('DOMContentLoaded', function(event) {
+    app.selected=0;
+});

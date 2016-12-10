@@ -20,7 +20,7 @@ paper-button(class= "collapseButton", onclick="document.getElementById('deleteCa
 iron-collapse(id= "deleteCategory")
     div
         each category in bookmarks.categories
-            paper-card(image="thumbnails/" + category.bookmarks[0].name  + ".png", heading= category.name)
+            paper-card(image=`thumbnails/${category.bookmarks[0].thumbnail}`, heading= category.name)
                 div(class="card-actions")
                     paper-button(onclick= "deleteCategory('" + category.name + "')", class="deleteButton")
                         iron-icon(icon= "clear")
@@ -37,8 +37,8 @@ iron-collapse(id= "deleteBookmark")
                 each category in bookmarks.categories
                     div
                         each bookmark in category.bookmarks
-                            paper-card(image= "thumbnails/" + bookmark.name  + ".png", id= bookmark.name, heading= bookmark.name)
+                            paper-card(image= `thumbnails/${bookmark.thumbnail}`, id= bookmark.name, heading= bookmark.name)
                                 div(class= "card-actions")
-                                    paper-button(onclick=`deleteBookmark('${bookmark.name}','${category.name}')`, class= "deleteButton")
+                                    paper-button(onclick=`deleteBookmark('${bookmark.url}','${category.name}')`, class= "deleteButton")
                                         iron-icon(icon="clear")
                                         |DELETE

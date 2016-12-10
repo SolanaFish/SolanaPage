@@ -1,4 +1,4 @@
-const settingsDir = "./modules/reddit-wallpapers-module/settings.json";
+let settingsDir = "./modules/reddit-wallpapers-module/settings.json";
 const fs = require('fs');
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
@@ -115,22 +115,25 @@ function getUrlsFromSubreddit(subreddit) {
 }
 
 module.exports = (app) => {
-    serverLog('Loading reddit wallpaper module!');
-    settings.load();
+    return new Promise(function(resolve, reject) {
+        serverLog('Loading reddit wallpaper module!');
+        settings.load();
 
-    app.get('/randomWallpaper', randomWall);
-    app.get('/reddit-wallpapers-module/script.js', scriptJS);
-    app.post('/redditWallpaper/setRefresh', uep, setRefresh);
-    app.post('/redditWallpaper/setSubreddits', uep, setSubreddits);
-    app.post('/redditWallpaper/setLinks', uep, setLinks);
-    app.post('/redditWallpaper/checkUrls', uep, checkUrls);
+        app.get('/randomWallpaper', randomWall);
+        app.post('/redditWallpaper/setRefresh', uep, setRefresh);
+        app.post('/redditWallpaper/setSubreddits', uep, setSubreddits);
+        app.post('/redditWallpaper/setLinks', uep, setLinks);
+        app.post('/redditWallpaper/checkUrls', uep, checkUrls);
 
-    setInterval(updateUrls, settings.current.refresh * 60 * 1000);
-    updateUrls().then((value) => {
-        serverLog(value);
-        serverLog('Reddit wallpaper module ready!');
-    }).catch((err) => {
-        serverLog(err);
+        setInterval(updateUrls, settings.current.refresh * 60 * 1000);
+        updateUrls().then((value) => {
+            serverLog(value);
+            serverLog('Reddit wallpaper module ready!');
+            resolve();
+        }).catch((err) => {
+            serverLog(err);
+            reject(err);
+        });
     });
 
 };
@@ -151,7 +154,7 @@ var scriptJS = (req, res) => {
 };
 
 var setRefresh = (req, res) => {
-    const refresh = req.body.refresh;
+    const refresh = parseInt(req.body.refresh);
     if (refresh != settings.current.refresh) {
         settings.current.refresh = refresh;
         settings.save();
@@ -160,7 +163,7 @@ var setRefresh = (req, res) => {
 };
 
 var setLinks = (req, res) => {
-    const links = req.body.links;
+    const links = parseInt(req.body.links);
     if (links != settings.current.links) {
         settings.current.links = links;
         settings.save();
@@ -192,4 +195,28 @@ module.exports.getSettings = () => {
 
 module.exports.getMainView = () => {
     return null;
+};
+
+module.exports.getScript = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/script.js`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
+
+module.exports.getCss = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/style.css`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
+        });
+    });
 };

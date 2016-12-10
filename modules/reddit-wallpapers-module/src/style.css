@@ -1,0 +1,26 @@
+#redditRefreshSlider {
+    --paper-slider-height: 5px;
+    width: 100%;
+}
+
+#redditLinksSlider {
+    --paper-slider-height: 5px;
+    width: 100%;
+}
+
+#wallpaperInfoURL {
+    color: black;
+    font-size: 130%;
+    padding: 2%;
+    padding-bottom: 1%;
+    text-decoration: none;
+}
+
+.wallpaperInfoDiv {
+    font-size: 85%;
+    text-decoration: none;
+    color: black;
+    text-align: left;
+    padding: 2%;
+    padding-top: 0%;
+}

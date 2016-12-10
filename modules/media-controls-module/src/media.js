@@ -1,4 +1,4 @@
-const settingsDir = __dirname + "/../settings.json";
+let settingsDir = __dirname + "/../settings.json";
 var fs = require("fs"); // for reading settings
 var exec = require('child_process').exec;
 var pug = require('pug');
@@ -107,10 +107,12 @@ function getInfo() {
 }
 
 module.exports = function(app) {
-    settings.load();
-    app.get('/media-controls-module/script.js', scriptJS);
-    app.post('/media/controls', uep, controls);
-    serverLog("Media controls module ready!");
+    return new Promise(function(resolve, reject) {
+        settings.load();
+        app.post('/media/controls', uep, controls);
+        serverLog("Media controls module ready!");
+        resolve();
+    });
 };
 
 var scriptJS = function(req, res) {
@@ -170,6 +172,30 @@ module.exports.getMainView = function() {
             Resolve(Promise.resolve(pug.renderFile(`${__dirname}/../views/media.pug`, info)));
         }).catch((err) => {
             Reject(err);
+        });
+    });
+};
+
+module.exports.getScript = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/script.js`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
+
+module.exports.getCss = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/style.css`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
         });
     });
 };

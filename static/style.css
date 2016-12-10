@@ -12,82 +12,9 @@ paper-material {
     margin: 2%;
 }
 
-paper-card {
-    margin: 1%;
-    color: #D81B60;
-    --paper-card-header-color: white;
-    text-align: center;
-}
-
-iron-collapse {
-    margin: 2%;
-}
-
 #mainFab, #settingsFab {
     position: fixed;
-    left: 4%;
-    bottom: 4%;
+    left: 3%;
+    bottom: 3%;
     z-index: 1000;
-}
-
-#bookmarkTabs {
-    background-color: #D81B60;
-    color: white;
-}
-
-#redditRefreshSlider {
-    --paper-slider-height: 5px;
-    width: 100%;
-}
-
-#redditLinksSlider {
-    --paper-slider-height: 5px;
-    width: 100%;
-}
-
-#wallpaperInfoURL {
-    color: black;
-    font-size: 130%;
-    padding: 2%;
-    padding-bottom: 1%;
-    text-decoration: none;
-}
-
-.deleteButton {
-    color: white;
-    background-color: #EF5350;
-    width: 100%;
-}
-
-.bookmarksLink {
-    font-size: 20px;
-    color: #D81B60;
-}
-
-.bookmarkTabs {
-    background-color: #D81B60;
-    color: white;
-}
-
-.collapseButton {
-    width: 100%;
-}
-
-.error {
-    color: #D50000;
-    size: 150%;
-}
-
-.clearfix:after {
-    content: "";
-    clear: both;
-}
-
-.wallpaperInfoDiv {
-    font-size: 85%;
-    text-decoration: none;
-    color: black;
-    text-align: left;
-    padding: 2%;
-    padding-top: 0%;
 }

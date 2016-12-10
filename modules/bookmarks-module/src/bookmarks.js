@@ -1,182 +1,168 @@
-const settingsDir = "./modules/bookmarks-module/settings.json";
-var fs = require("fs"); // for saving thumbnails
-var webshot = require('webshot'); // for rendering webside
-var gm = require('gm'); // resizing thumbnails
-var bodyParser = require('body-parser'); // Basic parser (no multipart support)
-var settings = readSettings();
-var uep = bodyParser.urlencoded({
+let settingsDir = "./modules/bookmarks-module/settings.json";
+const fs = require("fs"); // for saving thumbnails
+const webshot = require('webshot'); // for rendering webside
+const gm = require('gm'); // resizing thumbnails
+const pug = require('pug');
+const shortid = require('shortid');
+const bodyParser = require('body-parser'); // Basic parser (no multipart support)
+const uep = bodyParser.urlencoded({
     extended: false
 });
-var pug = require('pug');
-var app;
 
 function serverLog(text) {
     var date = new Date();
     console.log("[ " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " ] " + text);
 }
 
-function readSettings() {
-    if (fs.existsSync(settingsDir)) {
-        var settingsFile = fs.readFileSync(settingsDir);
-        return JSON.parse(settingsFile);
-    } else {
-        var newSettings = {
-            "bookmarks": {
-                "categories": [{
-                    "name": "def",
-                    "bookmarks": [{
-                        "name": "repo",
-                        "url": "https://github.com/SolanaFish/SolanaPage"
-                    }]
+var settings = {
+    load: () => {
+        if (fs.existsSync(settingsDir)) {
+            settings.current = JSON.parse(fs.readFileSync(settingsDir));
+        }
+    },
+    current: {
+        bookmarks: {
+            categories: [{
+                name: "MainCategory",
+                bookmarks: [{
+                    name: "repo",
+                    url: "https://github.com/SolanaFish/SolanaPage"
                 }]
-            }
-        };
-        var settingsString = JSON.stringify(newSettings, null, "	");
-        fs.writeFileSync(settingsDir, settingsString);
-        return newSettings;
-    }
-}
-
-function saveSettings() {
-    var settingsString = JSON.stringify(settings, null, "	");
-    fs.writeFileSync(settingsDir, settingsString);
-    settings = readSettings();
-}
-
-function findCategory(category) {
-    for (var cat in settings.bookmarks.categories) {
-        if (settings.bookmarks.categories[cat].name == category) {
-            return cat;
+            }]
         }
-    }
-}
-
-function findBookmark(name, foundCategory) {
-    for (var bookmark in settings.bookmarks.categories[foundCategory].bookmarks) {
-        if (settings.bookmarks.categories[foundCategory].bookmarks[bookmark].name == name) {
-            return bookmark;
-        }
-    }
-}
-
-module.exports = function(expressApp) {
-    app = expressApp;
-    app.get('/bookmarks/mainView', mainView);
-    app.get('/bookmarks/deleteView', deleteView);
-    app.get('/bookmarks/menuView', uep, menuView);
-    app.get('/bookmarks-module/script.js', scriptJS);
-    app.get('/bookmarks/settings', settingsView);
-
-    app.post('/bookmarks/addBookmark', uep, addBookmark);
-    app.post('/bookmarks/deleteBookmark', uep, deleteBookmark);
-    app.post('/bookmarks/deleteCategory', uep, deleteCategory);
-    app.post('/bookmarks/addNewCategory', uep, addCategory);
-    serverLog("Bookmarks module ready!");
+    },
+    save: () => {
+        serverLog('Saving bookmarks settings to local file');
+        var stringified = JSON.stringify(settings.current, null, 4);
+        fs.writeFileSync(settingsDir, stringified);
+    },
 };
 
-var mainView = function(req, res) {
-    serverLog("Serving bookmarks view");
-    if (settings.bookmarks.categories.length == 1) {
-        res.render('nocategories', {
-            bookmarks: settings.bookmarks
-        });
-    } else {
-        res.render('categories', {
-            bookmarks: settings.bookmarks
-        });
-    }
-};
+function findCategory(name) {
+    return settings.current.bookmarks.categories.indexOf(settings.current.bookmarks.categories.filter((value) => { // category exists
+        return value.name == name;
+    })[0]);
+}
 
-var deleteView = function(req, res) {
-    serverLog("Serving delete bookmarks view");
+function findBookmark(url, category) {
+    return settings.current.bookmarks.categories[category].bookmarks.indexOf(settings.current.bookmarks.categories[category].bookmarks.filter((value) => { // that url exists
+        return value.url == url;
+    })[0]);
+}
 
-    res.render('deleteBookmarks', {
-        bookmarks: settings.bookmarks
+module.exports = function(app) {
+    return new Promise(function(resolve, reject) {
+        settings.load();
+
+        app.post('/bookmarks/addBookmark', uep, addBookmark);
+        app.post('/bookmarks/deleteBookmark', uep, deleteBookmark);
+        app.post('/bookmarks/deleteCategory', uep, deleteCategory);
+        app.post('/bookmarks/addNewCategory', uep, addCategory);
+        serverLog("Bookmarks module ready!");
+        resolve();
     });
 };
 
-var menuView = function(req, res) {
-    res.render('addBookmarkMenu', {
-        bookmarks: settings.bookmarks
-    });
-};
-
-var addBookmark = function(req, res) { //TODO: use id for names
+var addBookmark = function(req, res) {
     var name = req.body.bookmarkName;
     var link = req.body.bookmarkLink;
     var category = req.body.category;
     if (name !== "" && link !== "" && category !== "") {
-
-        serverLog("Adding bookmark to: " + link + " , as " + name + " in " + category + " category");
-
-        var newBookmark = {
-            name: name,
-            url: link
-        };
-        var foundCategory = findCategory(category); //TODO: THROW
-        for (var bookmark in settings.bookmarks.categories[foundCategory].bookmarks) {
-            if (settings.bookmarks.categories[foundCategory].bookmarks[bookmark].name == name) {
-                res.sendStatus(300);
-                return;
+        var categoryIndex = findCategory(category);
+        if (categoryIndex != -1) {
+            if (findBookmark(link, categoryIndex) != -1) {
+                res.sendStatus(501);
+            } else {
+                var newBookmark = {
+                    name: name,
+                    url: link,
+                    thumbnail: `${shortid.generate()}.png`
+                };
+                settings.current.bookmarks.categories[categoryIndex].bookmarks.push(newBookmark);
+                settings.save();
+                webshot(newBookmark.url, 'temp.png', (err) => {
+                    if (err) {
+                        res.sendStatus(501);
+                    } else {
+                        gm('temp.png').thumb(300, 200, `thumbnails/${newBookmark.thumbnail}`, 80, (err) => {
+                            fs.unlink('temp.png', () => {
+                                if (err) {
+                                    console.log(err);
+                                    res.sendStatus(501);
+                                } else {
+                                    res.sendStatus(200);
+                                }
+                            });
+                        });
+                    }
+                });
             }
+        } else {
+            res.sendStatus(501);
         }
-        settings.bookmarks.categories[foundCategory].bookmarks.push(newBookmark);
-        saveSettings();
-
-        var thumbnailDirectory = './thumbnails/' + name + '.png';
-        webshot(link, thumbnailDirectory, function(err) {
-            if (err !== null) {
-                console.log(err);
-            }
-            // TODO: try not to read and write same file
-            gm(thumbnailDirectory).thumb(300, 200, thumbnailDirectory, 100, function(err, stdout, stderr, command) {
-                if (err !== null) console.log(err);
-            });
-        });
+    } else {
+        res.sendStatus(501);
     }
-    res.sendStatus(200);
 };
 
-var deleteBookmark = function(req, res) { // TODO: delete old thumbnail
-    var bookmark = req.body.name;
+var deleteBookmark = function(req, res) {
+    var bookmark = req.body.url;
     var category = req.body.category;
 
     var foundCategory = findCategory(category);
-    var foundBookmark = findBookmark(bookmark, foundCategory);
 
-    if (foundBookmark >= 0) {
-        serverLog("Deleting bookmark number: " + foundBookmark + " from category: " + category);
-
-        if (foundCategory !== null) { // TODO:throw
-            settings.bookmarks.categories[foundCategory].bookmarks.splice(foundBookmark, 1);
-            saveSettings();
+    if (foundCategory != -1) {
+        var foundBookmark = findBookmark(bookmark, foundCategory);
+        if (foundBookmark != -1) {
+            var delBookmark = settings.current.bookmarks.categories[foundCategory].bookmarks[foundBookmark];
+            fs.unlink(`./thumbnails/${delBookmark.thumbnail}`, (err) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(501);
+                } else {
+                    settings.current.bookmarks.categories[foundCategory].bookmarks.splice(foundBookmark, 1);
+                    settings.save();
+                    res.sendStatus(200);
+                }
+            });
         }
-
     }
-    res.redirect('back');
 };
 
 var deleteCategory = function(req, res) {
-    var categoryName = req.body.name;
-    serverLog("Deleting category: " + categoryName);
-    var foundCategory = findCategory(categoryName);
-    if (foundCategory !== null) { // TODO: throw
-        settings.bookmarks.categories.splice(foundCategory, 1);
-        saveSettings();
+    var category = req.body.name;
+    var foundCategory = findCategory(category);
+    if (foundCategory != -1) {
+        var delCategory = settings.current.bookmarks.categories[foundCategory];
+        if(delCategory.length > 0) {
+            delCategory.forEach((bookmark) => {
+                fs.unlink(`./thumbnails/${delBookmark.thumbnail}`, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        }
+        settings.current.bookmarks.categories.splice(foundCategory, 1);
+        settings.save();
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(501);
     }
 };
 
 var addCategory = function(req, res) {
     var categoryName = req.body.name;
-    if (findCategory(categoryName) === null) {
-        serverLog("Adding category: " + categoryName);
+    if (findCategory(categoryName) == -1) {
         var newCategory = {
-            "name": categoryName,
-            "bookmarks": []
+            name: categoryName,
+            bookmarks: []
         };
-        settings.bookmarks.categories.push(newCategory);
-        saveSettings();
+        settings.current.bookmarks.categories.push(newCategory);
+        settings.save();
         res.sendStatus(200);
+    } else {
+        res.sendStatus(501);
     }
 };
 
@@ -184,22 +170,42 @@ var scriptJS = function(req, res) {
     res.sendFile(__dirname + "/script.js");
 };
 
-var settingsView = function(req, res) {
-    res.render('bookmarksSettings', settings);
-};
-
 module.exports.getSettings = function() {
-    return Promise.resolve(pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings));
+    return Promise.resolve(pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings.current));
 };
 
 module.exports.getMainView = function() {
-    if (settings.bookmarks.categories.length == 1) {
+    if (settings.current.bookmarks.categories.length == 1) {
         return Promise.resolve(pug.renderFile(`${__dirname}/../views/nocategories.pug`, {
-            bookmarks: settings.bookmarks
+            bookmarks: settings.current.bookmarks
         }));
     } else {
         return Promise.resolve(pug.renderFile(`${__dirname}/../views/categories.pug`, {
-            bookmarks: settings.bookmarks
+            bookmarks: settings.current.bookmarks
         }));
     }
+};
+
+module.exports.getScript = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/script.js`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
+
+module.exports.getCss = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/style.css`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
+        });
+    });
 };

@@ -1,7 +1,6 @@
 const settingsDir = __dirname + "/../settings.json";
 var os = require('os'); // for uptime
 var fs = require("fs"); // for reading settings
-var settings = readSettings();
 var pug = require('pug');
 
 function serverLog(text) {
@@ -9,32 +8,37 @@ function serverLog(text) {
     console.log("[ " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " ] " + text);
 }
 
-function readSettings() {
-    var settingsFile = fs.readFileSync(settingsDir);
-    return JSON.parse(settingsFile);
-}
+var settings = {
+    load: () => {
+        if (fs.existsSync(settingsDir)) {
+            settings.current = JSON.parse(fs.readFileSync(settingsDir));
+        }
+    },
+    current: {
+        elements: [{
+            name: "uptime",
+            active: true
+        }, {
+            name: "memory",
+            active: true
+        }, {
+            name: "loadAverage",
+            active: true
+        }]
+    },
+    save: () => {
+        serverLog('Saving reddit settings to local file');
+        var stringified = JSON.stringify(settings.current, null, 4);
+        fs.writeFileSync(settingsDir, stringified);
+    },
+};
 
 module.exports = function(app) {
-    app.get('/system-info-module/systemInfo', systemInfo);
-    app.get('/system-info-module/script.js', scriptJS);
-    serverLog("System info module ready!");
-};
-
-var systemInfo = function(req, res) {
-    var uptime = {
-        days: Math.floor((os.uptime() / 86400) % 86400),
-        hours: Math.floor((os.uptime() / 3600) % 3600),
-        minutes: Math.floor((os.uptime() / 60) % 60)
-    };
-    res.render('systemInfo', {
-        "os": os,
-        "settings": settings,
-        "uptime": uptime
+    return new Promise(function(resolve, reject) {
+        serverLog("System info module ready!");
+        settings.load();
+        resolve();
     });
-};
-
-var scriptJS = function(req, res) {
-    res.sendFile(__dirname + "/script.js");
 };
 
 module.exports.getSettings = function() {
@@ -51,5 +55,21 @@ module.exports.getMainView = function() {
         "os": os,
         "settings": settings,
         "uptime": uptime
+    });
+};
+
+module.exports.getScript = function() {
+    return null;
+};
+
+module.exports.getCss = function() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(`${__dirname}/style.css`, (err, data) => {
+            if(err) {
+                resolve();
+            } else {
+                resolve(data);
+            }
+        });
     });
 };
