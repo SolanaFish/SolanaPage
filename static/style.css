@@ -12,14 +12,44 @@ paper-material {
     margin: 2%;
 }
 
-#mainFab, #settingsFab {
+#mainFab {
     position: fixed;
     left: 3%;
     bottom: 3%;
     z-index: 1000;
 }
 
+#settingsFab {
+    position: fixed;
+    left: 228px;
+    bottom: 3%;
+    z-index: 1000;
+}
+
 .drawerButton {
     width: 100%;
-    margin:1%;
+    margin: 1%;
+}
+
+.settingsMaterial {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.settingsTitle {
+    font-size: 140%;
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+.settingsContent {
+    padding-left: 2%;
+    flex: 1 0 auto;
+}
+
+.settingsButton {
+    flex: 0 1 auto;
+    margin-right: auto;
+    align-self: flex-end;
 }

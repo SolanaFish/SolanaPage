@@ -19,30 +19,35 @@
 
 <dom-module id="settings-page">
     <template>
-        <paper-drawer-panel class="flex">
-            <paper-header-panel drawer>
-                <paper-toolbar>
-                    <div>
-                        Settings
-                    </div>
-                </paper-toolbar>
+        <paper-header-panel>
+            <paper-toolbar id= "header">
                 <div>
-                    <content select="#SettingsDrawerOptions"></content>
+                    Settings
                 </div>
-            </paper-header-panel>
-            <paper-header-panel main>
-                <paper-toolbar id= "header">
-                    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                    <div>
-                        General
-                    </div>
-                </paper-toolbar>
-                <div>
-                    <content select="#settingsPages"></content>
-                    <paper-fab icon="done" id="settingsFab" onclick="app.selected=0; document.title='SolanaPage'"></paper-fab>
-                </div>
-            </paper-header-panel>
-        </paper-drawer-panel>
+            </paper-toolbar>
+            <div>
+                <paper-drawer-panel class="flex">
+                    <paper-header-panel drawer>
+                        <div>
+                            <content select="#SettingsDrawerOptions"></content>
+                        </div>
+                    </paper-header-panel>
+                    <paper-header-panel main>
+                        <div>
+                            <content select="#settingsPages"></content>
+                            <paper-fab icon="done" id="settingsFab" onclick="app.selected=0; document.title='SolanaPage'"></paper-fab>
+                        </div>
+                    </paper-header-panel>
+                </paper-drawer-panel>
+
+            </div>
+        </paper-header-panel>
+
+
+
+
+
+
     </template>
     <script>
         Polymer({

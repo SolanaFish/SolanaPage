@@ -20,8 +20,7 @@ block append settings-page
         each module in modules
             if module.settingsView
                 div(id= module.name, class= "modules")
-                    paper-material
-                        != module.settingsView
+                    != module.settingsView
 
 block append scripts
     each module in modules
