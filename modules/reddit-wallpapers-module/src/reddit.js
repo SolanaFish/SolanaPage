@@ -86,8 +86,7 @@ function getUrlsFromSubreddit(subreddit) {
                         res = nodeFetchSync('GET', url, {
                             timeout: 500
                         });
-                    } catch (e) {
-                    } finally {
+                    } catch (e) {} finally {
                         if (res && res.statusCode != 404) {
                             urls.push({
                                 url,
@@ -200,7 +199,7 @@ module.exports.getMainView = () => {
 module.exports.getScript = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/script.js`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
@@ -212,11 +211,15 @@ module.exports.getScript = function() {
 module.exports.getCss = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
             }
         });
     });
+};
+
+module.exports.niceName = function() {
+    return 'Reddit backgrounds';
 };

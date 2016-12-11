@@ -117,6 +117,14 @@ cd SolanaPage
 
 - Required methods and routes
 
+    - Module name
+        - Moudle should export `niceName` property, that is going to be used as user frendly name. This name is going to be displayed in gui.
+        ```javascript
+        module.exports.niceName = function() {
+            return 'Awesome module 3000';
+        };
+        ```
+
     - Module constructor
 
         - Constructor should take `express app` object as an only argument, and return a promise that is resolved when the module is loaded.

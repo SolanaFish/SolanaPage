@@ -65,11 +65,15 @@ module.exports.getScript = function() {
 module.exports.getCss = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
             }
         });
     });
+};
+
+module.exports.niceName = function() {
+    return 'System information';
 };

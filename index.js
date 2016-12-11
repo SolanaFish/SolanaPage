@@ -173,7 +173,7 @@ app.get('/', function(req, res) {
             Promise.all([mainReady, settingsReady, scriptsReady, cssReady]).then((value) => {
                 modules.forEach((moduleItem, argIndex) => {
                     var moduleObject = {
-                        module: moduleItem.name,
+                        module: moduleItem.niceName(),
                         mainView: value[0][argIndex],
                         settingsView: value[1][argIndex],
                         script: value[2][argIndex],

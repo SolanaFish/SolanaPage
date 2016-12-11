@@ -154,11 +154,13 @@ var controls = function(req, res) {
                 });
             }
             break;
-        case 'update': {
-            getInfo().then((info) => {
-                res.json(info);
-            });
-        } break;
+        case 'update':
+            {
+                getInfo().then((info) => {
+                    res.json(info);
+                });
+            }
+            break;
     }
 };
 
@@ -179,7 +181,7 @@ module.exports.getMainView = function() {
 module.exports.getScript = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/script.js`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
@@ -191,11 +193,15 @@ module.exports.getScript = function() {
 module.exports.getCss = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
             }
         });
     });
+};
+
+module.exports.niceName = function() {
+    return 'Media info and controls';
 };

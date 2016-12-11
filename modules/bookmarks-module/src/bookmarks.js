@@ -209,3 +209,7 @@ module.exports.getCss = function() {
         });
     });
 };
+
+module.exports.niceName = function() {
+    return 'Bookmarks store';
+};
