@@ -18,3 +18,8 @@ paper-material {
     bottom: 3%;
     z-index: 1000;
 }
+
+.drawerButton {
+    width: 100%;
+    margin:1%;
+}

@@ -26,4 +26,5 @@ function submitActiveModules() {
 
 document.addEventListener('DOMContentLoaded', function(event) {
     app.selected=0;
+    app.settingsSelected=0;
 });

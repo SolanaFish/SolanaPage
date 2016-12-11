@@ -10,11 +10,18 @@ block append main-page
                 != module.mainView
 
 block append settings-page
-    each module in modules
-        if module.settingsView
-            div(id= module.name, class= "modules")
-                paper-material
-                    != module.settingsView
+    div(id= "SettingsDrawerOptions")
+        paper-menu(selected="{{settingsSelected}}")
+            each module in modules
+                if module.settingsView
+                    paper-item
+                        = module.module
+    iron-pages(selected="[[settingsSelected]]", id="settingsPages")
+        each module in modules
+            if module.settingsView
+                div(id= module.name, class= "modules")
+                    paper-material
+                        != module.settingsView
 
 block append scripts
     each module in modules
