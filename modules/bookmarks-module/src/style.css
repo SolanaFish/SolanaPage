@@ -33,3 +33,8 @@ iron-collapse {
 .collapseButton {
     width: 100%;
 }
+
+.deleteCategoryCard {
+    --paper-card-header-color: #fff;
+    --paper-card-background-color:#616161;
+}

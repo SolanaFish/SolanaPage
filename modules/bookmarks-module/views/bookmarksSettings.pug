@@ -1,37 +1,45 @@
-paper-material(id= "addBookmark")
+paper-material(id= "addBookmark", class="settingsMaterial")
     template(is= "dom-bind", id="addBookmarkTemplate")
-        form(is= "iron-form", id= "addBookmarkForm", action= "/bookmarks/addBookmark", method="POST")
-            paper-input(label= "Name for your bookmark", name= "bookmarkName")
-            br
-            paper-input(label= "Url for your bookmark", name= "bookmarkLink")
-            paper-dropdown-menu(label= "category")
-                paper-menu(class="dropdown-content", attr-for-selected="value", selected= "{{category}}")
-                    each category in bookmarks.categories
-                        paper-item(value= category.name)= category.name
-                    paper-item(value= "newCategory")= "Add new category"
-            input(type="hidden", name="category", value="{{category}}")
-            paper-toast(id= "noCategoryToast", text= "Please, select an category")
-            paper-button(onclick= "addBookmark()")
-                iron-icon(icon="check")
-                |Add
-paper-material(id= "deleteCategory")
-    each category in bookmarks.categories
-        paper-card(image=`thumbnails/${category.bookmarks[0].thumbnail}`, heading= category.name)
-            div(class="card-actions")
-                paper-button(onclick= "deleteCategory('" + category.name + "')", class="deleteButton")
-                    iron-icon(icon= "clear")
-                    | Delete Category
-paper-material(id= "deleteBookmark")
-    template(is= "dom-bind", id= "bookmarsToDelete")
-        paper-tabs(selected= "{{page}}" id="deleteBookmarksTab", class= " bookmarkTabs")
-            each category in bookmarks.categories
-                paper-tab= category.name
-        iron-pages(selected= "{{page}}" id="test")
-            each category in bookmarks.categories
-                div
-                    each bookmark in category.bookmarks
-                        paper-card(image= `thumbnails/${bookmark.thumbnail}`, id= bookmark.name, heading= bookmark.name)
-                            div(class= "card-actions")
-                                paper-button(onclick=`deleteBookmark('${bookmark.url}','${category.name}')`, class= "deleteButton")
-                                    iron-icon(icon="clear")
-                                    |DELETE
+        div(class="settingsTitle")
+            |Add new bookmark:
+        div(class="settingsContent")
+            form(is= "iron-form", id= "addBookmarkForm", action= "/bookmarks/addBookmark", method="POST")
+                paper-input(label= "Name for your bookmark", name= "bookmarkName")
+                paper-input(label= "Url for your bookmark", name= "bookmarkLink")
+                paper-dropdown-menu(label= "category")
+                    paper-menu(class="dropdown-content", attr-for-selected="value", selected= "{{category}}")
+                        each category in bookmarks.categories
+                            paper-item(value= category.name)= category.name
+                        paper-item(value= "newCategory")= "Add new category"
+                input(type="hidden", name="category", value="{{category}}")
+                paper-toast(id= "noCategoryToast", text= "Please, select an category")
+        paper-button(onclick= "addBookmark()", class= "settingsButton")
+            iron-icon(icon="check")
+            |Add
+paper-material(id= "deleteCategory", class="settingsMaterial")
+    div(class="settingsTitle")
+        |Delete category:
+    div(class="settingsContent")
+        each category in bookmarks.categories
+            paper-card(heading= category.name, class="deleteCategoryCard")
+                div(class="card-actions")
+                    paper-button(onclick= "deleteCategory('" + category.name + "')", class="deleteButton")
+                        iron-icon(icon= "clear")
+                        | Delete Category
+paper-material(id= "deleteBookmark", class="settingsMaterial")
+    div(class="settingsTitle")
+        |Delete bookmark:
+    div(class="settingsContent")
+        template(is= "dom-bind", id= "bookmarsToDelete")
+            paper-tabs(selected= "{{page}}" id="deleteBookmarksTab", class= " bookmarkTabs")
+                each category in bookmarks.categories
+                    paper-tab= category.name
+            iron-pages(selected= "{{page}}" id="test")
+                each category in bookmarks.categories
+                    div
+                        each bookmark in category.bookmarks
+                            paper-card(image= `thumbnails/${bookmark.thumbnail}`, id= bookmark.name, heading= bookmark.name)
+                                div(class= "card-actions")
+                                    paper-button(onclick=`deleteBookmark('${bookmark.url}','${category.name}')`, class= "deleteButton")
+                                        iron-icon(icon="clear")
+                                        |DELETE
