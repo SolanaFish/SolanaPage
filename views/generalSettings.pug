@@ -17,3 +17,19 @@ template(is= "dom-bind", id= "activeModules")
         paper-button(onclick="document.getElementById('wallpaperForm').submit()", class="settingsButton")
             iron-icon(icon= "check")
             |ok
+    paper-material(class="settingsMaterial")
+        div(class="settingsTitle")
+            |Info
+        div(class="settingsContent")
+            ="App made by "
+            a(href="https://github.com/SolanaFish", class="blackUrl")
+                ="SolanaFish"
+            br
+            br
+            a(href="https://github.com/SolanaFish/SolanaPage", class="blackUrl")
+                ="Repository"
+            br
+            br
+            ="If you have any problems please open an issue "
+            a(href="https://github.com/SolanaFish/SolanaPage/issues", class="blackUrl")
+                ="here"

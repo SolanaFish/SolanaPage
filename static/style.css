@@ -10,7 +10,7 @@ paper-material {
     background-color: white;
     padding: 1% 2% 1% 2%;
     margin: 2%;
-    background-color: rgba(255, 255, 255, 0.80);
+    background-color: rgba(255, 255, 255, 0.85);
 }
 
 #mainFab {
@@ -57,4 +57,8 @@ paper-material {
     flex: 0 1 auto;
     margin-right: auto;
     align-self: flex-end;
+}
+
+.blackUrl {
+    color: black;
 }
