@@ -13,13 +13,27 @@ paper-material(id= "addBookmark", class="settingsMaterial")
                         paper-item(value= "newCategory")= "Add new category"
                 input(type="hidden", name="category", value="{{category}}")
                 paper-toast(id= "noCategoryToast", text= "Please, select an category")
+                paper-toast(id= "errorCategoryToast", text= "Error while adding new category")
         paper-button(onclick= "addBookmark()", class= "settingsButton")
             iron-icon(icon="check")
             |Add
+        paper-dialog(id="addNewCategoryDialog", modal)
+            div(class="settingsTitle")
+                |Add new category
+            div(class="settingsContent")
+                paper-input(id="newCategory", label="New category name")
+            div(class="buttons")
+                paper-button(dialog-confirm)
+                    iron-icon(icon="clear")
+                    |Cancel
+                paper-button(dialog-confirm, autofocus, onclick="addBookmarkWithNewCategory()")
+                    iron-icon(icon="check")
+                    |Add
+
 paper-material(id= "deleteCategory", class="settingsMaterial")
     div(class="settingsTitle")
         |Delete category:
-    div(class="settingsContent")
+    div(class="settingsContent deleteMaterial")
         each category in bookmarks.categories
             paper-card(heading= category.name, class="deleteCategoryCard")
                 div(class="card-actions")
