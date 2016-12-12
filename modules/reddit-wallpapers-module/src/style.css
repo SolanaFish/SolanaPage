@@ -1,10 +1,10 @@
 #redditRefreshSlider {
-    --paper-slider-height: 5px;
+    --paper-slider-height: 3px;
     width: 100%;
 }
 
 #redditLinksSlider {
-    --paper-slider-height: 5px;
+    --paper-slider-height: 3px;
     width: 100%;
 }
 
@@ -16,11 +16,20 @@
     text-decoration: none;
 }
 
-.wallpaperInfoDiv {
-    font-size: 85%;
-    text-decoration: none;
-    color: black;
-    text-align: left;
-    padding: 2%;
-    padding-top: 0%;
+.currentWallpaperImage {
+    display: block;
+    margin: auto;
+    align-self: center;
+}
+
+.currentWallpaperTitle {
+    color: rgba(1, 87, 155, 0.8);
+    text-align: center;
+    font-size: 110%;
+}
+
+.currentWallpaperReddit {
+    color: rgba(1, 87, 155, 0.8);
+    text-align: center;
+    font-size: 110%;
 }

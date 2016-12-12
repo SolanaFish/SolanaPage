@@ -1,7 +1,10 @@
-a(href= wall.url id= "wallpaperInfoURL", class="clearfix")
-    img(src= wall.url, width="250", height="250")
-    br
-    = wall.title.slice(0,30)+"..."
-br
-="from: "
-a(href= `https://reddit.com${wall.permalink}`, style="text-decoration:none;color:black;")= wall.subreddit
+div(class="settingsTitle")
+    |Current wallpaper
+div(class="settingsContent")
+    div(class='currentWallpaperTitle')= wall.title
+    div(class="currentWallpaperImage")
+        a(href= wall.url)
+            img(src= wall.url, height="400", class="currentWallpaperImage")
+    div(class="currentWallpaperReddit")
+        = "Orginal reddit post on "
+        a(href= `https://reddit.com${wall.permalink}`, style="color: rgba(1, 87, 155, 0.8);")= `/r/${wall.subreddit}`
