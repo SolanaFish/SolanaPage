@@ -42,6 +42,7 @@ paper-card {
 .bookmarkTabs {
     background-color: #D81B60;
     color: white;
+    margin-right: 2%;
 }
 
 .collapseButton {
@@ -53,6 +54,16 @@ paper-card {
 }
 
 .deleteMaterial {
-    background-color: #E0E0E0;
     padding: 1%;
+}
+
+.deleteBookmarkCard {
+    --paper-card-header-color: #000;
+    flex: 0 0 auto;
+}
+
+.deleteBookmarksContent {
+    padding-left: 2%;
+    padding-bottom: 1%;
+    flex: 1 1 100%;
 }

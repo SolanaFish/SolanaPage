@@ -43,17 +43,19 @@ paper-material(id= "deleteCategory", class="settingsMaterial")
 paper-material(id= "deleteBookmark", class="settingsMaterial")
     div(class="settingsTitle")
         |Delete bookmark:
-    div(class="settingsContent")
-        template(is= "dom-bind", id= "bookmarsToDelete")
-            paper-tabs(selected= "{{page}}" id="deleteBookmarksTab", class= " bookmarkTabs")
+    template(is= "dom-bind", id= "bookmarsToDelete")
+        div(class="deleteBookmarksContent")
+            paper-tabs(selected= "{{page}}" id="deleteBookmarksTab", class= "bookmarkTabs")
                 each category in bookmarks.categories
                     paper-tab= category.name
             iron-pages(selected= "{{page}}" id="test")
                 each category in bookmarks.categories
-                    div
+                    div(class="settingsMaterial deleteBookmarkDiv")
                         each bookmark in category.bookmarks
-                            paper-card(image= `thumbnails/${bookmark.thumbnail}`, id= bookmark.name, heading= bookmark.name)
-                                div(class= "card-actions")
-                                    paper-button(onclick=`deleteBookmark('${bookmark.url}','${category.name}')`, class= "deleteButton")
-                                        iron-icon(icon="clear")
-                                        |DELETE
+                            div(class="deleteBookmarkCard")
+                                paper-card(image= `thumbnails/${bookmark.thumbnail}`, id= bookmark.name, class="deleteBookmarkCard")
+                                    = bookmark.name
+                                    div(class= "card-actions")
+                                        paper-button(onclick=`deleteBookmark('${bookmark.url}','${category.name}')` class="deleteButton")
+                                            iron-icon(icon="clear")
+                                            |DELETE

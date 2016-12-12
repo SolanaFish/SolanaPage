@@ -10,6 +10,7 @@ paper-material {
     background-color: white;
     padding: 1% 2% 1% 2%;
     margin: 2%;
+    background-color: rgba(255, 255, 255, 0.80);
 }
 
 #mainFab {
@@ -35,6 +36,7 @@ paper-material {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .settingsTitle {
