@@ -3,19 +3,33 @@ paper-material(elevation="1")
         case element.name
             when "uptime"
                 if element.active
-                    div(style="margin:1%;")= "System uptime: " + uptime.days + " : " + ('0' + uptime.hours).slice(-2) + " : " + ('0' + uptime.minutes).slice(-2)
+                    div(class="infoContainer")
+                        div(class="infoTitle")
+                            |System uptime
+                        div(class="infoValue")
+                            = `${uptime.days} : ${('0' + uptime.hours).slice(-2)} : ${('0' + uptime.minutes).slice(-2)}`
             when "memory"
                 if element.active
-                    div(style="margin:1%;")= "Free memory: " + Math.floor((os.freemem()/os.totalmem())*100) + "%"
-                        paper-progress(class= "wideSlider", value= Math.floor(((os.totalmem() - os.freemem())/os.totalmem())*100), min= '0', max= '100')
+                    div(class="infoContainer")
+                        div(class="infoTitle")
+                            |Free memory
+                        div(class="infoValue")
+                            = Math.floor((os.freemem()/os.totalmem())*100) + "%"
+                    paper-progress(class= "wideSlider", value= Math.floor(((os.totalmem() - os.freemem())/os.totalmem())*100), min= '0', max= '100')
             when "loadAverage"
                 if element.active
-                    - var load = os.loadavg()[0].toFixed(2)
-                    div(style="margin:1%;")= "Load average: " + load
-                        div(class= "container")
-                            - var cores = os.cpus();
-                            each core, index in cores
-                                - var coreLoad = (load - index)*100
-                                div(class= 'coreSlider')
+                    div(class="infoContainer")
+                        div(class="infoTitle")
+                            |Load average
+                        div(class="infoValue")
+                            - var load = os.loadavg()[0].toFixed(2)
+                            =load
+                    div(class= "loadSliderContainer")
+                        - var cores = os.cpus();
+                        each core, index in cores
+                            - var coreLoad = (load - index)*100
+                            div(class= 'coreDiv')
+                                div(class="coreNumber")
                                     = ` core #${index} `
+                                div(class="coreSlider")
                                     paper-progress(class= "wideSlider", value= coreLoad, min= 0, max= 100)
