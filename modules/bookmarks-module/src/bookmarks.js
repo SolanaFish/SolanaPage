@@ -71,6 +71,7 @@ var addBookmark = function(req, res) {
         var categoryIndex = findCategory(category);
         if (categoryIndex != -1) {
             if (findBookmark(link, categoryIndex) != -1) {
+                console.log("Bookmark already exists");
                 res.sendStatus(501);
             } else {
                 var newBookmark = {
@@ -80,8 +81,16 @@ var addBookmark = function(req, res) {
                 };
                 settings.current.bookmarks.categories[categoryIndex].bookmarks.push(newBookmark);
                 settings.save();
-                webshot(newBookmark.url, 'temp.png', (err) => {
+                console.log(newBookmark.url);
+                webshot(newBookmark.url, 'temp.png', {
+                    phantomConfig: {
+                        'ssl-protocol': 'any',
+                        'ignore-ssl-errors': 'true'
+                    },
+                    renderDelay: 1000
+                }, (err) => {
                     if (err) {
+                        console.log(err);
                         res.sendStatus(501);
                     } else {
                         gm('temp.png').thumb(300, 200, `thumbnails/${newBookmark.thumbnail}`, 80, (err) => {
@@ -98,9 +107,11 @@ var addBookmark = function(req, res) {
                 });
             }
         } else {
+            console.log('No category');
             res.sendStatus(501);
         }
     } else {
+        console.log('Invalid data');
         res.sendStatus(501);
     }
 };
@@ -115,17 +126,21 @@ var deleteBookmark = function(req, res) {
         var foundBookmark = findBookmark(bookmark, foundCategory);
         if (foundBookmark != -1) {
             var delBookmark = settings.current.bookmarks.categories[foundCategory].bookmarks[foundBookmark];
-            fs.unlink(`./thumbnails/${delBookmark.thumbnail}`, (err) => {
+            fs.unlink(`${__dirname}/../../../thumbnails/${delBookmark.thumbnail}`, (err) => {
                 if (err) {
                     console.log(err);
-                    res.sendStatus(501);
-                } else {
-                    settings.current.bookmarks.categories[foundCategory].bookmarks.splice(foundBookmark, 1);
-                    settings.save();
-                    res.sendStatus(200);
                 }
+                settings.current.bookmarks.categories[foundCategory].bookmarks.splice(foundBookmark, 1);
+                settings.save();
+                res.sendStatus(200);
             });
+        } else {
+            console.log('Bookmark does not exist');
+            res.sendStatus(501);
         }
+    } else {
+        console.log('Wrong category');
+        res.sendStatus(501);
     }
 };
 
@@ -134,7 +149,7 @@ var deleteCategory = function(req, res) {
     var foundCategory = findCategory(category);
     if (foundCategory != -1) {
         var delCategory = settings.current.bookmarks.categories[foundCategory];
-        if(delCategory.length > 0) {
+        if (delCategory.length > 0) {
             delCategory.forEach((bookmark) => {
                 fs.unlink(`./thumbnails/${delBookmark.thumbnail}`, (err) => {
                     if (err) {
@@ -189,7 +204,7 @@ module.exports.getMainView = function() {
 module.exports.getScript = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/script.js`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
@@ -201,7 +216,7 @@ module.exports.getScript = function() {
 module.exports.getCss = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
