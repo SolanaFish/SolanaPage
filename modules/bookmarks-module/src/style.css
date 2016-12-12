@@ -67,3 +67,8 @@ paper-card {
     padding-bottom: 1%;
     flex: 1 1 100%;
 }
+
+.deleteCategoryItem {
+    background-color: white;
+    margin: 1%;
+}

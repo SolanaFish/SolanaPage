@@ -33,13 +33,15 @@ paper-material(id= "addBookmark", class="settingsMaterial")
 paper-material(id= "deleteCategory", class="settingsMaterial")
     div(class="settingsTitle")
         |Delete category:
-    div(class="settingsContent deleteMaterial")
+    div(class="settingsContent deleteMaterial", role="listbox")
         each category in bookmarks.categories
-            paper-card(heading= category.name, class="deleteCategoryCard")
-                div(class="card-actions")
-                    paper-button(onclick= "deleteCategory('" + category.name + "')", class="deleteButton")
-                        iron-icon(icon= "clear")
-                        | Delete Category
+            paper-item(class="deleteCategoryItem")
+                paper-item-body('two-line')
+                    div
+                        =category.name
+                    div('secondary')
+                        =`${category.bookmarks.length} bookmarks in this category`
+                paper-icon-button(icon="clear", onclick=`deleteCategory('${category.name}')`)
 paper-material(id= "deleteBookmark", class="settingsMaterial")
     div(class="settingsTitle")
         |Delete bookmark:
