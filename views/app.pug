@@ -16,10 +16,10 @@ block append settings-page
                 if module.settingsView
                     paper-item
                         = module.module
-    iron-pages(selected="[[settingsSelected]]", id="settingsPages")
+    iron-pages(selected="[[settingsSelected]]", id="settingsPages",entry-animation="slide-from-right-animation" , exit-animation="slide-right-animation")
         each module in modules
             if module.settingsView
-                div(id= module.name, class= "modules")
+                neon-animatable(id= module.name, class= "modules")
                     != module.settingsView
 
 block append scripts
