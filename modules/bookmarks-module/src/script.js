@@ -15,7 +15,7 @@ function addBookmarkWithNewCategory() {
     var newCategory = document.getElementById('newCategory');
     sendNewCategory(newCategory.value).then(() => {
         var template = document.querySelector("#addBookmarkTemplate");
-        template.category = newCategory;
+        template.category = newCategory.value;
         template.$.addBookmarkForm.submit();
     }).catch((err)=> {
         if(err) {
@@ -43,7 +43,6 @@ function deleteCategory(categoryName) {
     xhttp.open("POST", "/bookmarks/deleteCategory", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("name=" + categoryName);
-    delBookmarks();
 }
 
 function deleteBookmark(name, category) {
@@ -51,5 +50,4 @@ function deleteBookmark(name, category) {
     xhttp.open("POST", "/bookmarks/deleteBookmark", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("url=" + name + "&category=" + category);
-    delBookmarks();
 }

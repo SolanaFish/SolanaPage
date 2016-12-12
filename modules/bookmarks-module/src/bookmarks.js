@@ -107,7 +107,7 @@ var addBookmark = function(req, res) {
                 });
             }
         } else {
-            console.log('No category');
+            console.log('No category' + req.body.category);
             res.sendStatus(501);
         }
     } else {
