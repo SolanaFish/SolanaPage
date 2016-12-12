@@ -5,19 +5,33 @@ paper-card {
     text-align: center;
 }
 
-iron-collapse {
-    margin: 2%;
-}
-
 #bookmarkTabs {
     background-color: #D81B60;
     color: white;
+}
+
+#deleteCategory {
+    padding: 0%;
+}
+
+#addNewCategoryDialog {
+    width: 80%;
+}
+
+#bookmarkTabs {
+    --paper-tabs-selection-bar-color: #0091EA;
+}
+
+#bookmarksMaterial {
+    padding: 0%;
+    background-color: rgba(255, 255, 255, 0.90);
 }
 
 .deleteButton {
     color: white;
     background-color: #EF5350;
     width: 100%;
+    margin: 1%;
 }
 
 .bookmarksLink {
@@ -35,6 +49,10 @@ iron-collapse {
 }
 
 .deleteCategoryCard {
-    --paper-card-header-color: #fff;
-    --paper-card-background-color:#616161;
+    --paper-card-header-color: #000;
+}
+
+.deleteMaterial {
+    background-color: #E0E0E0;
+    padding: 1%;
 }
