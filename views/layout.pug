@@ -52,7 +52,7 @@ html
             block css
 
     body.fullbleed.vertical.layout
-        template(is= "dom-bind", id="app")
+        template#app(is= "dom-bind")
             neon-animated-pages.flex(selected="[[selected]]")
                 main-page#mainPage.flex
                     div

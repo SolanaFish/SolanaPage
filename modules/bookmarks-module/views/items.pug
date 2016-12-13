@@ -1,9 +1,9 @@
 paper-material.bookmarksItemMaterial
-    template(is= "dom-bind", id= "bookmarksTemplate")
+    template#bookmarksTemplate(is= "dom-bind")
         if bookmarks.categories.length > 1
             div.bookmarksItemsContainer
                 div.bookmarksItemsDrawer
-                    paper-menu(selected="{{page}}", id="bookmarkItemMenu")
+                    paper-menu#bookmarkItemMenu(selected="{{page}}")
                         each category in bookmarks.categories
                             paper-item.bookmarksItemsDrawerItem
                                 paper-item-body('two-line')
@@ -12,7 +12,7 @@ paper-material.bookmarksItemMaterial
                                     div('secondary')
                                         =`${category.bookmarks.length} bookmarks in this category`
                 div.bookmarksItemsContent
-                    iron-pages(selected= "{{page}}" id="bookmarkPages")
+                    iron-pages#bookmarkPages(selected= "{{page}}")
                         each category in bookmarks.categories
                             div
                                 each bookmark in category.bookmarks

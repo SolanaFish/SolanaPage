@@ -7,14 +7,14 @@ paper-material.settingsMaterial
     div.settingsTitle
         |Check images while updating wallpaper list:
     div.settingsContent
-        paper-dialog(id="checkUrlsDialog",with-backdrop)
+        paper-dialog#checkUrlsDialog(with-backdrop)
             div.settingsTitle
                 |Checking urls
             p
                 |You can check if all wallpapers that are beeing fetched from reddit actually load.
                 br
                 | That procces takes more time and bandwidth as all wallpapers are beeing fetched from their source.
-        paper-toggle-button(id= "checkUrlsButton", checked= settings.checkUrls)
+        paper-toggle-button#checkUrlsButton(checked= settings.checkUrls)
             |Check images
     paper-button.settingsButton(onclick="checkUrlsDialog.open()")
         |What?
@@ -22,11 +22,11 @@ paper-material.settingsMaterial
     div.settingsTitle
         |How often to update reddit library:
     div.settingsContent
-        paper-slider(id= "redditRefreshSlider", pin, snaps, editable, min="30", max= "600", max-markers= "30", step= "30", value= settings.refresh, onload="setupSlider")
+        paper-slider#redditRefreshSlider(pin, snaps, editable, min="30", max= "600", max-markers= "30", step= "30", value= settings.refresh, onload="setupSlider")
     div.settingsTitle
         |How many links to fetch from every reddit:
     div.settingsContent
-        paper-slider(id= "redditLinksSlider", pin, snaps, editable, min="20", max= "100", max-markers= "30", step= "5", value= settings.links, onload="setupSlider")
+        paper-slider#redditLinksSlider(pin, snaps, editable, min="20", max= "100", max-markers= "30", step= "5", value= settings.links, onload="setupSlider")
 paper-material.settingsMaterial
     div.settingsTitle
         |Manage subreddits:
@@ -42,7 +42,7 @@ paper-material.settingsMaterial
         iron-icon(icon="check")
         |OK
 
-paper-toast(id= "subredditsToast", text= "Subreddits settings saved!")
-paper-toast(id= "refreshToast", text= "Refresh settings saved!")
-paper-toast(id= "linksToast", text= "Link settings saved!")
-paper-toast(id= "checkUrlsToast", text= "Link-check settings saved!")
+paper-toast#subredditsToast(text= "Subreddits settings saved!")
+paper-toast#refreshToast(text= "Refresh settings saved!")
+paper-toast#linksToast(text= "Link settings saved!")
+paper-toast#checkUrlsToast(text= "Link-check settings saved!")

@@ -1,10 +1,10 @@
-paper-material(id="bookmarksMaterial")
-    template(is= "dom-bind", id= "bookmarksTemplate")
+paper-material#bookmarksMaterial
+    template#bookmarksTemplate(is= "dom-bind")
         if bookmarks.categories.length > 1
-            paper-tabs(selected= "{{page}}" id="bookmarkTabs")
+            paper-tabs#bookmarkTabs(selected= "{{page}}")
                 each category in bookmarks.categories
                     paper-tab= category.name
-            iron-pages(selected= "{{page}}" id="bookmarkPages")
+            iron-pages#bookmarkPages(selected= "{{page}}")
                 each category in bookmarks.categories
                     div
                         each bookmark in category.bookmarks

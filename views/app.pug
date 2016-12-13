@@ -10,13 +10,13 @@ block append main-page
                 != module.mainView
 
 block append settings-page
-    div(id= "SettingsDrawerOptions")
+    div#SettingsDrawerOptions
         paper-menu(selected="{{settingsSelected}}")
             each module in modules
                 if module.settingsView
                     paper-item
                         = module.module
-    iron-pages(selected="[[settingsSelected]]", id="settingsPages",entry-animation="slide-from-right-animation" , exit-animation="slide-right-animation")
+    iron-pages#settingsPages(selected="[[settingsSelected]]", entry-animation="slide-from-right-animation" , exit-animation="slide-right-animation")
         each module in modules
             if module.settingsView
                 neon-animatable.modules(id= module.name)

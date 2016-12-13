@@ -1,9 +1,9 @@
 paper-material#addBookmark.settingsMaterial
-    template(is= "dom-bind", id="addBookmarkTemplate")
+    template#addBookmarkTemplate(is= "dom-bind")
         div.settingsTitle
             |Add new bookmark:
         div.settingsContent
-            form(is= "iron-form", id= "addBookmarkForm", action= "/bookmarks/addBookmark", method="POST")
+            form#addBookmarkForm(is= "iron-form", action= "/bookmarks/addBookmark", method="POST")
                 paper-input(label= "Name for your bookmark", name= "bookmarkName")
                 paper-input(label= "Url for your bookmark", name= "bookmarkLink")
                 paper-dropdown-menu(label= "category")
@@ -12,18 +12,18 @@ paper-material#addBookmark.settingsMaterial
                             paper-item(value= category.name)= category.name
                         paper-item(value= "newCategory")= "Add new category"
                 input(type="hidden", name="category", value="{{category}}")
-                paper-toast(id= "noCategoryToast", text= "Please, select an category")
-                paper-toast(id= "errorCategoryToast", text= "Error while adding new category")
+                paper-toast#noCategoryToast(text= "Please, select an category")
+                paper-toast#errorCategoryToast(text= "Error while adding new category")
                 paper-toast#displayMethodToast(text="Display method updated")
 
         paper-button.settingsButton(onclick= "addBookmark()")
             iron-icon(icon="check")
             |Add
-        paper-dialog(id="addNewCategoryDialog", modal)
+        paper-dialog#addNewCategoryDialog(modal)
             div.settingsTitle
                 |Add new category
             div.settingsContent
-                paper-input(id="newCategory", label="New category name")
+                paper-input#newCategory(label="New category name")
             div.buttons
                 paper-button(dialog-confirm)
                     iron-icon(icon="clear")
@@ -48,12 +48,12 @@ paper-material#deleteBookmark.settingsMaterial
     div.settingsTitle
         |Delete bookmark:
     div.settingsContent
-    template(is= "dom-bind", id= "bookmarsToDelete")
+    template#bookmarsToDelete(is= "dom-bind")
         div.deleteBookmarksContent
             if bookmarks.categories.length > 1
                 div.bookmarksItemsContainer
                     div.bookmarksItemsDrawer
-                        paper-menu(selected="{{page}}", id="deleteBookmarkItemMenu")
+                        paper-menu#deleteBookmarkItemMenu(selected="{{page}}")
                             each category in bookmarks.categories
                                 paper-item.bookmarksItemsDrawerItem
                                     paper-item-body('two-line')
@@ -62,7 +62,7 @@ paper-material#deleteBookmark.settingsMaterial
                                         div('secondary')
                                             =`${category.bookmarks.length} bookmarks in this category`
                     div.bookmarksItemsContent
-                        iron-pages(selected= "{{page}}" id="deleteBookmarkPages")
+                        iron-pages#deleteBookmarkPages(selected= "{{page}}")
                             each category in bookmarks.categories
                                 div
                                     each bookmark in category.bookmarks

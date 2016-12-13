@@ -1,10 +1,10 @@
-template(is= "dom-bind", id= "activeModules")
+template#activeModules(is= "dom-bind")
     paper-material#activeModulesDiv.settingsMaterial
         div.settingsTitle
             | Choose active modules:
         div.settingsContent
             each module in settings.modules
-                paper-toggle-button(id='test', name=module.name, checked= `${module.active}`)= module.name
+                paper-toggle-button(name=module.name, checked= `${module.active}`)= module.name
         paper-button.settingsButton(onclick= "submitActiveModules()")
             iron-icon(icon= "check")
             |OK
@@ -12,8 +12,8 @@ template(is= "dom-bind", id= "activeModules")
         div.settingsTitle
             | Upload wallpaper:
         div.settingsContent
-            form(id="wallpaperForm", method="post", action="/changeWallpaper", enctype="multipart/form-data")
-                paper-input(name ="wallpaper", type="file", id="wallpaper")
+            form#wallpaperForm(method="post", action="/changeWallpaper", enctype="multipart/form-data")
+                paper-input#wallpaper(name ="wallpaper", type="file")
         paper-button.settingsButton(onclick="document.getElementById('wallpaperForm').submit()")
             iron-icon(icon= "check")
             |ok
