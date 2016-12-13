@@ -45,14 +45,6 @@ paper-card {
     margin-right: 2%;
 }
 
-.collapseButton {
-    width: 100%;
-}
-
-.deleteCategoryCard {
-    --paper-card-header-color: #000;
-}
-
 .deleteMaterial {
     padding: 1%;
 }
