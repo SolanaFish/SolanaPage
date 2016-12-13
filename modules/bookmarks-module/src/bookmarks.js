@@ -185,7 +185,6 @@ var addCategory = function(req, res) {
 
 var displayMethod = function(req, res) {
     var method = req.body.method;
-    console.log(method);
     if(method === 'items' || method === 'cards') {
         settings.current.view = method;
         settings.save();
