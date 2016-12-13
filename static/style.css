@@ -49,7 +49,6 @@ paper-material {
 }
 
 .settingsContent {
-    padding-left: 2%;
     padding-bottom: 1%;
     flex: 1 0 auto;
 }
@@ -62,4 +61,14 @@ paper-material {
 
 .blackUrl {
     color: black;
+}
+
+.paperItemLinkA {
+    text-decoration: none;
+    color: black;
+}
+
+.paperItemLinkItem {
+    background-color: white;
+    margin: 1%;
 }

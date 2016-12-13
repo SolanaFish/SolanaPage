@@ -21,15 +21,18 @@ template#activeModules(is= "dom-bind")
         div.settingsTitle
             |Info
         div.settingsContent
-            ="App made by "
-            a.blackUrl(href="https://github.com/SolanaFish")
-                ="SolanaFish"
-            br
-            br
-            a.blackUrl(href="https://github.com/SolanaFish/SolanaPage")
-                ="Repository"
-            br
-            br
-            ="If you have any problems please open an issue "
-            a.blackUrl(href="https://github.com/SolanaFish/SolanaPage/issues")
-                ="here"
+            a.paperItemLinkA(href="https://github.com/SolanaFish")
+                paper-item.paperItemLinkItem
+                    paper-item-body(two-line)
+                        div="App mady by SolanaFish"
+                        div(secondary)="https://github.com/SolanaFish"
+            a.paperItemLinkA(href="https://github.com/SolanaFish/SolanaPage")
+                paper-item.paperItemLinkItem
+                    paper-item-body(two-line)
+                        div="Repository"
+                        div(secondary)="https://github.com/SolanaFish/SolanaPage"
+            a.paperItemLinkA(href="https://github.com/SolanaFish/SolanaPage/issues")
+                paper-item.paperItemLinkItem
+                    paper-item-body(two-line)
+                        div="If you have any problems please open an issue here"
+                        div(secondary)="https://github.com/SolanaFish/SolanaPage/issues"
