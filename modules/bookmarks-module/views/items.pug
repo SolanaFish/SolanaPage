@@ -1,24 +1,34 @@
-paper-material(id="bookmarksMaterial")
+paper-material.bookmarksItemMaterial
     template(is= "dom-bind", id= "bookmarksTemplate")
         if bookmarks.categories.length > 1
-            paper-tabs(selected= "{{page}}" id="bookmarkTabs")
-                each category in bookmarks.categories
-                    paper-tab= category.name
-            iron-pages(selected= "{{page}}" id="bookmarkPages")
-                each category in bookmarks.categories
-                    div
-                        each bookmark in category.bookmarks
-                            a(href= bookmark.url, class= "bookmarksLink")
-                                paper-item
-                                    paper-item-body(two-line)
-                                        div= bookmark.name
-                                        div(secondary)= bookmark.url
-
+            div.bookmarksItemsContainer
+                div.bookmarksItemsDrawer
+                    paper-menu(selected="{{page}}", id="bookmarkItemMenu")
+                        each category in bookmarks.categories
+                            paper-item.bookmarksItemsDrawerItem
+                                paper-item-body('two-line')
+                                    div
+                                        =category.name
+                                    div('secondary')
+                                        =`${category.bookmarks.length} bookmarks in this category`
+                div.bookmarksItemsContent
+                    iron-pages(selected= "{{page}}" id="bookmarkPages")
+                        each category in bookmarks.categories
+                            div
+                                each bookmark in category.bookmarks
+                                        paper-item.bookmarksItemsItem
+                                            a.paperItemHrefBody(href= bookmark.url, class= "bookmarksItemsLink")
+                                                paper-item-body(two-line)
+                                                    div= bookmark.name
+                                                    div(secondary)= bookmark.url
+                                            paper-icon-button.paperItemHrefButton(icon="link", onclick=`copyToClipboard('${bookmark.url}')`)
         else
-            div
+            div.bookmarksItemsContent
                 each bookmark in bookmarks.categories[0].bookmarks
-                    a(href= bookmark.url, class= "bookmarksLink")
-                        paper-item
+                    a(href= bookmark.url, class= "bookmarksItemsLink")
+                        paper-item.bookmarksItemsItem
                             paper-item-body(two-line)
                                 div= bookmark.name
                                 div(secondary)= bookmark.url
+    paper-toast#copiedToast
+        |Url copied to clipboard

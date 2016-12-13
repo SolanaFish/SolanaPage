@@ -51,3 +51,27 @@ function deleteBookmark(name, category) {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("url=" + name + "&category=" + category);
 }
+
+function copyToClipboard(text) {
+    var textArea = document.createElement('textarea');
+    textArea.style.postition = "fixed";
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+        document.execCommand('copy');
+    } catch (err) {
+    } finally {
+    }
+    document.body.removeChild(textArea);
+    copiedToast.open();
+}

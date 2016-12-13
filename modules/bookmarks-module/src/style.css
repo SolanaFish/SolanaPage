@@ -24,7 +24,6 @@ paper-card {
 
 #bookmarksMaterial {
     padding: 0%;
-    background-color: rgba(255, 255, 255, 0.90);
 }
 
 .deleteButton {
@@ -63,4 +62,58 @@ paper-card {
 .deleteCategoryItem {
     background-color: white;
     margin: 1%;
+}
+
+.bookmarksItemsItem {
+    background-color: white;
+    margin: 1%;
+    display: flex;
+    flex-direction: row;
+}
+
+.bookmarksItemsDrawerItem {
+    background-color: white;
+    margin: 0px;
+}
+
+
+.bookmarksItemsLink {
+    text-decoration: none;
+    color: black;
+}
+
+.bookmarksItemsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;;
+    padding: 0px;
+}
+
+.bookmarksItemsDrawer {
+    min-width: 250px;
+    max-width: 400px;
+    flex: 0 0 auto;
+    margin: 0px;
+    padding: 1%;
+    padding-right: 0px;
+    padding-left: 0px;
+    background-color: white;
+}
+
+.bookmarksItemsContent {
+    flex: 1 0 auto;
+}
+
+.bookmarksItemMaterial {
+    padding: 0px;
+}
+
+.paperItemHrefBody {
+    flex: 1 0 auto;
+}
+
+.paperItemHrefButton {
+    flex: 0 1 auto;
 }
