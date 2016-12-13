@@ -8,10 +8,10 @@ paper-material(id="bookmarksMaterial")
                 each category in bookmarks.categories
                     div
                         each bookmark in category.bookmarks
-                            a(href= bookmark.url, class= "bookmarksLink")
+                            a.bookmarksLink(href= bookmark.url)
                                 paper-card(image= `thumbnails/${bookmark.thumbnail}`)= bookmark.name
         else
             div
                 each bookmark in bookmarks.categories[0].bookmarks
-                    a(href= bookmark.url, class= "bookmarksLink")
+                    a.bookmarksLink(href= bookmark.url)
                         paper-card(image= `thumbnails/${bookmark.thumbnail}`)= bookmark.name

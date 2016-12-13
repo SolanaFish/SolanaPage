@@ -1,35 +1,35 @@
 template(is= "dom-bind", id= "activeModules")
-    paper-material(id='activeModulesDiv', class="settingsMaterial")
-        div(class="settingsTitle")
+    paper-material#activeModulesDiv.settingsMaterial
+        div.settingsTitle
             | Choose active modules:
-        div(class="settingsContent")
+        div.settingsContent
             each module in settings.modules
                 paper-toggle-button(id='test', name=module.name, checked= `${module.active}`)= module.name
-        paper-button(class="settingsButton", onclick= "submitActiveModules()")
+        paper-button.settingsButton(onclick= "submitActiveModules()")
             iron-icon(icon= "check")
             |OK
-    paper-material(class="settingsMaterial")
-        div(class="settingsTitle")
+    paper-material.settingsMaterial
+        div.settingsTitle
             | Upload wallpaper:
-        div(class="settingsContent")
+        div.settingsContent
             form(id="wallpaperForm", method="post", action="/changeWallpaper", enctype="multipart/form-data")
                 paper-input(name ="wallpaper", type="file", id="wallpaper")
-        paper-button(onclick="document.getElementById('wallpaperForm').submit()", class="settingsButton")
+        paper-button.settingsButton(onclick="document.getElementById('wallpaperForm').submit()")
             iron-icon(icon= "check")
             |ok
-    paper-material(class="settingsMaterial")
-        div(class="settingsTitle")
+    paper-material.settingsMaterial
+        div.settingsTitle
             |Info
-        div(class="settingsContent")
+        div.settingsContent
             ="App made by "
-            a(href="https://github.com/SolanaFish", class="blackUrl")
+            a.blackUrl(href="https://github.com/SolanaFish")
                 ="SolanaFish"
             br
             br
-            a(href="https://github.com/SolanaFish/SolanaPage", class="blackUrl")
+            a.blackUrl(href="https://github.com/SolanaFish/SolanaPage")
                 ="Repository"
             br
             br
             ="If you have any problems please open an issue "
-            a(href="https://github.com/SolanaFish/SolanaPage/issues", class="blackUrl")
+            a.blackUrl(href="https://github.com/SolanaFish/SolanaPage/issues")
                 ="here"

@@ -1,10 +1,10 @@
-div(class="settingsTitle")
+div.settingsTitle
     |Current wallpaper
-div(class="settingsContent")
-    div(class='currentWallpaperTitle')= wall.title
-    div(class="currentWallpaperImage")
+div.settingsContent
+    div.currentWallpaperTitle= wall.title
+    div.currentWallpaperImage
         a(href= wall.url)
-            img(src= wall.url, height="400", class="currentWallpaperImage")
-    div(class="currentWallpaperReddit")
+            img.currentWallpaperImage(src= wall.url, height="400")
+    div.currentWallpaperReddit
         = "Orginal reddit post on "
         a(href= `https://reddit.com${wall.permalink}`, style="color: rgba(1, 87, 155, 0.8);")= `/r/${wall.subreddit}`

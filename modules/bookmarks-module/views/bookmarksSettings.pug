@@ -1,13 +1,13 @@
-paper-material(id= "addBookmark", class="settingsMaterial")
+paper-material#addBookmark.settingsMaterial
     template(is= "dom-bind", id="addBookmarkTemplate")
-        div(class="settingsTitle")
+        div.settingsTitle
             |Add new bookmark:
-        div(class="settingsContent")
+        div.settingsContent
             form(is= "iron-form", id= "addBookmarkForm", action= "/bookmarks/addBookmark", method="POST")
                 paper-input(label= "Name for your bookmark", name= "bookmarkName")
                 paper-input(label= "Url for your bookmark", name= "bookmarkLink")
                 paper-dropdown-menu(label= "category")
-                    paper-menu(class="dropdown-content", attr-for-selected="value", selected= "{{category}}")
+                    paper-menu.dropdown-content(attr-for-selected="value", selected= "{{category}}")
                         each category in bookmarks.categories
                             paper-item(value= category.name)= category.name
                         paper-item(value= "newCategory")= "Add new category"
@@ -16,15 +16,15 @@ paper-material(id= "addBookmark", class="settingsMaterial")
                 paper-toast(id= "errorCategoryToast", text= "Error while adding new category")
                 paper-toast#displayMethodToast(text="Display method updated")
 
-        paper-button(onclick= "addBookmark()", class= "settingsButton")
+        paper-button.settingsButton(onclick= "addBookmark()")
             iron-icon(icon="check")
             |Add
         paper-dialog(id="addNewCategoryDialog", modal)
-            div(class="settingsTitle")
+            div.settingsTitle
                 |Add new category
-            div(class="settingsContent")
+            div.settingsContent
                 paper-input(id="newCategory", label="New category name")
-            div(class="buttons")
+            div.buttons
                 paper-button(dialog-confirm)
                     iron-icon(icon="clear")
                     |Cancel
@@ -32,24 +32,24 @@ paper-material(id= "addBookmark", class="settingsMaterial")
                     iron-icon(icon="check")
                     |Add
 
-paper-material(id= "deleteCategory", class="settingsMaterial")
-    div(class="settingsTitle")
+paper-material#deleteCategory.settingsMaterial
+    div.settingsTitle
         |Delete category:
-    div(class="settingsContent deleteMaterial", role="listbox")
+    div.deleteMaterial.settingsContent(role="listbox")
         each category in bookmarks.categories
-            paper-item(class="deleteCategoryItem")
+            paper-item.deleteCategoryItem
                 paper-item-body('two-line')
                     div
                         =category.name
                     div('secondary')
                         =`${category.bookmarks.length} bookmarks in this category`
                 paper-icon-button(icon="clear", onclick=`deleteCategory('${category.name}')`)
-paper-material(id= "deleteBookmark", class="settingsMaterial")
-    div(class="settingsTitle")
+paper-material#deleteBookmark.settingsMaterial
+    div.settingsTitle
         |Delete bookmark:
     div.settingsContent
     template(is= "dom-bind", id= "bookmarsToDelete")
-        div(class="deleteBookmarksContent")
+        div.deleteBookmarksContent
             if bookmarks.categories.length > 1
                 div.bookmarksItemsContainer
                     div.bookmarksItemsDrawer
@@ -66,7 +66,7 @@ paper-material(id= "deleteBookmark", class="settingsMaterial")
                             each category in bookmarks.categories
                                 div
                                     each bookmark in category.bookmarks
-                                        a(href= bookmark.url, class= "bookmarksItemsLink")
+                                        a.bookmarksItemsLink(href= bookmark.url)
                                             paper-item.bookmarksItemsItem
                                                 paper-item-body(two-line)
                                                     div= bookmark.name
@@ -75,7 +75,7 @@ paper-material(id= "deleteBookmark", class="settingsMaterial")
             else
                 div.bookmarksItemsContent
                     each bookmark in bookmarks.categories[0].bookmarks
-                        a(href= bookmark.url, class= "bookmarksItemsLink")
+                        a.bookmarksItemsLink(href= bookmark.url)
                             paper-item.bookmarksItemsItem
                                 paper-item-body(two-line)
                                     div= bookmark.name

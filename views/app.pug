@@ -6,7 +6,7 @@ block title
 block append main-page
     each module in modules
         if module.mainView
-            div(id= module.name, class= "modules")
+            div.modules(id= module.name)
                 != module.mainView
 
 block append settings-page
@@ -19,7 +19,7 @@ block append settings-page
     iron-pages(selected="[[settingsSelected]]", id="settingsPages",entry-animation="slide-from-right-animation" , exit-animation="slide-right-animation")
         each module in modules
             if module.settingsView
-                neon-animatable(id= module.name, class= "modules")
+                neon-animatable.modules(id= module.name)
                     != module.settingsView
 
 block append scripts

@@ -1,14 +1,14 @@
 if settings.subreddits === []
-    paper-material(class="error settingsMaterial")
-        div(class="settingsTitle")
+    paper-material.error.settingsMaterial
+        div.settingsTitle
             |No subreddits specified! Module won't work!
-paper-material(id= "wallpaperInfo")
-paper-material(class="settingsMaterial")
-    div(class="settingsTitle")
+paper-material#wallpaperInfo
+paper-material.settingsMaterial
+    div.settingsTitle
         |Check images while updating wallpaper list:
-    div(class="settingsContent")
+    div.settingsContent
         paper-dialog(id="checkUrlsDialog",with-backdrop)
-            div(class="settingsTitle")
+            div.settingsTitle
                 |Checking urls
             p
                 |You can check if all wallpapers that are beeing fetched from reddit actually load.
@@ -16,21 +16,21 @@ paper-material(class="settingsMaterial")
                 | That procces takes more time and bandwidth as all wallpapers are beeing fetched from their source.
         paper-toggle-button(id= "checkUrlsButton", checked= settings.checkUrls)
             |Check images
-    paper-button(class="settingsButton", onclick="checkUrlsDialog.open()")
+    paper-button.settingsButton(onclick="checkUrlsDialog.open()")
         |What?
-paper-material(class="settingsMaterial")
-    div(class="settingsTitle")
+paper-material.settingsMaterial
+    div.settingsTitle
         |How often to update reddit library:
-    div(class="settingsContent")
+    div.settingsContent
         paper-slider(id= "redditRefreshSlider", pin, snaps, editable, min="30", max= "600", max-markers= "30", step= "30", value= settings.refresh, onload="setupSlider")
-    div(class="settingsTitle")
+    div.settingsTitle
         |How many links to fetch from every reddit:
-    div(class="settingsContent")
+    div.settingsContent
         paper-slider(id= "redditLinksSlider", pin, snaps, editable, min="20", max= "100", max-markers= "30", step= "5", value= settings.links, onload="setupSlider")
-paper-material(class="settingsMaterial")
-    div(class="settingsTitle")
+paper-material.settingsMaterial
+    div.settingsTitle
         |Manage subreddits:
-    div(class="settingsContent", id="redditInputs")
+    div#redditInputs.settingsContent
         each subreddit in settings.subreddits
             paper-input(auto-validate,pattern= "[a-zA-Z]*", error-message="Letters only", label="Input subreddit name here", value=subreddit)
                 div(prefix)
@@ -38,7 +38,7 @@ paper-material(class="settingsMaterial")
         paper-input(auto-validate,pattern= "[a-zA-Z]*", error-message="Letters only", label="Input subreddit name here")
             div(prefix)
                 |/r/
-    paper-button(onclick="submitSubreddits()", class="settingsButton")
+    paper-button.settingsButton(onclick="submitSubreddits()")
         iron-icon(icon="check")
         |OK
 

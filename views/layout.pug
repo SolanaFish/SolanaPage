@@ -51,13 +51,13 @@ html
         style
             block css
 
-    body(class= "fullbleed vertical layout")
+    body.fullbleed.vertical.layout
         template(is= "dom-bind", id="app")
-            neon-animated-pages(class= "flex", selected="[[selected]]")
-                main-page(class="flex", id= "mainPage")
+            neon-animated-pages.flex(selected="[[selected]]")
+                main-page#mainPage.flex
                     div
                         block main-page
-                settings-page(class="flex", id= "settingsPage")
+                settings-page#settingsPage.flex
                     block settings-page
         block scripts
             script(type="text/javascript", src="static/mainpage.js")

@@ -17,7 +17,7 @@ paper-material.bookmarksItemMaterial
                             div
                                 each bookmark in category.bookmarks
                                         paper-item.bookmarksItemsItem
-                                            a.paperItemHrefBody(href= bookmark.url, class= "bookmarksItemsLink")
+                                            a.paperItemHrefBody.bookmarksItemsLink(href= bookmark.url)
                                                 paper-item-body(two-line)
                                                     div= bookmark.name
                                                     div(secondary)= bookmark.url
@@ -25,7 +25,7 @@ paper-material.bookmarksItemMaterial
         else
             div.bookmarksItemsContent
                 each bookmark in bookmarks.categories[0].bookmarks
-                    a(href= bookmark.url, class= "bookmarksItemsLink")
+                    a.bookmarksItemsLink(href= bookmark.url)
                         paper-item.bookmarksItemsItem
                             paper-item-body(two-line)
                                 div= bookmark.name
