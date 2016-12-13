@@ -29,7 +29,8 @@ var settings = {
                     url: "https://github.com/SolanaFish/SolanaPage"
                 }]
             }]
-        }
+        },
+        view: 'items'
     },
     save: () => {
         serverLog('Saving bookmarks settings to local file');
@@ -190,12 +191,12 @@ module.exports.getSettings = function() {
 };
 
 module.exports.getMainView = function() {
-    if (settings.current.bookmarks.categories.length == 1) {
-        return Promise.resolve(pug.renderFile(`${__dirname}/../views/nocategories.pug`, {
+    if (settings.current.view === "cards") {
+        return Promise.resolve(pug.renderFile(`${__dirname}/../views/categories.pug`, {
             bookmarks: settings.current.bookmarks
         }));
-    } else {
-        return Promise.resolve(pug.renderFile(`${__dirname}/../views/categories.pug`, {
+    } else if (settings.current.view === "items") {
+        return Promise.resolve(pug.renderFile(`${__dirname}/../views/items.pug`, {
             bookmarks: settings.current.bookmarks
         }));
     }

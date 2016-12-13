@@ -1,0 +1,24 @@
+paper-material(id="bookmarksMaterial")
+    template(is= "dom-bind", id= "bookmarksTemplate")
+        if bookmarks.categories.length > 1
+            paper-tabs(selected= "{{page}}" id="bookmarkTabs")
+                each category in bookmarks.categories
+                    paper-tab= category.name
+            iron-pages(selected= "{{page}}" id="bookmarkPages")
+                each category in bookmarks.categories
+                    div
+                        each bookmark in category.bookmarks
+                            a(href= bookmark.url, class= "bookmarksLink")
+                                paper-item
+                                    paper-item-body(two-line)
+                                        div= bookmark.name
+                                        div(secondary)= bookmark.url
+
+        else
+            div
+                each bookmark in bookmarks.categories[0].bookmarks
+                    a(href= bookmark.url, class= "bookmarksLink")
+                        paper-item
+                            paper-item-body(two-line)
+                                div= bookmark.name
+                                div(secondary)= bookmark.url
