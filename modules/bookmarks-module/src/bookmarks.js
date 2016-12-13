@@ -59,6 +59,7 @@ module.exports = function(app) {
         app.post('/bookmarks/deleteBookmark', uep, deleteBookmark);
         app.post('/bookmarks/deleteCategory', uep, deleteCategory);
         app.post('/bookmarks/addNewCategory', uep, addCategory);
+        app.post('/bookmarks/displayMethod', uep, displayMethod);
         serverLog("Bookmarks module ready!");
         resolve();
     });
@@ -179,6 +180,18 @@ var addCategory = function(req, res) {
         res.sendStatus(200);
     } else {
         res.sendStatus(501);
+    }
+};
+
+var displayMethod = function(req, res) {
+    var method = req.body.method;
+    console.log(method);
+    if(method === 'items' || method === 'cards') {
+        settings.current.view = method;
+        settings.save();
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(500);
     }
 };
 

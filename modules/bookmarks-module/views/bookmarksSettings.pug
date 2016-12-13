@@ -14,6 +14,8 @@ paper-material(id= "addBookmark", class="settingsMaterial")
                 input(type="hidden", name="category", value="{{category}}")
                 paper-toast(id= "noCategoryToast", text= "Please, select an category")
                 paper-toast(id= "errorCategoryToast", text= "Error while adding new category")
+                paper-toast#displayMethodToast(text="Display method updated")
+
         paper-button(onclick= "addBookmark()", class= "settingsButton")
             iron-icon(icon="check")
             |Add
@@ -78,3 +80,15 @@ paper-material(id= "deleteBookmark", class="settingsMaterial")
                                 paper-item-body(two-line)
                                     div= bookmark.name
                                     div(secondary)= bookmark.url
+
+
+paper-material.settingsMaterial
+    div.settingsTitle
+        |Change display method
+    div.settingsContent
+        if view === 'items'
+            paper-toggle-button#displayMethodMenu(checked)
+                |Use item view
+        else
+            paper-toggle-button#displayMethodMenu
+                |Use item view

@@ -75,3 +75,22 @@ function copyToClipboard(text) {
     document.body.removeChild(textArea);
     copiedToast.open();
 }
+
+function submitDisplayMethod() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/bookmarks/displayMethod", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    if(document.getElementById('displayMethodMenu').checked) {
+        xhttp.send("method=items");
+    } else {
+        xhttp.send("method=cards");
+    }
+    document.getElementById('displayMethodToast').open();
+}
+
+function bookmarksSetup() {
+    var displayMethodMenu = document.getElementById('displayMethodMenu');
+    displayMethodMenu.addEventListener('change', ()=> {
+        submitDisplayMethod();
+    });
+}
