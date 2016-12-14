@@ -19,6 +19,9 @@
 .currentWallpaperImage {
     display: block;
     margin: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    max-width: 94%;
     align-self: center;
 }
 
@@ -32,4 +35,14 @@
     color: rgba(1, 87, 155, 0.8);
     text-align: center;
     font-size: 110%;
+}
+
+.wideButton {
+    width:94%;
+    background: white;
+}
+
+.paddingTop {
+    padding: 0px !important;
+    padding-top: 1% !important;
 }

@@ -1,10 +1,12 @@
-div.settingsTitle
-    |Current wallpaper
+div.settingsTitle.paddingTop
+    paper-button.wideButton(onclick="wallpaperInfoCollapse.toggle()")
+        |Current wallpaper
 div.settingsContent
-    div.currentWallpaperTitle= wall.title
-    div.currentWallpaperImage
-        a(href= wall.url)
-            img.currentWallpaperImage(src= wall.url, height="400")
-    div.currentWallpaperReddit
-        = "Orginal reddit post on "
-        a(href= `https://reddit.com${wall.permalink}`, style="color: rgba(1, 87, 155, 0.8);")= `/r/${wall.subreddit}`
+    iron-collapse#wallpaperInfoCollapse.paddingTop
+        div.currentWallpaperTitle= wall.title
+        div.currentWallpaperImage
+            a(href= wall.url)
+                img.currentWallpaperImage(src= wall.url)
+        div.currentWallpaperReddit
+            = "Orginal reddit post on "
+            a(href= `https://reddit.com${wall.permalink}`, style="color: rgba(1, 87, 155, 0.8);")= `/r/${wall.subreddit}`

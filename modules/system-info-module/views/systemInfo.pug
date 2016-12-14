@@ -10,7 +10,7 @@ paper-material(elevation="1")
                             = `${uptime.days} : ${('0' + uptime.hours).slice(-2)} : ${('0' + uptime.minutes).slice(-2)}`
             when "memory"
                 if element.active
-                    div.infoContainer
+                    div.infoContainer.noPaddingTop
                         div.infoTitle
                             |Free memory
                         div.infoValue
@@ -18,7 +18,7 @@ paper-material(elevation="1")
                     paper-progress.wideSlider(value= Math.floor(((os.totalmem() - os.freemem())/os.totalmem())*100), min= '0', max= '100')
             when "loadAverage"
                 if element.active
-                    div.infoContainer
+                    div.infoContainer.noPaddingBottom
                         div.infoTitle
                             |Load average
                         div.infoValue
@@ -29,7 +29,7 @@ paper-material(elevation="1")
                         each core, index in cores
                             - var coreLoad = (load - index)*100
                             div.coreDiv
-                                div.coreNumber
-                                    = ` core #${index} `
                                 div.coreSlider
                                     paper-progress.wideSlider(value= coreLoad, min= 0, max= 100)
+                                div.coreNumber
+                                    = ` core ${index} `

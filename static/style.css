@@ -8,10 +8,16 @@ body {
 }
 
 paper-material {
-    background-color: white;
     padding: 1% 2% 1% 2%;
-    margin: 2%;
+    margin: 3%;
+    margin-top: 2%;
+    margin-bottom: 2%;
     background-color: rgba(255, 255, 255, 0.85);
+}
+
+:root {
+    --paper-fab-background: rgba(2, 104, 186, 1);
+    --paper-fab-keyboard-focus-background: rgba(2, 104, 186, 1);;
 }
 
 #mainFab {
@@ -46,6 +52,18 @@ paper-material {
     text-align: center;
     color: rgba(1, 87, 155, 0.8);
     padding: 1%;
+}
+
+.noPaddingBottom {
+    padding-bottom: 0px !important;
+}
+
+.noPaddingTop {
+    padding-top: 0px !important;
+}
+
+.noPadding {
+    padding: 0px !important;
 }
 
 .settingsContent {

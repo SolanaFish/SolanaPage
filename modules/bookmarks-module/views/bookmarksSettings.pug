@@ -1,6 +1,6 @@
 paper-material#addBookmark.settingsMaterial
     template#addBookmarkTemplate(is= "dom-bind")
-        div.settingsTitle
+        div.settingsTitle.noPaddingBottom
             |Add new bookmark:
         div.settingsContent
             form#addBookmarkForm(is= "iron-form", action= "/bookmarks/addBookmark", method="POST")
@@ -33,7 +33,7 @@ paper-material#addBookmark.settingsMaterial
                     |Add
 
 paper-material#deleteCategory.settingsMaterial
-    div.settingsTitle
+    div.settingsTitle.noPaddingBottom
         |Delete category:
     div.deleteMaterial.settingsContent(role="listbox")
         each category in bookmarks.categories
@@ -44,7 +44,7 @@ paper-material#deleteCategory.settingsMaterial
                     div('secondary')
                         =`${category.bookmarks.length} bookmarks in this category`
                 paper-icon-button(icon="clear", onclick=`deleteCategory('${category.name}')`)
-paper-material#deleteBookmark.settingsMaterial
+paper-material#deleteBookmark.settingsMaterial.noPadding
     div.settingsTitle
         |Delete bookmark:
     div.settingsContent
