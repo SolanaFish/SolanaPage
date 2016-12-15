@@ -1,0 +1,27 @@
+:root {
+    /* Theme variables */
+    /* Color of apps background */
+    --background-color: rgba(255, 255, 255, 1);
+    /* Accent colors */
+    /* Accent 1 is applied to titles and paper cards */
+    --accent1-color: rgba(80, 220, 255, 0.9);
+    /* Accent 2 is applied to progress bars*/
+    --accent2-color: #FFEB3B;
+    /* Accent 3 is applied to fav's title-bar's toggle-buttons and sliders*/
+    --accent3-color: #2962FF;
+    /* Material color is applied to all paper-material elements */
+    --material-color: rgba(25, 25, 25, 0.85);
+    /* Item color is applied to all paper-item elements */
+    --item-color: white;
+    /* Color applied to light buttons */
+    --button-light-color: rgba(255, 255, 255, 0.8);
+    /* Color applied to dark buttons */
+    --button-dark-color: #757575;
+    /* Color applied to links (regardlessly of theri state) */
+    --link-color: black;
+    /* Color applied to paper-drawers */
+    --drawer-color: white;
+    /* Default color of text */
+    --text-color: white;
+    /* End of Theme variables */
+}
