@@ -69,6 +69,7 @@ var addBookmark = function(req, res) {
     var name = req.body.bookmarkName;
     var link = req.body.bookmarkLink;
     var category = req.body.category;
+
     if (name !== "" && link !== "" && category !== "") {
         var categoryIndex = findCategory(category);
         if (categoryIndex != -1) {
@@ -83,7 +84,7 @@ var addBookmark = function(req, res) {
                 };
                 settings.current.bookmarks.categories[categoryIndex].bookmarks.push(newBookmark);
                 settings.save();
-                console.log(newBookmark.url);
+                // Generating thumbnail
                 webshot(newBookmark.url, 'temp.png', {
                     phantomConfig: {
                         'ssl-protocol': 'any',
@@ -109,7 +110,7 @@ var addBookmark = function(req, res) {
                 });
             }
         } else {
-            console.log('No category' + req.body.category);
+            console.log('No category');
             res.sendStatus(501);
         }
     } else {
@@ -141,16 +142,19 @@ var deleteBookmark = function(req, res) {
             res.sendStatus(501);
         }
     } else {
-        console.log('Wrong category');
+        console.log('Category does not exist');
         res.sendStatus(501);
     }
 };
 
 var deleteCategory = function(req, res) {
     var category = req.body.name;
+
     var foundCategory = findCategory(category);
+
     if (foundCategory != -1) {
         var delCategory = settings.current.bookmarks.categories[foundCategory];
+        // If the are bookmarks in this category clear their thumbnails
         if (delCategory.length > 0) {
             delCategory.forEach((bookmark) => {
                 fs.unlink(`./thumbnails/${delBookmark.thumbnail}`, (err) => {
@@ -170,6 +174,7 @@ var deleteCategory = function(req, res) {
 
 var addCategory = function(req, res) {
     var categoryName = req.body.name;
+
     if (findCategory(categoryName) == -1) {
         var newCategory = {
             name: categoryName,
@@ -185,6 +190,7 @@ var addCategory = function(req, res) {
 
 var displayMethod = function(req, res) {
     var method = req.body.method;
+
     if(method === 'items' || method === 'cards') {
         settings.current.view = method;
         settings.save();
@@ -192,10 +198,6 @@ var displayMethod = function(req, res) {
     } else {
         res.sendStatus(500);
     }
-};
-
-var scriptJS = function(req, res) {
-    res.sendFile(__dirname + "/script.js");
 };
 
 module.exports.getSettings = function() {

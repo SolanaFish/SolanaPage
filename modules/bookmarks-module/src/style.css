@@ -26,13 +26,6 @@ paper-card {
     padding: 0%;
 }
 
-.deleteButton {
-    color: white;
-    background-color: #EF5350;
-    width: 100%;
-    margin: 1%;
-}
-
 .bookmarksLink {
     font-size: 20px;
     color: #D81B60;
@@ -46,11 +39,6 @@ paper-card {
 
 .deleteMaterial {
     padding: 1%;
-}
-
-.deleteBookmarkCard {
-    --paper-card-header-color: #000;
-    flex: 0 0 auto;
 }
 
 .deleteBookmarksContent {

@@ -1,8 +1,3 @@
-function OpenInNewTab(url) {
-    var win = window.open(url, '_blank');
-    win.focus();
-}
-
 function submitActiveModules() {
     let activeModulesButtons = Array.prototype.slice.call(document.getElementById('activeModulesDiv').children);
     let activeModulesJSON = [];

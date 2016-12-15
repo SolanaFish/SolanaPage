@@ -80,6 +80,7 @@ function getUrlsFromSubreddit(subreddit) {
                 var subreddit = element.data.subreddit;
                 var title = element.data.title;
 
+                // If checking urls is active then try to fetch wallpaper from source
                 if (settings.current.checkUrls) {
                     var res;
                     try {
@@ -87,7 +88,7 @@ function getUrlsFromSubreddit(subreddit) {
                             timeout: 500
                         });
                     } catch (e) {} finally {
-                        if (res && res.statusCode != 404) {
+                        if (res && res.statusCode != 404) { // If 404 skip adding this wallpaper
                             urls.push({
                                 url,
                                 permalink,
@@ -148,9 +149,6 @@ var randomWall = (req, res) => {
     });
 };
 
-var scriptJS = (req, res) => {
-    res.sendFile(`${__dirname}/script.js`);
-};
 
 var setRefresh = (req, res) => {
     const refresh = parseInt(req.body.refresh);
