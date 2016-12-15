@@ -31,7 +31,7 @@ var settings = {
 
 function serverLog(text) {
     var date = new Date();
-    console.log("[ " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " ] " + text);
+    console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
 }
 
 function getRandomWallpaper() {
