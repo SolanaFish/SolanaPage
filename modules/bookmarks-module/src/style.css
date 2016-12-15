@@ -1,12 +1,12 @@
 paper-card {
     margin: 1%;
-    color: #D81B60;
-    --paper-card-header-color: white;
+    color: var(--accent2-color);
+    --paper-card-header-color: var(--item-color);
     text-align: center;
 }
 
 #bookmarkTabs {
-    background-color: #D81B60;
+    background-color: var(--accent2-color);
     color: white;
 }
 
@@ -19,7 +19,7 @@ paper-card {
 }
 
 #bookmarkTabs {
-    --paper-tabs-selection-bar-color: #0091EA;
+    --paper-tabs-selection-bar-color: var(--accent1-color);
 }
 
 #bookmarksMaterial {
@@ -28,11 +28,11 @@ paper-card {
 
 .bookmarksLink {
     font-size: 20px;
-    color: #D81B60;
+    color: var(--accent2-color);
 }
 
 .bookmarkTabs {
-    background-color: #D81B60;
+    background-color: var(--accent2-color);
     color: white;
     margin-right: 2%;
 }
@@ -46,26 +46,26 @@ paper-card {
 }
 
 .deleteCategoryItem {
-    background-color: white;
+    background-color: var(--item-color);
     margin: 1%;
 }
 
 .bookmarksItemsItem {
-    background-color: white;
+    background-color: var(--item-color);
     margin: 1%;
     display: flex;
     flex-direction: row;
 }
 
 .bookmarksItemsDrawerItem {
-    background-color: white;
+    background-color: var(--item-color);
     margin: 0px;
 }
 
 
 .bookmarksItemsLink {
     text-decoration: none;
-    color: black;
+    color: var(--link-color);
 }
 
 .bookmarksItemsContainer {
@@ -85,7 +85,7 @@ paper-card {
     padding: 1%;
     padding-right: 0px;
     padding-left: 0px;
-    background-color: white;
+    background-color: var(--drawer-color);
 }
 
 .bookmarksItemsContent {

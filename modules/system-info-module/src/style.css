@@ -1,5 +1,5 @@
 .wideProgress {
-    --paper-progress-active-color: #D81B60;
+    --paper-progress-active-color: var(--accent2-color);
     --paper-progress-container-color: #9E9E9E;
     width: 92%;
     margin-left: 4%;
@@ -7,7 +7,7 @@
 }
 
 .coreDiv {
-    --paper-progress-active-color: #D81B60;
+    --paper-progress-active-color: var(--accent2-color);
     width: 100%;
     margin:10px;
     flex: 0 1 auto;
@@ -47,7 +47,7 @@
 
 .infoTitle {
     font-size: 110%;
-    color: rgba(1, 87, 155, 0.8);
+    color: var(--accent1-color);
     flex: 0 1 auto;
 }
 

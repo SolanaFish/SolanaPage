@@ -13,20 +13,20 @@
 }
 
 .currentWallpaperTitle {
-    color: rgba(1, 87, 155, 0.8);
+    color: var(--accent1-color);
     text-align: center;
     font-size: 110%;
 }
 
 .currentWallpaperReddit {
-    color: rgba(1, 87, 155, 0.8);
+    color: var(--accent1-color);
     text-align: center;
     font-size: 110%;
 }
 
 .wideButton {
     width:94%;
-    background: white;
+    background: var(--item-color);
 }
 
 .paddingTop {
