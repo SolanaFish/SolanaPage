@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 describe('system-info-module', () => {
     var infoModule;
     var app;
-    before(() => {
+    before((done) => {
         app = express();
         infoModule = rewire('../modules/system-info-module/src/system.js');
         infoModule(app).then(() => {
@@ -22,7 +22,7 @@ describe('system-info-module', () => {
         var settings = infoModule.__get__('settings');
         settings.current.should.have.property('elements').and.not.be.empty;
     });
-    it('Should be able to render info', ()=> {
+    it('Should be able to render info', () => {
         infoModule.getMainView().should.not.be.empty;
     });
 });

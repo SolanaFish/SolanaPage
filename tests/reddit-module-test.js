@@ -1,3 +1,4 @@
+const fs = require('fs');
 const rewire = require('rewire');
 const express = require('express');
 const chai = require('chai');
@@ -5,19 +6,33 @@ const should = chai.should();
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
+const moduleDir = '../modules/reddit-wallpapers-module/src/reddit.js';
+const settingsDir = './reddittestsettings.json';
+
 describe('reddit-wallpapers-module', function() {
     var redditModule;
     var app;
-    before(function(done) {
+
+    before((done) => {
         app = express();
-        redditModule = rewire('../modules/reddit-wallpapers-module/src/reddit.js');
+        redditModule = rewire(moduleDir);
+        redditModule.__set__({
+            settingsDir: settingsDir
+        });
         redditModule(app).then(() => {
-            redditModule.__set__({
-                settingsDir: './reddittestsettings.json'
-            })
             done();
         });
     });
+
+    after((done) => {
+        fs.unlink(settingsDir, (err) => {
+            if (err) {
+                console.log(err);
+            }
+            done();
+        });
+    });
+
     it('Should have all settings loaded', () => {
         var settings = redditModule.__get__('settings');
         settings.current.should.have.property('subreddits').and.not.be.empty;
