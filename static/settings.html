@@ -21,12 +21,13 @@
     <template>
         <paper-header-panel>
             <paper-toolbar id= "header">
+                <paper-icon-button icon="menu" onclick="settingsDrawer.togglePanel()"></paper-icon-button>
                 <div>
                     Settings
                 </div>
             </paper-toolbar>
             <div>
-                <paper-drawer-panel class="flex">
+                <paper-drawer-panel class="flex" id="settingsDrawer">
                     <paper-header-panel drawer>
                         <div>
                             <content select="#SettingsDrawerOptions"></content>
