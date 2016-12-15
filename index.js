@@ -196,7 +196,7 @@ var getCss = () => {
                     modules.forEach((moduleItem) => {
                         filePromises.push(new Promise((resolve, reject) => {
                             fs.readFile(`${theme}/${moduleItem.moduleName}.css`, (err, data) => {
-                                if(err) {
+                                if (err) {
                                     cssPromises.push(moduleItem.getCss());
                                 } else {
                                     cssPromises.push(Promise.resolve(data));
@@ -205,11 +205,11 @@ var getCss = () => {
                             });
                         }));
                     });
-                    Promise.all(filePromises).then(()=> {
+                    Promise.all(filePromises).then(() => {
                         resolve(cssPromises);
                     });
                 });
-            }).then((cssPromises)=> {
+            }).then((cssPromises) => {
                 Promise.all(cssPromises).then((value) => {
                     var csses = [];
                     value.forEach((css) => {
@@ -225,35 +225,50 @@ var getCss = () => {
     });
 };
 
+var getListOfThemes = () => {
+    return new Promise((resolve, reject) => {
+        fs.readdir('./themes', (err, files) => {
+            if (err) {
+                resolve();
+            } else {
+                resolve(files);
+            }
+        });
+    });
+};
+
 app.get('/', function(req, res) {
     serverLog("Serving main page");
     var renderInfo = {
         settings: settings.current,
         modules: [],
     };
-
-    renderInfo.modules.push({
-        module: "General",
-        settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
-            settings: settings.current
-        })
-    });
-    Promise.all([getMainView(), getSettings(), getScript(), getCss()]).then((value) => {
-        modules.forEach((moduleItem, argIndex) => {
-            var moduleObject = {
-                module: moduleItem.niceName(),
-                mainView: value[0][argIndex],
-                settingsView: value[1][argIndex],
-                script: value[2][argIndex],
-                css: value[3][argIndex]
-            };
-            renderInfo.modules.push(moduleObject);
+    getListOfThemes().then((themes) => {
+        renderInfo.modules.push({
+            module: "General",
+            settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
+                settings: settings.current,
+                themes: themes
+            })
         });
-        res.render('app', renderInfo);
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).send({
-            error: 'Something went wrong, sorry'
+    }).then(() => {
+        Promise.all([getMainView(), getSettings(), getScript(), getCss()]).then((value) => {
+            modules.forEach((moduleItem, argIndex) => {
+                var moduleObject = {
+                    module: moduleItem.niceName(),
+                    mainView: value[0][argIndex],
+                    settingsView: value[1][argIndex],
+                    script: value[2][argIndex],
+                    css: value[3][argIndex]
+                };
+                renderInfo.modules.push(moduleObject);
+            });
+            res.render('app', renderInfo);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).send({
+                error: 'Something went wrong, sorry'
+            });
         });
     });
 });
@@ -287,6 +302,19 @@ app.post('/updateModules', uep, (req, res) => {
 
 app.post('/changeWallpaper', upload.single('wallpaper'), (req, res) => {
     res.redirect('/');
+});
+
+app.post('/changeTheme', uep, (req, res) => {
+    var theme = req.body.theme;
+    fs.open(`./themes/${theme}`, 'r', (err, fd) => {
+        if (err) {
+            res.sendStatus(401);
+        } else {
+            settings.current.theme = theme;
+            settings.save();
+            res.sendStatus(200);
+        }
+    });
 });
 
 app.get('/thumbnails/:id', (req, res) => {

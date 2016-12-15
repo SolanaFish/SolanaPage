@@ -18,6 +18,19 @@ template#activeModules(is= "dom-bind")
             iron-icon(icon= "check")
             |ok
     paper-material.settingsMaterial
+        div.settingsTitle
+            |Change theme
+        div.settingsContent
+            paper-dropdown-menu#themeDropdownMenu(label="Choose your theme")
+                paper-listbox.dropdown-content
+                    each theme in themes
+                        paper-item= theme
+        paper-button.settingsButton(onclick="submitTheme()")
+            iron-icon(icon="check")
+            |ok
+        paper-toast#themeToast
+            |Theme updated
+    paper-material.settingsMaterial
         div.settingsTitle.noPaddingBottom
             |Info
         div.settingsContent
