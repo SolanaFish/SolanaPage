@@ -1,20 +1,124 @@
+:root {
+    /* Theme variables */
+    /* Color of apps background */
+    --background-color: rgba(2, 104, 186, 1);
+    /* Accent colors */
+    /* Accent 1 is applied to titles and paper cards */
+    --accent1-color: rgba(1, 87, 155, 0.8);
+    /* Accent 2 is applied to progress bars*/
+    --accent2-color: #D81B60;
+    /* Accent 3 is applied to fav's title-bar's toggle-buttons and sliders*/
+    --accent3-color: #3f51b5;
+    /* Material color is applied to all paper-material elements */
+    --material-color: rgba(255, 255, 255, 0.85);
+    /* Item color is applied to all paper-item elements */
+    --item-color: white;
+    /* Color applied to light buttons */
+    --button-light-color: rgba(255, 255, 255, 0);
+    /* Color applied to dark buttons */
+    --button-dark-color: #424242;
+    /* Color applied to links (regardlessly of theri state) */
+    --link-color: black;
+    /* Color applied to paper-drawers */
+    --drawer-color: white;
+    /* End of Theme variables */
+}
+
+:root {
+    --paper-toggle-button-checked-bar-color: var(--accent3-color);
+    --paper-toggle-button-checked-button-color: var(--accent3-color);
+    --paper-toggle-button-checked-ink-color: var(--accent3-color);
+    --paper-fab-background: var(--accent3-color);
+}
+
 body {
     background-image: url("/wallpaper.jpg");
-    background-color: #E91E63;
+    background-color: var(--background-color);
     background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: 100% 100%;
     font-family: 'Roboto', sans-serif;
 }
 
 paper-material {
-    background-color: white;
     padding: 1% 2% 1% 2%;
-    margin: 2%;
+    margin: 3%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background-color: var(--material-color);
 }
 
-#mainFab, #settingsFab {
+paper-toolbar {
+    background: var(--accent3-color) !important;
+}
+
+#mainFab {
     position: fixed;
     left: 3%;
     bottom: 3%;
     z-index: 1000;
+}
+
+#settingsFab {
+    position: fixed;
+    left: 228px;
+    bottom: 3%;
+    z-index: 1000;
+}
+
+.drawerButton {
+    width: 100%;
+    margin: 1%;
+}
+
+.settingsMaterial {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.settingsTitle {
+    font-size: 125%;
+    flex: 1 0 auto;
+    width: 100%;
+    text-align: center;
+    color: var(--accent1-color);
+    padding: 1%;
+}
+
+.noPaddingBottom {
+    padding-bottom: 0px !important;
+}
+
+.noPaddingTop {
+    padding-top: 0px !important;
+}
+
+.noPadding {
+    padding: 0px !important;
+}
+
+.settingsContent {
+    padding-bottom: 1%;
+    flex: 1 0 auto;
+}
+
+.settingsButton {
+    flex: 0 1 auto;
+    margin-right: auto;
+    align-self: flex-end;
+}
+
+.blackUrl {
+    color: var(--link-color);
+}
+
+.paperItemLinkA {
+    text-decoration: none;
+    color: var(--link-color);
+}
+
+.paperItemLinkItem {
+    background-color: var(--item-color);
+    margin: 1%;
 }

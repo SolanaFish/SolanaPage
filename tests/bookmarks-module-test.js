@@ -11,6 +11,7 @@ const settingsDir = './bookmarkstestsettings.json';
 describe('bookmarks-module', () => {
     var bookmarksModule;
     var app;
+
     before((done) => {
         app = express();
         bookmarksModule = rewire(moduleDir);
@@ -26,6 +27,7 @@ describe('bookmarks-module', () => {
             done();
         });
     });
+
     after((done) => {
         fs.readdirSync('./thumbnails').forEach((file) => {
             fs.unlinkSync(`./thumbnails/${file}`);
@@ -38,6 +40,7 @@ describe('bookmarks-module', () => {
             }
         });
     });
+
     it('Should have all settings loaded', () => {
         var settings = bookmarksModule.__get__('settings');
         settings.current.should.have.property('bookmarks');
@@ -104,7 +107,8 @@ describe('bookmarks-module', () => {
                             url: 'url22'
                         }]
                     }]
-                }
+                },
+                view:'items'
             }
         });
         var findBookmark = bookmarksModule.__get__('findBookmark');
@@ -194,5 +198,50 @@ describe('bookmarks-module', () => {
                 findCategory('cat4').should.be.equal(-1);
                 done();
             });
+    });
+    it('Should be able to change display method to items', (done) => {
+        chai.request(app)
+            .post('/bookmarks/displayMethod')
+            .set('content-type', 'application/x-www-form-urlencoded')
+            .send({
+                method: 'items'
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                var settings = bookmarksModule.__get__('settings');
+                settings.current.view.should.be.equal('items');
+                done();
+            });
+    });
+
+    it('Should be able to change display method to cards', (done) => {
+        chai.request(app)
+        .post('/bookmarks/displayMethod')
+        .set('content-type', 'application/x-www-form-urlencoded')
+        .send({
+            method: 'cards'
+        })
+        .end((err, res) => {
+            res.should.have.status(200);
+            var settings = bookmarksModule.__get__('settings');
+            settings.current.view.should.be.equal('cards');
+            done();
+        });
+    });
+
+    it('Should not change display method if recived method is invalid', (done) => {
+        var lastView = bookmarksModule.__get__('settings').current.view;
+        chai.request(app)
+        .post('/bookmarks/displayMethod')
+        .set('content-type', 'application/x-www-form-urlencoded')
+        .send({
+            method: 'wrongDisplayMethod'
+        })
+        .end((err, res) => {
+            res.should.have.status(500);
+            var settings = bookmarksModule.__get__('settings');
+            settings.current.view.should.be.equal(lastView);
+            done();
+        });
     });
 });

@@ -1,17 +1,38 @@
-template(is= "dom-bind", id= "activeModules")
-    div(id='activeModulesDiv')
-        | Choose active modules:
-        br
-        each module in settings.modules
-            paper-toggle-button(id='test', name=module.name, checked= `${module.active}`)= module.name
-    paper-button(onclick= "submitActiveModules()")
-        iron-icon(icon= "check")
-        |OK
-    br
-    br
-    | Upload wallpaper:
-    form(id="wallpaperForm", method="post", action="/changeWallpaper", enctype="multipart/form-data")
-        paper-input(name ="wallpaper", type="file", id="wallpaper")
-        paper-button(onclick="document.getElementById('wallpaperForm').submit()")
+template#activeModules(is= "dom-bind")
+    paper-material#activeModulesDiv.settingsMaterial
+        div.settingsTitle
+            | Choose active modules:
+        div.settingsContent
+            each module in settings.modules
+                paper-toggle-button(name=module.name, checked= `${module.active}`)= module.name
+        paper-button.settingsButton(onclick= "submitActiveModules()")
+            iron-icon(icon= "check")
+            |OK
+    paper-material.settingsMaterial
+        div.settingsTitle
+            | Upload wallpaper:
+        div.settingsContent
+            form#wallpaperForm(method="post", action="/changeWallpaper", enctype="multipart/form-data")
+                paper-input#wallpaper(name ="wallpaper", type="file")
+        paper-button.settingsButton(onclick="document.getElementById('wallpaperForm').submit()")
             iron-icon(icon= "check")
             |ok
+    paper-material.settingsMaterial
+        div.settingsTitle.noPaddingBottom
+            |Info
+        div.settingsContent
+            a.paperItemLinkA(href="https://github.com/SolanaFish")
+                paper-item.paperItemLinkItem
+                    paper-item-body(two-line)
+                        div="App mady by SolanaFish"
+                        div(secondary)="https://github.com/SolanaFish"
+            a.paperItemLinkA(href="https://github.com/SolanaFish/SolanaPage")
+                paper-item.paperItemLinkItem
+                    paper-item-body(two-line)
+                        div="Repository"
+                        div(secondary)="https://github.com/SolanaFish/SolanaPage"
+            a.paperItemLinkA(href="https://github.com/SolanaFish/SolanaPage/issues")
+                paper-item.paperItemLinkItem
+                    paper-item-body(two-line)
+                        div="If you have any problems please open an issue here"
+                        div(secondary)="https://github.com/SolanaFish/SolanaPage/issues"

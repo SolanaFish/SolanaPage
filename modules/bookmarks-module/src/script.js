@@ -11,18 +11,31 @@ function addBookmark() {
     }
 }
 
-function sendNewCategory(categoryName) {
-    var xhttp = new XMLHttpRequest();
-    var addBookmark = document.querySelector("#addBookmark");
-    addBookmark.category.value = categoryName;
-    xhttp.open("POST", "/bookmarks/addNewCategory", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("name=" + categoryName);
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            submitForm('addBookmark');
+function addBookmarkWithNewCategory() {
+    var newCategory = document.getElementById('newCategory');
+    sendNewCategory(newCategory.value).then(() => {
+        var template = document.querySelector("#addBookmarkTemplate");
+        template.category = newCategory.value;
+        template.$.addBookmarkForm.submit();
+    }).catch((err)=> {
+        if(err) {
+            document.getElementById('errorCategoryToast').open();
         }
-    };
+    });
+}
+
+function sendNewCategory(categoryName) {
+    return new Promise(function(resolve, reject) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/bookmarks/addNewCategory", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("name=" + categoryName);
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                resolve(200);
+            }
+        };
+    });
 }
 
 function deleteCategory(categoryName) {
@@ -30,7 +43,6 @@ function deleteCategory(categoryName) {
     xhttp.open("POST", "/bookmarks/deleteCategory", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("name=" + categoryName);
-    delBookmarks();
 }
 
 function deleteBookmark(name, category) {
@@ -38,5 +50,47 @@ function deleteBookmark(name, category) {
     xhttp.open("POST", "/bookmarks/deleteBookmark", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("url=" + name + "&category=" + category);
-    delBookmarks();
+}
+
+function copyToClipboard(text) {
+    var textArea = document.createElement('textarea');
+    textArea.style.postition = "fixed";
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+        document.execCommand('copy');
+    } catch (err) {
+    } finally {
+    }
+    document.body.removeChild(textArea);
+    copiedToast.open();
+}
+
+function submitDisplayMethod() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/bookmarks/displayMethod", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    if(document.getElementById('displayMethodMenu').checked) {
+        xhttp.send("method=items");
+    } else {
+        xhttp.send("method=cards");
+    }
+    document.getElementById('displayMethodToast').open();
+}
+
+function bookmarksSetup() {
+    var displayMethodMenu = document.getElementById('displayMethodMenu');
+    displayMethodMenu.addEventListener('change', ()=> {
+        submitDisplayMethod();
+    });
 }

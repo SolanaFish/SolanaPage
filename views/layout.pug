@@ -17,7 +17,9 @@ html
         link(rel= "import", href= "/bower_components/neon-animation/animations/hero-animation.html")
         link(rel= "import", href= "/bower_components/neon-animation/animations/fade-out-animation.html")
         link(rel= "import", href= "/bower_components/neon-animation/animations/fade-in-animation.html")
-        link(rel= "import", href= "/bower_components/neon-animation/animations/slide-from-left-animation.html")
+        link(rel= "import", href= "/bower_components/neon-animation/animations/slide-from-right-animation.html")
+        link(rel= "import", href= "/bower_components/neon-animation/animations/slide-right-animation.html")
+        link(rel= "import", href= "/bower_components/neon-animation/animations/slide-from-bottom-animation.html")
         link(rel= "import", href= "/bower_components/neon-animation/neon-animated-pages.html")
 
         link(rel= "import", href= "/bower_components/paper-toolbar/paper-toolbar.html")
@@ -25,18 +27,20 @@ html
         link(rel= "import", href= "/bower_components/paper-card/paper-card.html")
         link(rel= "import", href= "/bower_components/paper-material/paper-material.html")
         link(rel= "import", href= "/bower_components/paper-input/paper-input.html")
+        link(rel= "import", href= "/bower_components/paper-icon-button/paper-icon-button.html")
         link(rel= "import", href= "/bower_components/paper-slider/paper-slider.html")
-
         link(rel= "import", href= "/bower_components/paper-button/paper-button.html")
         link(rel= "import", href= "/bower_components/paper-tabs/paper-tabs.html")
         link(rel= "import", href= "/bower_components/paper-dropdown-menu/paper-dropdown-menu.html")
         link(rel= "import", href= "/bower_components/paper-listbox/paper-listbox.html")
         link(rel= "import", href= "/bower_components/paper-item/paper-item.html")
+        link(rel= "import", href= "/bower_components/paper-item/paper-item-body.html")
         link(rel= "import", href= "/bower_components/paper-menu/paper-menu.html")
         link(rel= "import", href= "/bower_components/paper-dialog/paper-dialog.html")
         link(rel= "import", href= "/bower_components/paper-toast/paper-toast.html")
         link(rel= "import", href= "/bower_components/paper-fab/paper-fab.html")
         link(rel= "import", href= "/bower_components/paper-toggle-button/paper-toggle-button.html")
+
         link(rel= "import", href= "/bower_components/iron-icons/av-icons.html")
         link(rel= "import", href= "/bower_components/iron-form/iron-form.html")
         link(rel= "import", href= "/bower_components/iron-icons/iron-icons.html")
@@ -47,13 +51,13 @@ html
         style
             block css
 
-    body(class= "fullbleed vertical layout")
-        template(is= "dom-bind", id="app")
-            neon-animated-pages(class= "flex", selected="[[selected]]")
-                main-page(class="flex", id= "mainPage")
+    body.fullbleed.vertical.layout
+        template#app(is= "dom-bind")
+            neon-animated-pages.flex(selected="[[selected]]")
+                main-page#mainPage.flex
                     div
                         block main-page
-                settings-page(class="flex", id= "settingsPage")
+                settings-page#settingsPage.flex
                     block settings-page
         block scripts
             script(type="text/javascript", src="static/mainpage.js")

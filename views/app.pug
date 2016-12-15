@@ -6,14 +6,20 @@ block title
 block append main-page
     each module in modules
         if module.mainView
-            div(id= module.name, class= "modules")
+            div.modules(id= module.name)
                 != module.mainView
 
 block append settings-page
-    each module in modules
-        if module.settingsView
-            div(id= module.name, class= "modules")
-                paper-material
+    div#SettingsDrawerOptions
+        paper-menu(selected="{{settingsSelected}}")
+            each module in modules
+                if module.settingsView
+                    paper-item
+                        = module.module
+    iron-pages#settingsPages(selected="[[settingsSelected]]", entry-animation="slide-from-right-animation" , exit-animation="slide-right-animation")
+        each module in modules
+            if module.settingsView
+                neon-animatable.modules(id= module.name)
                     != module.settingsView
 
 block append scripts

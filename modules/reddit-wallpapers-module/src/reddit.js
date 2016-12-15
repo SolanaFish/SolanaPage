@@ -31,7 +31,7 @@ var settings = {
 
 function serverLog(text) {
     var date = new Date();
-    console.log("[ " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " ] " + text);
+    console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
 }
 
 function getRandomWallpaper() {
@@ -80,15 +80,15 @@ function getUrlsFromSubreddit(subreddit) {
                 var subreddit = element.data.subreddit;
                 var title = element.data.title;
 
+                // If checking urls is active then try to fetch wallpaper from source
                 if (settings.current.checkUrls) {
                     var res;
                     try {
                         res = nodeFetchSync('GET', url, {
                             timeout: 500
                         });
-                    } catch (e) {
-                    } finally {
-                        if (res && res.statusCode != 404) {
+                    } catch (e) {} finally {
+                        if (res && res.statusCode != 404) { // If 404 skip adding this wallpaper
                             urls.push({
                                 url,
                                 permalink,
@@ -149,9 +149,6 @@ var randomWall = (req, res) => {
     });
 };
 
-var scriptJS = (req, res) => {
-    res.sendFile(`${__dirname}/script.js`);
-};
 
 var setRefresh = (req, res) => {
     const refresh = parseInt(req.body.refresh);
@@ -200,7 +197,7 @@ module.exports.getMainView = () => {
 module.exports.getScript = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/script.js`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
@@ -212,11 +209,15 @@ module.exports.getScript = function() {
 module.exports.getCss = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
             }
         });
     });
+};
+
+module.exports.niceName = function() {
+    return 'Reddit backgrounds';
 };

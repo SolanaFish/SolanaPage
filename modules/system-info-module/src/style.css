@@ -1,10 +1,67 @@
-.wideSlider {
-    --paper-progress-active-color: #D81B60;
-    width: 100%;
+.wideProgress {
+    --paper-progress-active-color: var(--accent2-color);
+    --paper-progress-container-color: #9E9E9E;
+    width: 92%;
+    margin-left: 4%;
+    margin-right: 4%;
 }
-.coreSlider {
-    --paper-progress-active-color: #D81B60;
+
+.coreDiv {
+    --paper-progress-active-color: var(--accent2-color);
     width: 100%;
     margin:10px;
-    @apply(--layout-flex);
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.coreDiv:first-child {
+    margin-left: 0px;
+}
+
+.coreDiv:last-child {
+    margin-right: 0px;
+}
+
+.coreSlider {
+    flex: 0 1 100%;
+    width: 100%;
+    margin-top: 1%;
+}
+
+.coreNumber {
+    flex: 1 0 auto;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1%;
+    margin-bottom: 0%;
+    padding: 1%;
+}
+
+.infoTitle {
+    font-size: 110%;
+    color: var(--accent1-color);
+    flex: 0 1 auto;
+}
+
+.infoValue {
+    font-size: 105%;
+    flex: 0 1 auto;
+}
+
+.loadSliderContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-bottom: 1%;
+    align-items: flex-start;;
 }

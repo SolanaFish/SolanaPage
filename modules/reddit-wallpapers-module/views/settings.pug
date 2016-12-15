@@ -1,21 +1,36 @@
 if settings.subreddits === []
-    div(class="error")
-        |No subreddits specified! Module won't work!
-paper-button(onclick="document.getElementById('wallpaperInfo').toggle()", toggles, class="collapseButton")= "Current wallpaper"
-iron-collapse(id= "wallpaperInfo")
-br
-paper-toast(id= "subredditsToast", text= "Subreddits settings saved!")
-paper-toast(id= "refreshToast", text= "Refresh settings saved!")
-paper-toast(id= "linksToast", text= "Link settings saved!")
-paper-toast(id= "checkUrlsToast", text= "Link-check settings saved!")
-|How often to update reddit library:
-paper-slider(id= "redditRefreshSlider", pin, snaps, editable, min="30", max= "600", max-markers= "30", step= "30", value= settings.refresh, onload="setupSlider")
-|How many links to fetch from every reddit:
-paper-slider(id= "redditLinksSlider", pin, snaps, editable, min="20", max= "200", max-markers= "30", step= "5", value= settings.links, onload="setupSlider")
-div
-    br
-    |Manage subreddits:
-    div(id="redditInputs")
+    paper-material.error.settingsMaterial
+        div.settingsTitle
+            |No subreddits specified! Module won't work!
+paper-material#wallpaperInfo
+paper-material.settingsMaterial
+    div.settingsTitle
+        |Check images while updating wallpaper list:
+    div.settingsContent
+        paper-dialog#checkUrlsDialog(with-backdrop)
+            div.settingsTitle
+                |Checking urls
+            p
+                |You can check if all wallpapers that are beeing fetched from reddit actually load.
+                br
+                | That procces takes more time and bandwidth as all wallpapers are beeing fetched from their source.
+        paper-toggle-button#checkUrlsButton(checked= settings.checkUrls)
+            |Check images
+    paper-button.settingsButton(onclick="checkUrlsDialog.open()")
+        |What?
+paper-material.settingsMaterial
+    div.settingsTitle
+        |How often to update reddit library:
+    div.settingsContent
+        paper-slider#redditRefreshSlider.wideSlider(pin, snaps, editable, min="30", max= "600", max-markers= "30", step= "30", value= settings.refresh, onload="setupSlider")
+    div.settingsTitle
+        |How many links to fetch from every reddit:
+    div.settingsContent
+        paper-slider#redditLinksSlider.wideSlider(pin, snaps, editable, min="20", max= "100", max-markers= "30", step= "5", value= settings.links, onload="setupSlider")
+paper-material.settingsMaterial
+    div.settingsTitle
+        |Manage subreddits:
+    div#redditInputs.settingsContent
         each subreddit in settings.subreddits
             paper-input(auto-validate,pattern= "[a-zA-Z]*", error-message="Letters only", label="Input subreddit name here", value=subreddit)
                 div(prefix)
@@ -23,12 +38,11 @@ div
         paper-input(auto-validate,pattern= "[a-zA-Z]*", error-message="Letters only", label="Input subreddit name here")
             div(prefix)
                 |/r/
-    paper-button(onclick="submitSubreddits()")
+    paper-button.settingsButton(onclick="submitSubreddits()")
         iron-icon(icon="check")
         |OK
-    br
-    br
-    paper-toggle-button(id= "checkUrlsButton", checked= settings.checkUrls)
-        |Check images while updating wallpaper list
-    br
-    |Takes more time to load server but makes sure that you get wallpaper every time.
+
+paper-toast#subredditsToast(text= "Subreddits settings saved!")
+paper-toast#refreshToast(text= "Refresh settings saved!")
+paper-toast#linksToast(text= "Link settings saved!")
+paper-toast#checkUrlsToast(text= "Link-check settings saved!")

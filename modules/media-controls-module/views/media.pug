@@ -1,32 +1,21 @@
-div(id= "media-controlls")
+div#media-controlls
     paper-material
-        div(class= 'container')
-            img(src= imgUrl, id= "cover")
-            div(class= "flexChild", style= "margin:1%;")
-                div(class= "artist", id= "artist")
+        div.MediaContainer
+            img#cover.mediaPhoto(src= imgUrl)
+            div.mediaControls
+                div.artist#artist
                     = ` ${title} `
                 br
-                div(class= "title", id= "title")
+                div#title.title
                     = ` ${artist} `
                 br
-                div(class= "controls")
-                    paper-button(onClick= "mediaSend('prev')", raised, class= "controls")
+                div
+                    paper-button.controls(onClick= "mediaSend('prev')", raised)
                         iron-icon(icon= "av:fast-rewind")
                         | prev
-                    paper-button(onClick= "mediaSend('play')", raised, class= "controls")
+                    paper-button.controls(onClick= "mediaSend('play')", raised)
                         iron-icon(icon= "av:play-arrow")
                         | play
-                    paper-button(onClick= "mediaSend('next')", raised, class= "controls")
+                    paper-button.controls(onClick= "mediaSend('next')", raised)
                         iron-icon(icon= "av:fast-forward")
                         | next
-style(is= "custom-style").
-    .artist {
-        font-size:110%;
-    }
-    .title {
-        font-size:90%;
-    }
-    paper-button.controls {
-        background: #424242;
-        color:#ffffff;
-    }

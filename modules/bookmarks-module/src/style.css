@@ -1,35 +1,105 @@
 paper-card {
     margin: 1%;
-    color: #D81B60;
-    --paper-card-header-color: white;
+    color: var(--accent2-color);
+    --paper-card-header-color: var(--item-color);
     text-align: center;
 }
 
-iron-collapse {
-    margin: 2%;
+#bookmarkTabs {
+    background-color: var(--accent2-color);
+    color: white;
+}
+
+#deleteCategory {
+    padding: 0%;
+}
+
+#addNewCategoryDialog {
+    width: 80%;
 }
 
 #bookmarkTabs {
-    background-color: #D81B60;
-    color: white;
+    --paper-tabs-selection-bar-color: var(--accent1-color);
 }
 
-.deleteButton {
-    color: white;
-    background-color: #EF5350;
-    width: 100%;
+#bookmarksMaterial {
+    padding: 0%;
 }
 
 .bookmarksLink {
     font-size: 20px;
-    color: #D81B60;
+    color: var(--accent2-color);
 }
 
 .bookmarkTabs {
-    background-color: #D81B60;
+    background-color: var(--accent2-color);
     color: white;
+    margin-right: 2%;
 }
 
-.collapseButton {
-    width: 100%;
+.deleteMaterial {
+    padding: 1%;
+}
+
+.deleteBookmarksContent {
+    flex: 1 1 100%;
+}
+
+.deleteCategoryItem {
+    background-color: var(--item-color);
+    margin: 1%;
+}
+
+.bookmarksItemsItem {
+    background-color: var(--item-color);
+    margin: 1%;
+    display: flex;
+    flex-direction: row;
+}
+
+.bookmarksItemsDrawerItem {
+    background-color: var(--item-color);
+    margin: 0px;
+}
+
+
+.bookmarksItemsLink {
+    text-decoration: none;
+    color: var(--link-color);
+}
+
+.bookmarksItemsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding: 0px;
+    justify-content: space-between;
+}
+
+.bookmarksItemsDrawer {
+    min-width: 250px;
+    max-width: 400px;
+    flex: 0 0 auto;
+    margin: 0px;
+    padding: 1%;
+    padding-right: 0px;
+    padding-left: 0px;
+    background-color: var(--drawer-color);
+}
+
+.bookmarksItemsContent {
+    flex: 1 0 auto;
+}
+
+.bookmarksItemMaterial {
+    padding: 0px;
+}
+
+.paperItemHrefBody {
+    flex: 1 0 auto;
+}
+
+.paperItemHrefButton {
+    flex: 0 1 auto;
 }

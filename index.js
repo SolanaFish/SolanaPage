@@ -9,7 +9,7 @@ var uep = bodyParser.urlencoded({
     extended: false
 });
 
-var multer = require('multer');
+var multer = require('multer'); // Parser (with multipart support)
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads');
@@ -21,8 +21,6 @@ var storage = multer.diskStorage({
 var upload = multer({
     storage: storage
 });
-
-
 
 var settings = {
     load: () => {
@@ -82,78 +80,72 @@ function loadModules() {
 
 function serverLog(text) {
     var date = new Date();
-    console.log("[ " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " ] " + text);
+    console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
 }
 
-app.get('/', function(req, res) {
-    serverLog("Serving main page");
-    var renderInfo = {
-        settings: settings.current,
-        modules: [],
-    };
-    var generalCss = fs.readFile('./static/style.css', (err, data)=> {
-        if(err) {
+var getMainView = () => {
+    return new Promise((Resolve, Reject) => {
+        var mainPromises = [];
+        modules.forEach((moduleItem) => {
+            mainPromises.push(moduleItem.getMainView());
+        });
+        Promise.all(mainPromises).then((value) => {
+            var mainRendered = [];
+            value.forEach((promiseValue) => {
+                mainRendered.push(promiseValue);
+            });
+            Resolve(mainRendered);
+        }).catch((err) => {
             console.log(err);
             res.sendStatus(501);
-        } else {
-            renderInfo.modules.push({
-                module: "General",
-                settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
-                    settings: settings.current
-                }),
-                css: data
-            });
-            var settingsReady = new Promise((Resolve, Reject) => {
-                var settingsPromises = [];
-                modules.forEach((moduleItem) => {
-                    settingsPromises.push(moduleItem.getSettings());
-                });
-                Promise.all(settingsPromises).then((value) => {
-                    var settingsRendered = [];
-                    value.forEach((promiseValue) => {
-                        settingsRendered.push(promiseValue);
-                    });
-                    Resolve(settingsRendered);
-                }).catch((err) => {
-                    console.log(err);
-                    res.sendStatus(501);
-                });
-            });
-            var mainReady = new Promise((Resolve, Reject) => {
-                var mainPromises = [];
-                modules.forEach((moduleItem) => {
-                    mainPromises.push(moduleItem.getMainView());
-                });
-                Promise.all(mainPromises).then((value) => {
-                    var mainRendered = [];
-                    value.forEach((promiseValue) => {
-                        mainRendered.push(promiseValue);
-                    });
-                    Resolve(mainRendered);
-                }).catch((err) => {
-                    console.log(err);
-                    res.sendStatus(501);
-                });
-            });
+        });
+    });
+};
 
-            var scriptsReady = new Promise((Resolve, Reject) => {
-                var scriptPromises = [];
-                modules.forEach((moduleItem) => {
-                    scriptPromises.push(moduleItem.getScript());
-                });
-                Promise.all(scriptPromises).then((value) => {
-                    var scripts = [];
-                    value.forEach((script) => {
-                        scripts.push(script);
-                    });
-                    Resolve(scripts);
-                }).catch((err) => {
-                    console.log(err);
-                    res.sendStatus(501);
-                });
+var getSettings = () => {
+    return new Promise((Resolve, Reject) => {
+        var settingsPromises = [];
+        modules.forEach((moduleItem) => {
+            settingsPromises.push(moduleItem.getSettings());
+        });
+        Promise.all(settingsPromises).then((value) => {
+            var settingsRendered = [];
+            value.forEach((promiseValue) => {
+                settingsRendered.push(promiseValue);
             });
+            Resolve(settingsRendered);
+        }).catch((err) => {
+            console.log(err);
+            res.sendStatus(501);
+        });
+    });
+};
 
-            var cssReady = new Promise((Resolve, Reject) => {
+var getScript = () => {
+    return new Promise((Resolve, Reject) => {
+        var scriptPromises = [];
+        modules.forEach((moduleItem) => {
+            scriptPromises.push(moduleItem.getScript());
+        });
+        Promise.all(scriptPromises).then((value) => {
+            var scripts = [];
+            value.forEach((script) => {
+                scripts.push(script);
+            });
+            Resolve(scripts);
+        }).catch((err) => {
+            console.log(err);
+            res.sendStatus(501);
+        });
+    });
+};
+
+var getCss = () => {
+    return new Promise((Resolve, Reject) => {
+        var generalCss = fs.readFile('./static/style.css', (err, data) => {
+            if (err) {
+                Reject(err);
+            } else {
                 var cssPromises = [];
                 modules.forEach((moduleItem) => {
                     cssPromises.push(moduleItem.getCss());
@@ -163,33 +155,47 @@ app.get('/', function(req, res) {
                     value.forEach((css) => {
                         csses.push(css);
                     });
+                    csses[0] = data + csses[0];
                     Resolve(csses);
                 }).catch((err) => {
                     console.log(err);
                     res.sendStatus(501);
                 });
-            });
+            }
+        });
+    });
+};
 
-            Promise.all([mainReady, settingsReady, scriptsReady, cssReady]).then((value) => {
-                modules.forEach((moduleItem, argIndex) => {
-                    var moduleObject = {
-                        module: moduleItem.name,
-                        mainView: value[0][argIndex],
-                        settingsView: value[1][argIndex],
-                        script: value[2][argIndex],
-                        css: value[3][argIndex]
-                    };
-                    renderInfo.modules.push(moduleObject);
-                });
-                res.render('app', renderInfo);
-            }).catch((err) => {
-                console.log(err);
-                res.status(500).send({
-                    error: 'Something went wrong, sorry'
-                });
-            });
+app.get('/', function(req, res) {
+    serverLog("Serving main page");
+    var renderInfo = {
+        settings: settings.current,
+        modules: [],
+    };
 
-        }
+    renderInfo.modules.push({
+        module: "General",
+        settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
+            settings: settings.current
+        })
+    });
+    Promise.all([getMainView(), getSettings(), getScript(), getCss()]).then((value) => {
+        modules.forEach((moduleItem, argIndex) => {
+            var moduleObject = {
+                module: moduleItem.niceName(),
+                mainView: value[0][argIndex],
+                settingsView: value[1][argIndex],
+                script: value[2][argIndex],
+                css: value[3][argIndex]
+            };
+            renderInfo.modules.push(moduleObject);
+        });
+        res.render('app', renderInfo);
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).send({
+            error: 'Something went wrong, sorry'
+        });
     });
 });
 

@@ -1,15 +1,17 @@
-div(id= "bookmarks")
-    paper-material(elevation= "1")
-        template(is= "dom-bind", id= "bookmarksTemplate")
-            paper-tabs(selected= "{{page}}" id="bookmarkTabs")
+paper-material#bookmarksMaterial
+    template#bookmarksTemplate(is= "dom-bind")
+        if bookmarks.categories.length > 1
+            paper-tabs#bookmarkTabs(selected= "{{page}}")
                 each category in bookmarks.categories
                     paper-tab= category.name
-            iron-pages(selected= "{{page}}" id="bookmarkPages")
+            iron-pages#bookmarkPages(selected= "{{page}}")
                 each category in bookmarks.categories
+                    div
                         each bookmark in category.bookmarks
-                            a(href= bookmark.url, class= "bookmarksLink")
+                            a.bookmarksLink(href= bookmark.url)
                                 paper-card(image= `thumbnails/${bookmark.thumbnail}`)= bookmark.name
-style(is= "custom-style").
-    #bookmarkTabs {
-        --paper-tabs-selection-bar-color:#0091EA;
-    }
+        else
+            div
+                each bookmark in bookmarks.categories[0].bookmarks
+                    a.bookmarksLink(href= bookmark.url)
+                        paper-card(image= `thumbnails/${bookmark.thumbnail}`)= bookmark.name

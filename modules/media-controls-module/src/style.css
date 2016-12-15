@@ -1,13 +1,25 @@
-.clearfix:after {
-    content: "";
-    clear: both;
+.MediaContainer {
+    display: flex;
+    flex-direction: row;
 }
 
-.container {
-    @apply(--layout-horizontal);
-    @apply(--layout-flex);
+.mediaPhoto {
+    flex: 0 0 auto;
 }
 
-.flexChild {
-    @apply(--layout-flex);
+.mediaControls {
+    flex: 1 1 auto;
+    margin: 1%;
+}
+
+.artist {
+    font-size:110%;
+}
+.title {
+    font-size:90%;
+}
+
+paper-button.controls {
+    background: var(--button-dark-color);
+    color:#ffffff;
 }

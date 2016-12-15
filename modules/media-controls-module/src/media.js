@@ -9,7 +9,7 @@ var uep = bodyParser.urlencoded({
 
 function serverLog(text) {
     var date = new Date();
-    console.log("[ " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + " ] " + text);
+    console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
 }
 
 var settings = {
@@ -71,37 +71,42 @@ var mediaControls = {
 };
 
 function getInfo() {
-    var title, artist, url;
-    return new Promise(function(resolve, reject) {
-        exec(settings.current.infoCommands.title, (error, stdout, stderr) => {
-            if (error) {
-                console.log("Error while getting song title");
-            } else {
-                title = stdout;
-            }
-            exec(settings.current.infoCommands.artist, (error, stdout, stderr) => {
-                if (error) {
-                    console.log("Error while getting song artist");
+    return new Promise((resolve, reject) => {
+        var title = new Promise((resolve, reject) => {
+            exec(settings.current.infoCommands.title, (err, stdout, stderr)=> {
+                if(err) {
+                    reject("Error while getting song title");
                 } else {
-                    artist = stdout;
+                    resolve(stdout);
                 }
-                exec(settings.current.infoCommands.url, (error, stdout, stderr) => {
-                    if (error) {
-                        console.log("Error while getting song url");
-                    } else {
-                        url = stdout;
-                    }
-                    if (title && artist && url) {
-                        resolve({
-                            title: title,
-                            artist: artist,
-                            imgUrl: url
-                        });
-                    } else {
-                        reject("Error while getting song info");
-                    }
-                });
             });
+        });
+        var artist = new Promise((resolve, reject) => {
+            exec(settings.current.infoCommands.artist, (err, stdout, stderr)=> {
+                if(err) {
+                    reject("Error while getting song artist");
+                } else {
+                    resolve(stdout);
+                }
+            });
+        });
+        var url = new Promise((resolve, reject) => {
+            exec(settings.current.infoCommands.url, (err, stdout, stderr)=> {
+                if(err) {
+                    reject("Error while getting song url");
+                } else {
+                    resolve(stdout);
+                }
+            });
+        });
+        Promise.all([title, artist, url]).then((values)=> {
+            resolve({
+                title:values[0],
+                artist: values[1],
+                imgUrl: values[2]
+            });
+        }).catch((err)=> {
+            reject(err);
         });
     });
 }
@@ -113,10 +118,6 @@ module.exports = function(app) {
         serverLog("Media controls module ready!");
         resolve();
     });
-};
-
-var scriptJS = function(req, res) {
-    res.sendFile(__dirname + "/script.js");
 };
 
 var controls = function(req, res) {
@@ -154,16 +155,20 @@ var controls = function(req, res) {
                 });
             }
             break;
-        case 'update': {
-            getInfo().then((info) => {
-                res.json(info);
-            });
-        } break;
+        case 'update':
+            {
+                getInfo().then((info) => {
+                    res.json(info);
+                }).catch((err) => {
+                    res.sendStatus(503);
+                });
+            }
+            break;
     }
 };
 
 module.exports.getSettings = function() {
-    return Promise.resolve(null);
+    return null;
 };
 
 module.exports.getMainView = function() {
@@ -179,7 +184,7 @@ module.exports.getMainView = function() {
 module.exports.getScript = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/script.js`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
@@ -191,11 +196,15 @@ module.exports.getScript = function() {
 module.exports.getCss = function() {
     return new Promise(function(resolve, reject) {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
-            if(err) {
+            if (err) {
                 resolve();
             } else {
                 resolve(data);
             }
         });
     });
+};
+
+module.exports.niceName = function() {
+    return 'Media info and controls';
 };
