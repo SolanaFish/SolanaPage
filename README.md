@@ -236,6 +236,8 @@ cd SolanaPage
             --link-color: black;
             /* Color applied to paper-drawers */
             --drawer-color: white;
+            /* Default color of text */
+            --text-color:black;
             /* End of Theme variables */
     }
     ```

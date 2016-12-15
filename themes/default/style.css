@@ -26,6 +26,14 @@ paper-toolbar {
     background: var(--accent3-color) !important;
 }
 
+paper-button {
+    background: var(--button-light-color) !important;
+}
+
+body {
+    color:var(--text-color) !important;
+}
+
 #mainFab {
     position: fixed;
     left: 3%;
