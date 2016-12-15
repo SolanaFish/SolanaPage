@@ -22,11 +22,11 @@ paper-material.settingsMaterial
     div.settingsTitle
         |How often to update reddit library:
     div.settingsContent
-        paper-slider#redditRefreshSlider(pin, snaps, editable, min="30", max= "600", max-markers= "30", step= "30", value= settings.refresh, onload="setupSlider")
+        paper-slider#redditRefreshSlider.wideSlider(pin, snaps, editable, min="30", max= "600", max-markers= "30", step= "30", value= settings.refresh, onload="setupSlider")
     div.settingsTitle
         |How many links to fetch from every reddit:
     div.settingsContent
-        paper-slider#redditLinksSlider(pin, snaps, editable, min="20", max= "100", max-markers= "30", step= "5", value= settings.links, onload="setupSlider")
+        paper-slider#redditLinksSlider.wideSlider(pin, snaps, editable, min="20", max= "100", max-markers= "30", step= "5", value= settings.links, onload="setupSlider")
 paper-material.settingsMaterial
     div.settingsTitle
         |Manage subreddits:
