@@ -180,7 +180,7 @@ var getCss = () => {
                 fullCss += data;
             }).catch(() => {
                 return new Promise((resolve, reject) => {
-                    fs.readFile('./themes/style.css', (err, data) => {
+                    fs.readFile('./themes/default/style.css', (err, data) => {
                         if (err) {
                             resolve();
                         } else {
