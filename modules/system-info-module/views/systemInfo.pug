@@ -15,7 +15,7 @@ paper-material(elevation="1")
                             |Free memory
                         div.infoValue
                             = Math.floor((os.freemem()/os.totalmem())*100) + "%"
-                    paper-progress.wideSlider(value= Math.floor(((os.totalmem() - os.freemem())/os.totalmem())*100), min= '0', max= '100')
+                    paper-progress.wideProgress(value= Math.floor(((os.totalmem() - os.freemem())/os.totalmem())*100), min= '0', max= '100')
             when "loadAverage"
                 if element.active
                     div.infoContainer.noPaddingBottom
@@ -30,6 +30,6 @@ paper-material(elevation="1")
                             - var coreLoad = (load - index)*100
                             div.coreDiv
                                 div.coreSlider
-                                    paper-progress.wideSlider(value= coreLoad, min= 0, max= 100)
+                                    paper-progress.wideProgress(value= coreLoad, min= 0, max= 100)
                                 div.coreNumber
                                     = ` core ${index} `
