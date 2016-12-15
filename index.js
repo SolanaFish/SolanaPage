@@ -55,7 +55,8 @@ var settings = {
             name: "reddit-wallpapers-module",
             active: true,
             jsEntry: "reddit"
-        }]
+        }],
+        theme: 'default'
     }
 };
 
@@ -67,6 +68,7 @@ function loadModules() {
         for (var module in settings.current.modules) {
             if (settings.current.modules[module].active) {
                 modules[module] = require("./modules/" + settings.current.modules[module].name);
+                modules[module].moduleName = settings.current.modules[module].name;
                 promises.push(modules[module](app));
             }
         }
@@ -142,26 +144,83 @@ var getScript = () => {
 
 var getCss = () => {
     return new Promise((Resolve, Reject) => {
-        var generalCss = fs.readFile('./static/style.css', (err, data) => {
-            if (err) {
-                Reject(err);
-            } else {
-                var cssPromises = [];
-                modules.forEach((moduleItem) => {
-                    cssPromises.push(moduleItem.getCss());
+        fs.open(`./themes/${settings.current.theme}`, 'r', (err, fd) => {
+            var theme;
+            var fullCss = '';
+            if (!err) { // If selected theme exists use it
+                theme = `./themes/${settings.current.theme}`;
+            } else { // If theme doesn't exist use diffrent one
+                console.log(err);
+                theme = './themes/default';
+            }
+            // Get content of variables file
+            var variables = new Promise((resolve, reject) => {
+                fs.readFile(`${theme}/variables.css`, (err, data) => {
+                    if (err) {
+                        resolve();
+                    } else {
+                        resolve(data);
+                    }
                 });
+            });
+            variables.then((data) => {
+                fullCss += data;
+            }).then(() => {
+                // Get content of generalCss file
+                return new Promise((resolve, reject) => {
+                    fs.readFile(`${theme}/style.css`, (err, data) => {
+                        if (err) {
+                            reject();
+                        } else {
+                            resolve(data);
+                        }
+                    });
+                });
+            }).then((data) => {
+                fullCss += data;
+            }).catch(() => {
+                return new Promise((resolve, reject) => {
+                    fs.readFile('./themes/style.css', (err, data) => {
+                        if (err) {
+                            resolve();
+                        } else {
+                            fullCss += data;
+                            resolve();
+                        }
+                    });
+                });
+            }).then(() => { // load css for every module
+                return new Promise((resolve, reject) => {
+                    var cssPromises = [];
+                    var filePromises = [];
+                    modules.forEach((moduleItem) => {
+                        filePromises.push(new Promise((resolve, reject) => {
+                            fs.readFile(`${theme}/${moduleItem.moduleName}.css`, (err, data) => {
+                                if(err) {
+                                    cssPromises.push(moduleItem.getCss());
+                                } else {
+                                    cssPromises.push(Promise.resolve(data));
+                                }
+                                resolve();
+                            });
+                        }));
+                    });
+                    Promise.all(filePromises).then(()=> {
+                        resolve(cssPromises);
+                    });
+                });
+            }).then((cssPromises)=> {
                 Promise.all(cssPromises).then((value) => {
                     var csses = [];
                     value.forEach((css) => {
                         csses.push(css);
                     });
-                    csses[0] = data + csses[0];
+                    csses[0] = fullCss + csses[0];
                     Resolve(csses);
                 }).catch((err) => {
-                    console.log(err);
-                    res.sendStatus(501);
+                    Reject(err);
                 });
-            }
+            });
         });
     });
 };

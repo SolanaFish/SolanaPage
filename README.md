@@ -205,6 +205,45 @@ cd SolanaPage
         }
     ```
 
+### How to add themes
+
+- To add new theme you have to create new directory in themes folder.
+    - Name of that direcotory will be name of the theme.
+- Themes directory has to contain file named `variables.css`
+    - All other files aren't mandatory
+    - `variables.css` file has to contain folowing variables in `:root` selector:
+    ```css
+    :root {
+            /* Theme variables */
+            /* Color of apps background */
+            --background-color: black;
+            /* Accent colors */
+            /* Accent 1 is applied to titles and paper cards */
+            --accent1-color: rgba(1, 87, 155, 0.8);
+            /* Accent 2 is applied to progress bars*/
+            --accent2-color: #D81B60;
+            /* Accent 3 is applied to fav's title-bar's toggle-buttons and sliders*/
+            --accent3-color: #3f51b5;
+            /* Material color is applied to all paper-material elements */
+            --material-color: rgba(255, 255, 255, 0.85);
+            /* Item color is applied to all paper-item elements */
+            --item-color: white;
+            /* Color applied to light buttons */
+            --button-light-color: rgba(255, 255, 255, 0);
+            /* Color applied to dark buttons */
+            --button-dark-color: #424242;
+            /* Color applied to links (regardlessly of theri state) */
+            --link-color: black;
+            /* Color applied to paper-drawers */
+            --drawer-color: white;
+            /* End of Theme variables */
+    }
+    ```
+- If you want to change more than just colors in your theme you can override any other css file
+    - To override main css file just place `style.css` file in your themes directory
+    - To override modules css file just place file named after module you are theming in  your themes directory
+        - For example to override bookmarks-module's css just place `bookmarks-module.css` file in your themes directory
+
 ## License
 
 This project is licensed under [MIT license](LICENSE).
