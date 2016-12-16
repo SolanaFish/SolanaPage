@@ -22,6 +22,7 @@
     "busboy": "^0.2.13",
     "express": "^4.13.4",
     "gm": "^1.22.0",
+    "helmet": "^3.1.0",
     "multer": "^1.2.0",
     "node-bind": "git+https://github.com/Polymer/NodeBind.git",
     "node-fetch": "^1.6.3",

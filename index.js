@@ -1,16 +1,19 @@
-var express = require('express');
+const express = require('express');
 var app = express();
-var fs = require("fs"); // for reading settings
+const fs = require("fs"); // for reading settings
 var modules = [];
-var pug = require('pug');
+const pug = require('pug');
 
-var bodyParser = require('body-parser'); // Basic parser (no multipart support)
-var uep = bodyParser.urlencoded({
+const helmet = require('helmet');
+app.use(helmet());
+
+const bodyParser = require('body-parser'); // Basic parser (no multipart support)
+const uep = bodyParser.urlencoded({
     extended: false
 });
 
-var multer = require('multer'); // Parser (with multipart support)
-var storage = multer.diskStorage({
+const multer = require('multer'); // Parser (with multipart support)
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads');
     },
@@ -18,7 +21,7 @@ var storage = multer.diskStorage({
         cb(null, 'wallpaper.jpg');
     }
 });
-var upload = multer({
+const upload = multer({
     storage: storage
 });
 
