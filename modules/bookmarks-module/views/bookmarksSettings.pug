@@ -5,30 +5,43 @@ paper-material#addBookmark.settingsMaterial
         div.settingsContent
             paper-input#addBookmarkName(label= "Name for your bookmark", name= "bookmarkName")
             paper-input#addBookmarkUrl(label= "Url for your bookmark", name= "bookmarkLink")
-            paper-dropdown-menu(label= "category")
-                paper-menu#addBookmarkCategory.dropdown-content(attr-for-selected="value", selected= "{{category}}")
-                    each category in bookmarks.categories
-                        paper-item(value= category.name)= category.name
-                    paper-item(value= "newCategory")= "Add new category"
-            paper-toggle-button#customColorToggleButton(name="customColor")
-                |Custom color
-            iron-collapse#customColorCollapse.settingsMaterial
-                div.settingsContent
+            div.settingsMaterial
+                div.settingsContent.alignEnd
+                    paper-dropdown-menu(label= "category")
+                        paper-menu#addBookmarkCategory.dropdown-content(attr-for-selected="value", selected= "{{category}}")
+                            each category in bookmarks.categories
+                                paper-item(value= category.name)= category.name
+                            paper-item(value= "newCategory")= "Add new category"
+
+                div.rightToggleButton
+                    paper-toggle-button#customColorToggleButton(name="customColor")
+                        |Custom color
+            iron-collapse#customColorCollapse
+                div.settingsMaterial
                     if !colorfulItems
-                        div= "You have to enable coloful items to see any difference"
-                    paper-slider#customColorRedSlider.red.wideSlider(min="0", max="255", editable)
-                    paper-slider#customColorGreenSlider.green.wideSlider(min="0", max="255", editable)
-                    paper-slider#customColorBlueSlider.blue.wideSlider(min="0", max="255", editable)
-                    paper-input#customColorHex(label="Hex color value")
-                    paper-toggle-button#customColorTextColor(name="customColorTextColor")
-                        | Use white text
-                div.settingsContent.alignCenter
+                        div.settingsTitle= "You have to enable coloful items to see any difference"
+                    div.settingsContent.customColorContainer
+                        div.customColorElement
+                            div.settingsTitle= "Background color"
+                            paper-slider#customColorRedSlider.red.wideSlider(min="0", max="255", editable)
+                            paper-slider#customColorGreenSlider.green.wideSlider(min="0", max="255", editable)
+                            paper-slider#customColorBlueSlider.blue.wideSlider(min="0", max="255", editable)
+                            paper-input#customColorHex(label="Background color hex value")
+                        div.customColorElement
+                            div.settingsTitle= "Text color"
+                            paper-slider#customColorRedSliderText.red.wideSlider(min="0", max="255", editable)
+                            paper-slider#customColorGreenSliderText.green.wideSlider(min="0", max="255", editable)
+                            paper-slider#customColorBlueSliderText.blue.wideSlider(min="0", max="255", editable)
+                            paper-input#customColorHexText(label="Text color hex value")
+                div
                     paper-item#customColorItem.bookmarksItemsItem
                         a#customColorItemA.paperItemHrefBody.bookmarksItemsLink
                             paper-item-body(two-line)
                                 div= "Bookmarks name"
                                 div(secondary)= "Bookmarks URL"
                         paper-icon-button.paperItemHrefButton(icon="link")
+
+
             paper-toast#noCategoryToast(text= "Please, select an category")
             paper-toast#errorCategoryToast(text= "Error while adding new category")
             paper-toast#displayMethodToast(text="Display method updated")

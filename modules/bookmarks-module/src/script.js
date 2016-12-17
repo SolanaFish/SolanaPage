@@ -30,7 +30,7 @@ function sumbitBookmarks() {
     var category = document.getElementById('addBookmarkCategory').selected;
     var colorButton = document.getElementById('customColorToggleButton').value;
     var hex = document.getElementById('customColorHex').value;
-    var textColor = document.getElementById('customColorTextColor').selected;
+    var textColor = document.getElementById('customColorHexText').value;
 
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/bookmarks/addBookmark", true);
@@ -39,13 +39,9 @@ function sumbitBookmarks() {
     sendString += "bookmarkName=" + name;
     sendString += "&bookmarkLink=" + url;
     sendString += "&category=" + category;
-    if (colorButton && hex.length == 7) {
+    if (colorButton && hex.length == 7 && textColor.length == 7) {
         sendString += "&color=" + hex;
-        if(textColor) {
-            sendString +="&text=white";
-        } else {
-            sendString +="&text=black";
-        }
+        sendString +="&text=" + textColor;
     }
     xhttp.send(sendString);
     xhttp.onreadystatechange = function() {
@@ -157,6 +153,30 @@ function updateCustomColor(fromSlider) {
     }
 }
 
+function updateCustomColorText(fromSlider) {
+    var item = document.getElementById('customColorItemA');
+    var redSlider = document.getElementById('customColorRedSliderText');
+    var greenSlider = document.getElementById('customColorGreenSliderText');
+    var blueSlider = document.getElementById('customColorBlueSliderText');
+    var hex = document.getElementById('customColorHexText');
+    var color;
+    if (fromSlider) {
+        color = hexFromRgb(redSlider.value, greenSlider.value, blueSlider.value);
+        hex.value = color;
+        item.style.color = color;
+
+    } else {
+        if (hex.value.length === 7) {
+            color = hex.value;
+            var colors = hexToRgb(hex.value);
+            redSlider.value = colors.red;
+            greenSlider.value = colors.green;
+            blueSlider.value = colors.blue;
+            item.style.color = color;
+        }
+    }
+}
+
 function submitColorfulItems() {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/bookmarks/colorfulItems", true);
@@ -170,14 +190,17 @@ function submitColorfulItems() {
 }
 
 function bookmarksSetup(from) {
+
     var displayMethodMenu = document.getElementById('displayMethodMenu');
     displayMethodMenu.addEventListener('change', () => {
         submitDisplayMethod();
     });
+
     var colorfulItemsToggle = document.getElementById('colorfulItemsToggle');
     colorfulItemsToggle.addEventListener('change', () => {
         submitColorfulItems();
     });
+
     var customColorToggleButton = document.getElementById('customColorToggleButton');
     customColorToggleButton.addEventListener('change', () => {
         document.getElementById('customColorCollapse').toggle();
@@ -186,7 +209,7 @@ function bookmarksSetup(from) {
     var customColorGreenSlider = document.getElementById('customColorGreenSlider');
     var customColorBlueSlider = document.getElementById('customColorBlueSlider');
     var customColorHex = document.getElementById('customColorHex');
-    var customColorTextColor = document.getElementById('customColorTextColor');
+
     customColorRedSlider.addEventListener('value-change', () => {
         updateCustomColor(true);
     });
@@ -199,12 +222,23 @@ function bookmarksSetup(from) {
     customColorHex.addEventListener('change', () => {
         updateCustomColor(false);
     });
-    customColorTextColor.addEventListener('change', () => {
-        var item = document.getElementById('customColorItemA');
-        if (customColorTextColor.checked) {
-            item.style.color = 'white';
-        } else {
-            item.style.color = 'black';
-        }
+
+    var customColorRedSliderText = document.getElementById('customColorRedSliderText');
+    var customColorGreenSliderText = document.getElementById('customColorGreenSliderText');
+    var customColorBlueSliderText = document.getElementById('customColorBlueSliderText');
+    var customColorHexText = document.getElementById('customColorHexText');
+
+    customColorRedSliderText.addEventListener('value-change', () => {
+        updateCustomColorText(true);
     });
+    customColorGreenSliderText.addEventListener('value-change', () => {
+        updateCustomColorText(true);
+    });
+    customColorBlueSliderText.addEventListener('value-change', () => {
+        updateCustomColorText(true);
+    });
+    customColorHexText.addEventListener('change', () => {
+        updateCustomColorText(false);
+    });
+
 }

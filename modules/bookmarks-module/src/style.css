@@ -30,6 +30,15 @@ paper-card {
     margin-left: 3%;
 }
 
+#customColorToggleButton {
+    margin-bottom: 10%;
+}
+
+.rightToggleButton {
+    align-self: flex-end;
+    flex: 0 1 auto;
+}
+
 .bookmarksLink {
     font-size: 20px;
     color: var(--accent2-color);
@@ -109,6 +118,21 @@ paper-card {
 
 .alignCenter {
     align-self: center;
+}
+
+.alignEnd {
+    align-self:flex-end;;
+}
+
+.customColorContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.customColorElement {
+    flex:1 0 auto;
+    margin: 0.5%;
 }
 
 paper-slider.red {
