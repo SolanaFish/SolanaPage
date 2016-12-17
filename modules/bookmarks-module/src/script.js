@@ -137,7 +137,7 @@ function updateCustomColor(fromSlider) {
     var hex = document.getElementById('customColorHex');
     var color;
     if (fromSlider) {
-        color = hexFromRgb(redSlider.value, greenSlider.value, blueSlider.value);
+        color = hexFromRgb(redSlider.immediateValue, greenSlider.immediateValue, blueSlider.immediateValue);
         hex.value = color;
         item.style.background = color;
 
@@ -161,7 +161,7 @@ function updateCustomColorText(fromSlider) {
     var hex = document.getElementById('customColorHexText');
     var color;
     if (fromSlider) {
-        color = hexFromRgb(redSlider.value, greenSlider.value, blueSlider.value);
+        color = hexFromRgb(redSlider.immediateValue, greenSlider.immediateValue, blueSlider.immediateValue);
         hex.value = color;
         item.style.color = color;
 
@@ -210,6 +210,15 @@ function bookmarksSetup(from) {
     var customColorBlueSlider = document.getElementById('customColorBlueSlider');
     var customColorHex = document.getElementById('customColorHex');
 
+    customColorRedSlider.addEventListener('immediate-value-change', () => {
+        updateCustomColor(true);
+    });
+    customColorGreenSlider.addEventListener('immediate-value-change', () => {
+        updateCustomColor(true);
+    });
+    customColorBlueSlider.addEventListener('immediate-value-change', () => {
+        updateCustomColor(true);
+    });
     customColorRedSlider.addEventListener('value-change', () => {
         updateCustomColor(true);
     });
@@ -228,6 +237,15 @@ function bookmarksSetup(from) {
     var customColorBlueSliderText = document.getElementById('customColorBlueSliderText');
     var customColorHexText = document.getElementById('customColorHexText');
 
+    customColorRedSliderText.addEventListener('immediate-value-change', () => {
+        updateCustomColorText(true);
+    });
+    customColorGreenSliderText.addEventListener('immediate-value-change', () => {
+        updateCustomColorText(true);
+    });
+    customColorBlueSliderText.addEventListener('immediate-value-change', () => {
+        updateCustomColorText(true);
+    });
     customColorRedSliderText.addEventListener('value-change', () => {
         updateCustomColorText(true);
     });
