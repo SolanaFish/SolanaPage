@@ -3,18 +3,38 @@ paper-material#addBookmark.settingsMaterial
         div.settingsTitle.noPaddingBottom
             |Add new bookmark:
         div.settingsContent
-            form#addBookmarkForm(is= "iron-form", action= "/bookmarks/addBookmark", method="POST")
-                paper-input(label= "Name for your bookmark", name= "bookmarkName")
-                paper-input(label= "Url for your bookmark", name= "bookmarkLink")
-                paper-dropdown-menu(label= "category")
-                    paper-menu.dropdown-content(attr-for-selected="value", selected= "{{category}}")
-                        each category in bookmarks.categories
-                            paper-item(value= category.name)= category.name
-                        paper-item(value= "newCategory")= "Add new category"
-                input(type="hidden", name="category", value="{{category}}")
-                paper-toast#noCategoryToast(text= "Please, select an category")
-                paper-toast#errorCategoryToast(text= "Error while adding new category")
-                paper-toast#displayMethodToast(text="Display method updated")
+            paper-input#addBookmarkName(label= "Name for your bookmark", name= "bookmarkName")
+            paper-input#addBookmarkUrl(label= "Url for your bookmark", name= "bookmarkLink")
+            paper-dropdown-menu(label= "category")
+                paper-menu#addBookmarkCategory.dropdown-content(attr-for-selected="value", selected= "{{category}}")
+                    each category in bookmarks.categories
+                        paper-item(value= category.name)= category.name
+                    paper-item(value= "newCategory")= "Add new category"
+            paper-toggle-button#customColorToggleButton(name="customColor")
+                |Custom color
+            iron-collapse#customColorCollapse.settingsMaterial
+                div.settingsContent
+                    if !colorfulItems
+                        div= "You have to enable coloful items to see any difference"
+                    paper-slider#customColorRedSlider.red.wideSlider(min="0", max="255", editable)
+                    paper-slider#customColorGreenSlider.green.wideSlider(min="0", max="255", editable)
+                    paper-slider#customColorBlueSlider.blue.wideSlider(min="0", max="255", editable)
+                    paper-input#customColorHex(label="Hex color value")
+                    paper-toggle-button#customColorTextColor(name="customColorTextColor")
+                        | Use white text
+                div.settingsContent.alignCenter
+                    paper-item#customColorItem.bookmarksItemsItem
+                        a#customColorItemA.paperItemHrefBody.bookmarksItemsLink
+                            paper-item-body(two-line)
+                                div= "Bookmarks name"
+                                div(secondary)= "Bookmarks URL"
+                        paper-icon-button.paperItemHrefButton(icon="link")
+            paper-toast#noCategoryToast(text= "Please, select an category")
+            paper-toast#errorCategoryToast(text= "Error while adding new category")
+            paper-toast#displayMethodToast(text="Display method updated")
+            paper-toast#colorfulItemsToast(text="Colorful items method updated")
+            paper-toast#addedBookmarkToast(text="Added bookmark")
+            paper-toast#errorBookmarkToast(text="Error while adding bookmark")
 
         paper-button.settingsButton(onclick= "addBookmark()")
             iron-icon(icon="check")
@@ -92,3 +112,10 @@ paper-material.settingsMaterial
         else
             paper-toggle-button#displayMethodMenu
                 |Use item view
+
+        if colorfulItems
+            paper-toggle-button#colorfulItemsToggle(checked)
+                |Use colorful item view
+        else
+            paper-toggle-button#colorfulItemsToggle
+                |Use colorful item view

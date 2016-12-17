@@ -30,7 +30,8 @@ var settings = {
                 }]
             }]
         },
-        view: 'items'
+        view: 'items',
+        colorfulItems: false
     },
     save: () => {
         serverLog('Saving bookmarks settings to local file');
@@ -60,6 +61,7 @@ module.exports = function(app) {
         app.post('/bookmarks/deleteCategory', uep, deleteCategory);
         app.post('/bookmarks/addNewCategory', uep, addCategory);
         app.post('/bookmarks/displayMethod', uep, displayMethod);
+        app.post('/bookmarks/colorfulItems', uep, colorfulItems);
         serverLog("Bookmarks module ready!");
         resolve();
     });
@@ -69,6 +71,8 @@ var addBookmark = function(req, res) {
     var name = req.body.bookmarkName;
     var link = req.body.bookmarkLink;
     var category = req.body.category;
+    var color = req.body.color;
+    var text = req.body.text;
 
     if (name !== "" && link !== "" && category !== "") {
         var categoryIndex = findCategory(category);
@@ -82,6 +86,11 @@ var addBookmark = function(req, res) {
                     url: link,
                     thumbnail: `${shortid.generate()}.png`
                 };
+                if(typeof color !== 'undefined') {
+                    newBookmark.color = {};
+                    newBookmark.color.background = color;
+                    newBookmark.color.text = text;
+                }
                 settings.current.bookmarks.categories[categoryIndex].bookmarks.push(newBookmark);
                 settings.save();
                 // Generating thumbnail
@@ -200,6 +209,18 @@ var displayMethod = function(req, res) {
     }
 };
 
+var colorfulItems = function(req, res) {
+    var method = JSON.parse(req.body.colorful);
+
+    if(typeof method === 'boolean') {
+        settings.current.colorfulItems = method;
+        settings.save();
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(500);
+    }
+};
+
 module.exports.getSettings = function() {
     return Promise.resolve(pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings.current));
 };
@@ -211,6 +232,7 @@ module.exports.getMainView = function() {
         }));
     } else if (settings.current.view === "items") {
         return Promise.resolve(pug.renderFile(`${__dirname}/../views/items.pug`, {
+            settings:settings.current,
             bookmarks: settings.current.bookmarks
         }));
     }

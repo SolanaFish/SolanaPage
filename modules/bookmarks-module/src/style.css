@@ -26,6 +26,10 @@ paper-card {
     padding: 0%;
 }
 
+#customColorItem {
+    margin-left: 3%;
+}
+
 .bookmarksLink {
     font-size: 20px;
     color: var(--accent2-color);
@@ -61,7 +65,6 @@ paper-card {
     background-color: var(--item-color);
     margin: 0px;
 }
-
 
 .bookmarksItemsLink {
     text-decoration: none;
@@ -102,4 +105,23 @@ paper-card {
 
 .paperItemHrefButton {
     flex: 0 1 auto;
+}
+
+.alignCenter {
+    align-self: center;
+}
+
+paper-slider.red {
+    --paper-slider-knob-color: #F44336;
+    --paper-slider-active-color: #F44336;
+}
+
+paper-slider.green {
+    --paper-slider-knob-color: #4CAF50;
+    --paper-slider-active-color: #4CAF50;
+}
+
+paper-slider.blue {
+    --paper-slider-knob-color: #2196F3;
+    --paper-slider-active-color: #2196F3;
 }
