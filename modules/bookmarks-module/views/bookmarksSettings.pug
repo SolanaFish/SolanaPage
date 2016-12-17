@@ -23,16 +23,16 @@ paper-material#addBookmark.settingsMaterial
                     div.settingsContent.customColorContainer
                         div.customColorElement
                             div.settingsTitle= "Background color"
-                            paper-slider#customColorRedSlider.red.wideSlider(min="0", max="255", editable)
-                            paper-slider#customColorGreenSlider.green.wideSlider(min="0", max="255", editable)
-                            paper-slider#customColorBlueSlider.blue.wideSlider(min="0", max="255", editable)
-                            paper-input#customColorHex(label="Background color hex value")
+                            paper-slider#customColorRedSlider.red.wideSlider(min="0", max="255", editable, value="255")
+                            paper-slider#customColorGreenSlider.green.wideSlider(min="0", max="255", editable, value="255")
+                            paper-slider#customColorBlueSlider.blue.wideSlider(min="0", max="255", editable, value="255")
+                            paper-input#customColorHex(label="Background color hex value", value="#ffffff")
                         div.customColorElement
                             div.settingsTitle= "Text color"
-                            paper-slider#customColorRedSliderText.red.wideSlider(min="0", max="255", editable)
-                            paper-slider#customColorGreenSliderText.green.wideSlider(min="0", max="255", editable)
-                            paper-slider#customColorBlueSliderText.blue.wideSlider(min="0", max="255", editable)
-                            paper-input#customColorHexText(label="Text color hex value")
+                            paper-slider#customColorRedSliderText.red.wideSlider(min="0", max="255", editable, value="0")
+                            paper-slider#customColorGreenSliderText.green.wideSlider(min="0", max="255", editable, value="0")
+                            paper-slider#customColorBlueSliderText.blue.wideSlider(min="0", max="255", editable, value="0")
+                            paper-input#customColorHexText(label="Text color hex value", value="#000000")
                 div
                     paper-item#customColorItem.bookmarksItemsItem
                         a#customColorItemA.paperItemHrefBody.bookmarksItemsLink
