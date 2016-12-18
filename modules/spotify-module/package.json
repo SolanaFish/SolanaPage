@@ -1,0 +1,4 @@
+{
+    "name": "spotify-module",
+    "main": "./src/spotify.js"
+}
