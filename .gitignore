@@ -10,3 +10,4 @@ modules/media-controls-module/settings.json
 modules/reddit-wallpapers-module/settings.json
 modules/system-info-module/settings.json
 settings.json
+credentials.json
