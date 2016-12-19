@@ -1,4 +1,5 @@
 let settingsDir = "./modules/google-calendar-module/settings.json";
+let authDir = "./modules/google-calendar-module/oauth.json";
 const fs = require("fs");
 const pug = require('pug');
 const bodyParser = require('body-parser'); // Basic parser (no multipart support)
@@ -16,6 +17,11 @@ var settings = {
         if (fs.existsSync(settingsDir)) {
             settings.current = JSON.parse(fs.readFileSync(settingsDir));
         }
+        if (fs.existsSync(authDir)) {
+            settings.auth = JSON.parse(fs.readFileSync(authDir));
+        } else {
+            serverLog("Couldn't find auth file!");
+        }
     },
     current: {
         bookmarks: {
@@ -30,6 +36,7 @@ var settings = {
         view: 'items',
         colorfulItems: false
     },
+    auth: 'auth not loaded',
     save: () => {
         serverLog('Saving bookmarks settings to local file');
         var stringified = JSON.stringify(settings.current, null, 4);
