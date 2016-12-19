@@ -1,0 +1,52 @@
+.loginTitle {
+    flex: 1 0 auto;
+    font-size: 120%;
+    color: var(--accent2-color);
+    align-self: center;
+}
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.loginContent {
+    flex: 1 0 auto;
+}
+
+.wideButton {
+    width: 100%;
+    background: var(--item-color) !important;
+    margin: 1%;
+}
+
+.darkA {
+    color: var(--link-color);
+    text-decoration: none;
+    font-size: 120%;
+}
+
+.eventItem {
+    background: var(--item-color);
+    margin: 0;
+    flex: 1 1 auto;
+}
+
+.eventContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 1%;
+}
+
+.eventColor {
+    background-color: var(--accent1-color);
+    /*padding-left: 0.8%;*/
+    min-height: 72px;
+    flex: 0 1 10px;
+}
+
+
+.eventColor[colorId="1"] {
+    background-color: red;
+}

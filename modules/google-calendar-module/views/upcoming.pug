@@ -1,0 +1,12 @@
+paper-material
+    each event in events
+        div.eventContainer
+            div.eventColor(colorId="1")
+            paper-item.eventItem
+                paper-item-body('two-line')
+                    div
+                        = event.summary
+                    div(secondary)
+                        ="Starts " + event.start.date
+                a.darkA(href= event.htmlLink)
+                    paper-icon-button(icon="link")

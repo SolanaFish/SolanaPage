@@ -27,7 +27,10 @@ var settings = {
             serverLog("Couldn't find auth file!");
         }
     },
-    current: {},
+    current: {
+        refresh: 10,
+        events: 10
+    },
     loggedIn: false,
     needsToken: false,
     oauth2Client: null,
@@ -37,6 +40,18 @@ var settings = {
         var stringified = JSON.stringify(settings.current, null, 4);
         fs.writeFileSync(settingsDir, stringified);
     },
+};
+
+module.exports = function(app) {
+    return new Promise(function(resolve, reject) {
+        settings.load();
+        app.get('/calendar/callback', uep, getNewToken);
+        setInterval(() => {
+            listEvents();
+        }, settings.current.refresh * 60 * 1000);
+        serverLog("Google-calendar module ready!");
+        resolve();
+    });
 };
 
 var authorize = (credentials) => {
@@ -70,7 +85,7 @@ var getNewToken = (req, res) => {
             settings.oauth2Client.credentials = token;
             storeToken(token);
             listEvents();
-            res.sendStatus(200);
+            res.redirect('/');
         }
     });
 };
@@ -92,7 +107,7 @@ var listEvents = () => {
         auth: settings.oauth2Client,
         calendarId: 'primary',
         timeMin: (new Date()).toISOString(),
-        maxResults: 10,
+        maxResults: settings.current.events,
         singleEvents: true,
         orderBy: 'startTime'
     }, (err, res) => {
@@ -100,18 +115,8 @@ var listEvents = () => {
             serverLog('Calendar api returned an error');
             console.log(err);
         } else {
-            var events = res.items;
-            console.log(events);
+            settings.events = res.items;
         }
-    });
-};
-
-module.exports = function(app) {
-    return new Promise(function(resolve, reject) {
-        settings.load();
-        app.get('/calendar/callback', uep ,getNewToken);
-        serverLog("Google-calendar module ready!");
-        resolve();
     });
 };
 
@@ -125,7 +130,8 @@ module.exports.getMainView = function() {
     if (settings.loggedIn) {
         console.log('loged');
         return Promise.resolve(pug.renderFile(`${__dirname}/../views/upcoming.pug`, {
-            settings: settings.current
+            settings: settings.current,
+            events:settings.events
         }));
     } else {
         if(settings.needsToken) {
