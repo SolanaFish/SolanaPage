@@ -1,3 +1,9 @@
+paper-material.eventsMaterial {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0.1%;
+}
+
 .loginTitle {
     flex: 1 0 auto;
     font-size: 120%;
@@ -39,7 +45,7 @@
     margin: 1%;
 }
 
-.eventColor {
+div.eventColor {
     background-color: var(--accent1-color);
     /*padding-left: 0.8%;*/
     min-height: 72px;
@@ -47,6 +53,46 @@
 }
 
 
-.eventColor[colorId="1"] {
-    background-color: red;
+div.eventColor[colorId="1"] {
+    background-color: #a4bdfc;
+}
+
+div.eventColor[colorId="2"] {
+    background-color: #7ae7bf;
+}
+
+div.eventColor[colorId="3"] {
+    background-color: #dbadff;
+}
+
+div.eventColor[colorId="4"] {
+    background-color: #ff887c;
+}
+
+div.eventColor[colorId="5"] {
+    background-color: #fbd75b;
+}
+
+div.eventColor[colorId="6"] {
+    background-color: #ffb878;
+}
+
+div.eventColor[colorId="7"] {
+    background-color: #46d6db;
+}
+
+div.eventColor[colorId="8"] {
+    background-color: #e1e1e1;
+}
+
+div.eventColor[colorId="9"] {
+    background-color: #5484ed;
+}
+
+div.eventColor[colorId="10"] {
+    background-color: #51b749;
+}
+
+div.eventColor[colorId="11"] {
+    background-color: #dc2127;
 }

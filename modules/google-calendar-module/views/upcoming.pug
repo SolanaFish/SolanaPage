@@ -1,7 +1,7 @@
-paper-material
+paper-material.eventsMaterial
     each event in events
         div.eventContainer
-            div.eventColor(colorId="1")
+            div.eventColor(colorId=event.colorId)
             paper-item.eventItem
                 paper-item-body('two-line')
                     div

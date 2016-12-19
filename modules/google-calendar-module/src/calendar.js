@@ -74,8 +74,8 @@ var authorize = (credentials) => {
 
 var getNewToken = (req, res) => {
     var code = req.query.code;
-    settings.oauth2Client.getToken(code, (err, token)=> {
-        if(err) {
+    settings.oauth2Client.getToken(code, (err, token) => {
+        if (err) {
             console.log("Error while trying to retrive access token", err);
             res.sendStatus(401);
             return;
@@ -131,10 +131,10 @@ module.exports.getMainView = function() {
         console.log('loged');
         return Promise.resolve(pug.renderFile(`${__dirname}/../views/upcoming.pug`, {
             settings: settings.current,
-            events:settings.events
+            events: settings.events
         }));
     } else {
-        if(settings.needsToken) {
+        if (settings.needsToken) {
             console.log('token');
             return Promise.resolve(pug.renderFile(`${__dirname}/../views/login.pug`, {
                 settings: settings.current,
