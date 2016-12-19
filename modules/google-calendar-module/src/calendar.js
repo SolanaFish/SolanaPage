@@ -46,6 +46,8 @@ module.exports = function(app) {
     return new Promise(function(resolve, reject) {
         settings.load();
         app.get('/calendar/callback', uep, getNewToken);
+        app.post('/calendar/submitCalendarEvents', uep, submitCalendarEvents);
+        app.post('/calendar/submitCalendarRefresh', uep, submitCalendarRefresh);
         setInterval(() => {
             listEvents();
         }, settings.current.refresh * 60 * 1000);
@@ -67,7 +69,12 @@ var authorize = (credentials) => {
         } else {
             settings.loggedIn = true;
             settings.oauth2Client.credentials = JSON.parse(token);
-            listEvents();
+            settings.oauth2Client.refreshAccessToken((err, tokens) => {
+                if(!err) {
+                    storeToken();
+                }
+                listEvents();
+            });
         }
     });
 };
@@ -103,21 +110,51 @@ var storeToken = (token) => {
 
 var listEvents = () => {
     var calendar = google.calendar('v3');
-    calendar.events.list({
-        auth: settings.oauth2Client,
-        calendarId: 'primary',
-        timeMin: (new Date()).toISOString(),
-        maxResults: settings.current.events,
-        singleEvents: true,
-        orderBy: 'startTime'
-    }, (err, res) => {
-        if (err) {
-            serverLog('Calendar api returned an error');
+    settings.oauth2Client.refreshAccessToken((err, tokens) => {
+        if(!err) {
             console.log(err);
-        } else {
-            settings.events = res.items;
+            storeToken();
         }
+        calendar.events.list({
+            auth: settings.oauth2Client,
+            calendarId: 'primary',
+            timeMin: (new Date()).toISOString(),
+            maxResults: settings.current.events,
+            singleEvents: true,
+            orderBy: 'startTime'
+        }, (err, res) => {
+            if (err) {
+                serverLog('Calendar api returned an error');
+                console.log(err);
+            } else {
+                settings.events = res.items;
+            }
+        });
     });
+};
+
+var submitCalendarEvents = (req, res) => {
+    var events = parseInt(req.body.events);
+    if(events > 0 && events < 180) {
+        settings.current.events = events;
+        settings.save();
+        listEvents();
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(401);
+    }
+};
+
+var submitCalendarRefresh = (req, res) => {
+    var refresh = parseInt(req.body.refresh);
+    if(refresh > 0 && refresh < 180) {
+        settings.current.refresh = refresh;
+        settings.save();
+        listEvents();
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(401);
+    }
 };
 
 module.exports.getSettings = function() {
@@ -128,20 +165,17 @@ module.exports.getSettings = function() {
 
 module.exports.getMainView = function() {
     if (settings.loggedIn) {
-        console.log('loged');
         return Promise.resolve(pug.renderFile(`${__dirname}/../views/upcoming.pug`, {
             settings: settings.current,
             events: settings.events
         }));
     } else {
         if (settings.needsToken) {
-            console.log('token');
             return Promise.resolve(pug.renderFile(`${__dirname}/../views/login.pug`, {
                 settings: settings.current,
                 tokenUrl: getNewTokenLink()
             }));
         } else {
-            console.log('nil');
             return null;
         }
     }

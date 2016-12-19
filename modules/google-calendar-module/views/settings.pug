@@ -1,5 +1,14 @@
 paper-material.settingsMaterial
     div.settingsTitle
-        |Dupa
+        |How many upcoming events to display
     div.settingsContent
-        |dddd
+        paper-slider#calendarEvents.wideSlider(min="1", max="100", editable, value=settings.events)
+paper-material.settingsMaterial
+    div.settingsTitle
+        |How often to update event list
+    div.settingsContent
+        paper-slider#calendarRefresh.wideSlider(min="1", max="120", editable, value=settings.refresh)
+paper-toast#calendarEventsToast
+    |Refresh time updated
+paper-toast#calendarRefreshToast
+    |Number of events updated
