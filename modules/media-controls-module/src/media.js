@@ -129,7 +129,7 @@ var controls = function(req, res) {
                         res.json(info);
                     });
                 }).catch((err) => {
-                    res.sendStatus(503);
+                    res.sendStatus(500);
                 });
             }
             break;
@@ -140,7 +140,7 @@ var controls = function(req, res) {
                         res.json(info);
                     });
                 }).catch((err) => {
-                    res.sendStatus(503);
+                    res.sendStatus(500);
                 });
             }
             break;
@@ -151,7 +151,7 @@ var controls = function(req, res) {
                         res.json(info);
                     });
                 }).catch((err) => {
-                    res.sendStatus(503);
+                    res.sendStatus(500);
                 });
             }
             break;
@@ -160,7 +160,7 @@ var controls = function(req, res) {
                 getInfo().then((info) => {
                     res.json(info);
                 }).catch((err) => {
-                    res.sendStatus(503);
+                    res.sendStatus(500);
                 });
             }
             break;

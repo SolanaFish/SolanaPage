@@ -79,7 +79,7 @@ var addBookmark = function(req, res) {
         if (categoryIndex != -1) {
             if (findBookmark(link, categoryIndex) != -1) {
                 console.log("Bookmark already exists");
-                res.sendStatus(501);
+                res.sendStatus(403);
             } else {
                 var newBookmark = {
                     name: name,
@@ -103,13 +103,13 @@ var addBookmark = function(req, res) {
                 }, (err) => {
                     if (err) {
                         console.log(err);
-                        res.sendStatus(501);
+                        res.sendStatus(500);
                     } else {
                         gm('temp.png').thumb(300, 200, `thumbnails/${newBookmark.thumbnail}`, 80, (err) => {
                             fs.unlink('temp.png', () => {
                                 if (err) {
                                     console.log(err);
-                                    res.sendStatus(501);
+                                    res.sendStatus(500);
                                 } else {
                                     res.sendStatus(200);
                                 }
@@ -120,11 +120,11 @@ var addBookmark = function(req, res) {
             }
         } else {
             console.log('No category');
-            res.sendStatus(501);
+            res.sendStatus(400);
         }
     } else {
         console.log('Invalid data');
-        res.sendStatus(501);
+        res.sendStatus(400);
     }
 };
 
@@ -148,11 +148,11 @@ var deleteBookmark = function(req, res) {
             });
         } else {
             console.log('Bookmark does not exist');
-            res.sendStatus(501);
+            res.sendStatus(400);
         }
     } else {
         console.log('Category does not exist');
-        res.sendStatus(501);
+        res.sendStatus(400);
     }
 };
 
@@ -177,7 +177,7 @@ var deleteCategory = function(req, res) {
         settings.save();
         res.sendStatus(200);
     } else {
-        res.sendStatus(501);
+        res.sendStatus(400);
     }
 };
 
@@ -193,7 +193,7 @@ var addCategory = function(req, res) {
         settings.save();
         res.sendStatus(200);
     } else {
-        res.sendStatus(501);
+        res.sendStatus(400);
     }
 };
 
@@ -205,7 +205,7 @@ var displayMethod = function(req, res) {
         settings.save();
         res.sendStatus(200);
     } else {
-        res.sendStatus(500);
+        res.sendStatus(400);
     }
 };
 
@@ -217,7 +217,7 @@ var colorfulItems = function(req, res) {
         settings.save();
         res.sendStatus(200);
     } else {
-        res.sendStatus(500);
+        res.sendStatus(400);
     }
 };
 

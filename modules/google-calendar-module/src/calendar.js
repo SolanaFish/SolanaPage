@@ -84,7 +84,7 @@ var getNewToken = (req, res) => {
     settings.oauth2Client.getToken(code, (err, token) => {
         if (err) {
             console.log("Error while trying to retrive access token", err);
-            res.sendStatus(401);
+            res.sendStatus(400);
             return;
         } else {
             settings.needsToken = false;
@@ -141,7 +141,7 @@ var submitCalendarEvents = (req, res) => {
         listEvents();
         res.sendStatus(200);
     } else {
-        res.sendStatus(401);
+        res.sendStatus(400);
     }
 };
 
@@ -153,7 +153,7 @@ var submitCalendarRefresh = (req, res) => {
         listEvents();
         res.sendStatus(200);
     } else {
-        res.sendStatus(401);
+        res.sendStatus(400);
     }
 };
 

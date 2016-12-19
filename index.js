@@ -101,7 +101,7 @@ var getMainView = () => {
             Resolve(mainRendered);
         }).catch((err) => {
             console.log(err);
-            res.sendStatus(501);
+            res.sendStatus(500);
         });
     });
 };
@@ -120,7 +120,7 @@ var getSettings = () => {
             Resolve(settingsRendered);
         }).catch((err) => {
             console.log(err);
-            res.sendStatus(501);
+            res.sendStatus(500);
         });
     });
 };
@@ -139,7 +139,7 @@ var getScript = () => {
             Resolve(scripts);
         }).catch((err) => {
             console.log(err);
-            res.sendStatus(501);
+            res.sendStatus(500);
         });
     });
 };
@@ -310,7 +310,7 @@ app.post('/changeTheme', uep, (req, res) => {
     var theme = req.body.theme;
     fs.open(`./themes/${theme}`, 'r', (err, fd) => {
         if (err) {
-            res.sendStatus(401);
+            res.sendStatus(400);
         } else {
             settings.current.theme = theme;
             settings.save();
