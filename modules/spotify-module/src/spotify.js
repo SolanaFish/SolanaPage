@@ -13,6 +13,8 @@ const cookieParser = require('cookie-parser');
 var stateKey = 'spotify_auth_state';
 const redirectUrl = 'http://localhost:8081/spotify/callback';
 
+/* pls don't use this module until https://github.com/spotify/web-api/issues/12 gets resolved  */
+
 var settings = {
     load: () => {
         if (fs.existsSync(settingsDir)) {
@@ -67,6 +69,64 @@ module.exports = (app) => {
     });
 };
 
+var userInfo = {
+    update: () => {
+        if (settings.user.access_token !== '') {
+            request.get({
+                url: 'https://api.spotify.com/v1/me',
+                headers: {
+                    'Authorization': 'Bearer ' + settings.user.access_token
+                },
+                json: true
+            }, (err, resp, body) => {
+                userInfo.name = body.display_name;
+            });
+            request.get({
+                url: 'https://api.spotify.com/v1/me/playlists',
+                headers: {
+                    'Authorization': 'Bearer ' + settings.user.access_token
+                },
+                json: true
+            }, (err, resp, body) => {
+                body.items.forEach((playlist) => {
+                    request.get({
+                        url: playlist.tracks.href,
+                        headers: {
+                            'Authorization': 'Bearer ' + settings.user.access_token
+                        },
+                        json: true
+                    }, (err, resp, body) => {
+                        if (!err) {
+                            var tracks = [];
+                            body.items.forEach((track) => {
+                                if (track.track.album.artists[0]) {
+                                    tracks.push({
+                                        title: track.track.name,
+                                        artist: track.track.artists[0].name
+                                    });
+                                } else {
+                                    tracks.push({
+                                        title: track.track.name,
+                                        artist: 'No information'
+                                    });
+                                }
+                            });
+                            userInfo.playLists.push({
+                                href: playlist.href,
+                                name: playlist.name,
+                                tracks: tracks
+                            });
+                        }
+                    });
+                });
+                userInfo.id = body.id;
+            });
+        }
+    },
+    name: '',
+    id: '',
+    playLists: []
+};
 var login = (req, res) => {
     var state = generateRandomString(16);
     res.cookie(stateKey, state);
@@ -107,26 +167,10 @@ var callback = (req, res) => {
             if (!err && resp.statusCode === 200) {
                 settings.user.access_token = body.access_token;
                 settings.user.refresh_token = body.refresh_token;
-
-                // var options = {
-                //     url: 'https://api.spotify.com/v1/me',
-                //     headers: {
-                //         'Authorization': 'Bearer ' + access_token
-                //     },
-                //     json: true
-                // };
-                // request.get(options, (err, resp, body) => {
-                //     console.log(body);
-                //     console.log('good token');
-                //     console.log(access_token);
-                //     console.log(refresh_token);
-                //     res.redirect('/');
-                // });
+                userInfo.update();
+                res.redirect('/');
             } else {
                 console.log('invalid token');
-                console.log(resp.statusCode === 200);
-                console.log(resp.body);
-                console.log(!err);
                 res.redirect('/');
             }
         });
@@ -149,8 +193,6 @@ var refreshToken = (req, res) => {
 
     request.post(authOptions, (err, res, body) => {
         var access_token = body.access_token;
-        console.log('refreshed');
-        console.log(access_token);
         res.send({
             'access_token': access_token
         });
@@ -162,11 +204,14 @@ module.exports.niceName = function() {
 };
 
 module.exports.getSettings = () => {
-    return Promise.resolve(pug.renderFile(`${__dirname}/../views/settings.pug`));
+    return null;
 };
 
 module.exports.getMainView = () => {
-    return Promise.resolve(pug.renderFile(`${__dirname}/../views/player.pug`));
+    return Promise.resolve(pug.renderFile(`${__dirname}/../views/player.pug`, {
+        settings: settings,
+        info: userInfo
+    }));
 };
 
 module.exports.getScript = () => {

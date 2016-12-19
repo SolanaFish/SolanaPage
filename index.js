@@ -58,10 +58,6 @@ var settings = {
             name: "reddit-wallpapers-module",
             active: true,
             jsEntry: "reddit"
-        }, {
-            name: "spotify-module",
-            active: true,
-            jsEntry: "spotify"
         }],
         theme: 'default'
     }
