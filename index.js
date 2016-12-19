@@ -45,15 +45,12 @@ var settings = {
         modules: [{
             name: "bookmarks-module",
             active: true,
-            jsEntry: "bookmarks"
         }, {
             name: "system-info-module",
             active: true,
-            jsEntry: "systemInfoStart"
         }, {
             name: "media-controls-module",
             active: true,
-            jsEntry: "media"
         }, {
             name: "reddit-wallpapers-module",
             active: true,
