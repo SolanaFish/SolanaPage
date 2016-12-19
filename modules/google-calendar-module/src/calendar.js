@@ -70,9 +70,9 @@ var authorize = (credentials) => {
             settings.loggedIn = true;
             settings.oauth2Client.credentials = JSON.parse(token);
             settings.oauth2Client.refreshAccessToken((err, tokens) => {
-                if(!err) {
-                    storeToken();
-                }
+                if (!err) {
+                    storeToken(tokens);
+                } else console.log(err);
                 listEvents();
             });
         }
@@ -100,6 +100,7 @@ var getNewToken = (req, res) => {
 var getNewTokenLink = () => {
     return settings.oauth2Client.generateAuthUrl({
         access_type: 'offline',
+        approval_prompt: 'force',
         scope: scopes
     });
 };
@@ -111,9 +112,10 @@ var storeToken = (token) => {
 var listEvents = () => {
     var calendar = google.calendar('v3');
     settings.oauth2Client.refreshAccessToken((err, tokens) => {
-        if(!err) {
+        if (!err) {
+            storeToken(tokens);
+        } else {
             console.log(err);
-            storeToken();
         }
         calendar.events.list({
             auth: settings.oauth2Client,
@@ -135,7 +137,7 @@ var listEvents = () => {
 
 var submitCalendarEvents = (req, res) => {
     var events = parseInt(req.body.events);
-    if(events > 0 && events < 180) {
+    if (events > 0 && events < 180) {
         settings.current.events = events;
         settings.save();
         listEvents();
@@ -147,7 +149,7 @@ var submitCalendarEvents = (req, res) => {
 
 var submitCalendarRefresh = (req, res) => {
     var refresh = parseInt(req.body.refresh);
-    if(refresh > 0 && refresh < 180) {
+    if (refresh > 0 && refresh < 180) {
         settings.current.refresh = refresh;
         settings.save();
         listEvents();
