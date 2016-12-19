@@ -54,7 +54,9 @@ var settings = {
         }, {
             name: "reddit-wallpapers-module",
             active: true,
-            jsEntry: "reddit"
+        }, {
+            name: "google-calendar-module",
+            active: true,
         }],
         theme: 'default'
     }
