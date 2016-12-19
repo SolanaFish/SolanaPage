@@ -23,6 +23,8 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.13.4",
     "gm": "^1.22.0",
+    "google-auth-library": "^0.9.10",
+    "googleapis": "^15.0.0",
     "helmet": "^3.1.0",
     "multer": "^1.2.0",
     "node-bind": "git+https://github.com/Polymer/NodeBind.git",
