@@ -24,7 +24,7 @@ paper-material.eventsMaterial
                             case section.name
                                 when 'status'
                                     if event.status
-                                        div.eventDetail.inLine
+                                        div.eventDetail
                                             div.eventDetailTitle
                                                 |Event status:
                                             div.eventDetailContent= event.status
@@ -33,28 +33,30 @@ paper-material.eventsMaterial
                                         div.eventDetail
                                             div.eventDetailTitle
                                                 |Event date:
-                                            div.eventDetailContent.detailed
-                                                if event.start.date
-                                                    div.eventDetailContentTitle
-                                                        = 'Starts'
-                                                    div.eventDetailContentContent
-                                                        = event.start.date
-                                                if event.start.dateTime
-                                                    div.eventDetailContentTitle
-                                                        = 'Starts'
-                                                    div.eventDetailContentContent
-                                                        = event.start.dateTime
+                                            div.eventDetailContent
+                                                div.eventDetailSecondary
+                                                    if event.start.date
+                                                        div.eventDetailSecondaryTitle
+                                                            = 'Starts'
+                                                        div.eventDetailSecondaryContent
+                                                            = event.start.date
+                                                    if event.start.dateTime
+                                                        div.eventDetailSecondaryTitle
+                                                            = 'Starts'
+                                                        div.eventDetailSecondaryContent
+                                                            = event.start.dateTime
 
-                                                if event.end.date
-                                                    div.eventDetailContentTitle
-                                                        = 'Ends'
-                                                    div.eventDetailContentContent
-                                                        = event.end.date
-                                                if event.end.dateTime
-                                                    div.eventDetailContentTitle
-                                                        = 'Ends'
-                                                    div.eventDetailContentContent
-                                                        = event.end.dateTime
+                                                div.eventDetailSecondary
+                                                    if event.end.date
+                                                        div.eventDetailSecondaryTitle
+                                                            = 'Ends'
+                                                        div.eventDetailSecondaryContent
+                                                            = event.end.date
+                                                    if event.end.dateTime
+                                                        div.eventDetailSecondaryTitle
+                                                            = 'Ends'
+                                                        div.eventDetailSecondaryContent
+                                                            = event.end.dateTime
                                 when 'description'
                                     if event.description
                                         div.eventDetail
@@ -63,7 +65,7 @@ paper-material.eventsMaterial
                                             div.eventDetailContent= event.description
                                 when 'location'
                                     if event.location
-                                        div.eventDetail.inLine
+                                        div.eventDetail
                                             div.eventDetailTitle
                                                 |Event location:
                                             div.eventDetailContent= event.location
@@ -72,10 +74,11 @@ paper-material.eventsMaterial
                                         div.eventDetail
                                             div.eventDetailTitle
                                                 |Event reminders:
-                                            div.eventDetailContent.detailed
+                                            div.eventDetailContent
                                                 each reminder in event.reminders.overrides
-                                                        div.eventDetailContentTitle=reminder.method
-                                                        div.eventDetailContentContent
+                                                    div.eventDetailSecondary
+                                                        div.eventDetailSecondaryTitle=reminder.method
+                                                        div.eventDetailSecondaryContent
                                                             if Math.floor(reminder.minutes / 60)
                                                                 =`${Math.floor(reminder.minutes / 60)} hours `
                                                             if (reminder.minutes % 60)
@@ -88,6 +91,5 @@ paper-material.eventsMaterial
                                                 |Event attachments:
                                             div.eventDetailContent
                                                 each attachment in event.attachments
-                                                    a.darkA(href= attachment.fileUrl)
-                                                        paper-item
+                                                    a.darkA.standardFontSize(href= attachment.fileUrl)
                                                             = attachment.title
