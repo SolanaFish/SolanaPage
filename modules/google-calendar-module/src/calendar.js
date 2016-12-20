@@ -149,51 +149,55 @@ var listEvents = () => {
                 console.log(err);
             } else {
                 settings.events = res.items;
-                settings.events.forEach((event) => {
-                    var today = new Date();
-                    var date;
-                    event.niceDate = {};
-                    if (event.start.date) {
-                        date = new Date(event.start.date);
-                        if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()) {
-                            event.niceDate.start = 'Today';
-                        } else if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate() + 1) {
-                            event.niceDate.start = 'Tomorrow';
-                        } else {
-                            event.niceDate.start = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
-                        }
-                    } else if (event.start.dateTime) {
-                        date = new Date(event.start.dateTime);
-                        if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()) {
-                            event.niceDate.start = `Today at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
-                        } else if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate() + 1) {
-                            event.niceDate.start = `Tomorrow at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
-                        } else {
-                            event.niceDate.start = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()} at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
-                        }
-                    }
-                    if (event.end.date) {
-                        date = new Date(event.end.date);
-                        if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()) {
-                            event.niceDate.end = 'Today';
-                        } else if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate() + 1) {
-                            event.niceDate.end = 'Tomorrow';
-                        } else {
-                            event.niceDate.end = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
-                        }
-                    } else if (event.end.dateTime) {
-                        date = new Date(event.end.dateTime);
-                        if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()) {
-                            event.niceDate.end = `Today at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
-                        } else if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate() + 1) {
-                            event.niceDate.end = `Tomorrow at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
-                        } else {
-                            event.niceDate.end = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()} at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
-                        }
-                    }
-                });
+                getNiceDate();
             }
         });
+    });
+};
+
+var getNiceDate = () => {
+    settings.events.forEach((event) => {
+        var today = new Date();
+        var date;
+        event.niceDate = {};
+        if (event.start.date) {
+            date = new Date(event.start.date);
+            if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()) {
+                event.niceDate.start = 'Today';
+            } else if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate() + 1) {
+                event.niceDate.start = 'Tomorrow';
+            } else {
+                event.niceDate.start = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+            }
+        } else if (event.start.dateTime) {
+            date = new Date(event.start.dateTime);
+            if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()) {
+                event.niceDate.start = `Today at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
+            } else if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate() + 1) {
+                event.niceDate.start = `Tomorrow at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
+            } else {
+                event.niceDate.start = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()} at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
+            }
+        }
+        if (event.end.date) {
+            date = new Date(event.end.date);
+            if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()) {
+                event.niceDate.end = 'Today';
+            } else if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate() + 1) {
+                event.niceDate.end = 'Tomorrow';
+            } else {
+                event.niceDate.end = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+            }
+        } else if (event.end.dateTime) {
+            date = new Date(event.end.dateTime);
+            if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate()) {
+                event.niceDate.end = `Today at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
+            } else if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate() + 1) {
+                event.niceDate.end = `Tomorrow at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
+            } else {
+                event.niceDate.end = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()} at ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
+            }
+        }
     });
 };
 
