@@ -29,7 +29,15 @@ var settings = {
     },
     current: {
         refresh: 10,
-        events: 10
+        events: 10,
+        display: {
+            status: false,
+            date: true,
+            description: true,
+            location: true,
+            reminders: false,
+            attachments: true
+        }
     },
     loggedIn: false,
     needsToken: false,
@@ -106,7 +114,7 @@ var getNewTokenLink = () => {
 };
 
 var storeToken = (token) => {
-    fs.writeFile(credentialsDir, JSON.stringify(token), ()=> {});
+    fs.writeFile(credentialsDir, JSON.stringify(token), () => {});
 };
 
 var listEvents = () => {
