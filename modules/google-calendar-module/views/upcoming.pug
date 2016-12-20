@@ -8,13 +8,7 @@ paper-material.eventsMaterial
                         div
                             = event.summary
                         div(secondary)
-                            if event.start.date
-                                ="Starts " + event.start.date
-                            else
-                                if event.start.dateTime
-                                    = ` ${event.start.dateTime}`
-                                else
-                                    = "Start date and time not specified"
+                            =event.niceDate.start
                     a.darkA(href= event.htmlLink)
                         paper-icon-button(icon="link")
             iron-collapse.eventCollapse(opened="{{active}}", colorId=event.colorId)
@@ -29,34 +23,21 @@ paper-material.eventsMaterial
                                                 |Event status:
                                             div.eventDetailContent= event.status
                                 when 'date'
-                                    if event.end.date || event.end.dateTime
-                                        div.eventDetail
-                                            div.eventDetailTitle
-                                                |Event date:
-                                            div.eventDetailContent
-                                                div.eventDetailSecondary
-                                                    if event.start.date
-                                                        div.eventDetailSecondaryTitle
-                                                            = 'Starts'
-                                                        div.eventDetailSecondaryContent
-                                                            = event.start.date
-                                                    if event.start.dateTime
-                                                        div.eventDetailSecondaryTitle
-                                                            = 'Starts'
-                                                        div.eventDetailSecondaryContent
-                                                            = event.start.dateTime
+                                    div.eventDetail
+                                        div.eventDetailTitle
+                                            |Event date:
+                                        div.eventDetailContent
+                                            div.eventDetailSecondary
+                                                div.eventDetailSecondaryTitle
+                                                    = 'Starts'
+                                                div.eventDetailSecondaryContent
+                                                    = event.niceDate.start
 
-                                                div.eventDetailSecondary
-                                                    if event.end.date
-                                                        div.eventDetailSecondaryTitle
-                                                            = 'Ends'
-                                                        div.eventDetailSecondaryContent
-                                                            = event.end.date
-                                                    if event.end.dateTime
-                                                        div.eventDetailSecondaryTitle
-                                                            = 'Ends'
-                                                        div.eventDetailSecondaryContent
-                                                            = event.end.dateTime
+                                            div.eventDetailSecondary
+                                                div.eventDetailSecondaryTitle
+                                                    = 'Ends'
+                                                div.eventDetailSecondaryContent
+                                                    = event.niceDate.end
                                 when 'description'
                                     if event.description
                                         div.eventDetail
