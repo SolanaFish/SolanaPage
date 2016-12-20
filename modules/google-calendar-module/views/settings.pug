@@ -12,3 +12,9 @@ paper-toast#calendarEventsToast
     |Refresh time updated
 paper-toast#calendarRefreshToast
     |Number of events updated
+paper-material.settingsMaterial
+    div.settingsTitle
+        |What to display in event details
+    div.settingsContent
+        each section in settings.display
+            paper-toggle-button(name=section.name, checked=section.active)= `Event ${section.name}`
