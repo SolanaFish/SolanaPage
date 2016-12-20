@@ -68,6 +68,7 @@ module.exports = function(app) {
         app.post('/calendar/submitCalendarEvents', uep, submitCalendarEvents);
         app.post('/calendar/submitCalendarRefresh', uep, submitCalendarRefresh);
         app.post('/calendar/logout', uep, logout);
+        app.post('/calendar/updateSegments', uep, updateSegments);
         setInterval(() => {
             listEvents();
         }, settings.current.refresh * 60 * 1000);
@@ -243,6 +244,22 @@ var logout = (req, res) => {
     } else {
         res.sendStatus(400);
     }
+};
+
+var indexOfSegment = (name) => {
+    settings.current.display.forEach((segment, index) => {
+        if(segment.name === name) {
+            return index;
+        }
+    });
+    return -1;
+};
+
+var updateSegments = (req, res)=> {
+    var segments = JSON.parse(req.body.data);
+    settings.current.display = segments;
+    settings.save();
+    res.sendStatus(200);
 };
 
 module.exports.getSettings = function() {

@@ -37,7 +37,7 @@ var submitCalendarRefresh = () => {
 };
 
 var calendarLogout = (confirmed) => {
-    if(confirmed) {
+    if (confirmed) {
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "/calendar/logout", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -50,4 +50,26 @@ var calendarLogout = (confirmed) => {
     } else {
         document.getElementById('calendarLogoutDialog').open();
     }
+};
+
+var submitCalendarSegments = () => {
+    var calendarSegments = document.getElementById('calendarSegments');
+    var segments = calendarSegments.children;
+    var arr = [];
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/calendar/updateSegments", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    for (var i = 0; i < segments.length; ++i) {
+        // msg += `${segments[i].name}=${segments[i].checked}&`;
+        arr.push({
+            name: segments[i].name,
+            active: segments[i].checked
+        });
+    }
+    xhttp.send('data='+JSON.stringify(arr));
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status === 200) {
+            document.getElementById('calendarLogoutToast').open();
+        }
+    };
 };

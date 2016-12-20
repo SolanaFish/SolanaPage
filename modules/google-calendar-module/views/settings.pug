@@ -16,8 +16,12 @@ paper-material.settingsMaterial
     div.settingsTitle
         |What to display in event details
     div.settingsContent
-        each section in settings.display
-            paper-toggle-button(name=section.name, checked=section.active)= `Event ${section.name}`
+        div#calendarSegments
+            each section in settings.display
+                paper-toggle-button(name=section.name, checked=section.active)= `Event ${section.name}`
+    paper-button.settingsButton(onclick="submitCalendarSegments()")
+        iron-icon(icon="check")
+        |OK
 paper-material.settingsMaterial
     div.settingsTitle
         |Logout from calendar module
