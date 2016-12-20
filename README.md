@@ -41,6 +41,20 @@ Incoming !
     - customize what subreddits to use
     - go to reddit post of current wallpaper
 
+- Google calendar module
+
+    - lists users upcoming events
+    - display events detailed information
+    - display only important information
+    - go to events calendar site
+
+- Spotify control module (WIP)
+
+    - work is stopped until [this issue](https://github.com/spotify/web-api/issues/12) gets resolved
+    - lists users playlists and songs
+    - shows currently playing song
+    - control player
+
 ## Requirements
 
 - Basic
