@@ -1,12 +1,81 @@
 paper-material.eventsMaterial
     each event in events
-        div.eventContainer
-            div.eventColor(colorId=event.colorId)
-            paper-item.eventItem
-                paper-item-body('two-line')
-                    div
-                        = event.summary
-                    div(secondary)
-                        ="Starts " + event.start.date
-                a.darkA(href= event.htmlLink)
-                    paper-icon-button(icon="link")
+        template(is='dom-bind')
+            div.eventContainer
+                div.eventColor(colorId=event.colorId)
+                paper-item.eventItem(toggles, active="{{active}}")
+                    paper-item-body('two-line')
+                        div
+                            = event.summary
+                        div(secondary)
+                            if event.start.date
+                                ="Starts " + event.start.date
+                            else
+                                if event.start.dateTime
+                                    = ` ${event.start.dateTime}`
+                                else
+                                    = "Start date and time not specified"
+                    a.darkA(href= event.htmlLink)
+                        paper-icon-button(icon="link")
+            iron-collapse.eventCollapse(opened="{{active}}", colorId=event.colorId)
+                div.eventDetailContainer
+                    if event.status
+                        div.eventDetail.inLine
+                            div.eventDetailTitle
+                                |Event status:
+                            div.eventDetailContent= event.status
+                    if event.end.date
+                        div.eventDetail
+                            div.eventDetailTitle
+                                |Event date:
+                            div.eventDetailContent=`Starts: ${event.start.date}, ends: ${event.end.date}`
+                    else
+                        if event.end.dateTime
+                            div.eventDetail
+                                div.eventDetailTitle
+                                    |Event date and time:
+                                div.eventDetailContent.detailed
+                                    div.eventDetailContentTitle
+                                        = 'Starts'
+                                    div.eventDetailContentContent
+                                        = event.start.dateTime
+                                    div.eventDetailContentTitle
+                                        = 'Ends'
+                                    div.eventDetailContentContent
+                                        =event.end.dateTime
+
+                    if event.description
+                        div.eventDetail
+                            div.eventDetailTitle
+                                |Event description:
+                            div.eventDetailContent= event.description
+
+                    if event.location
+                        div.eventDetail.inLine
+                            div.eventDetailTitle
+                                |Event location:
+                            div.eventDetailContent= event.location
+
+                    if event.reminders.overrides
+                        div.eventDetail
+                            div.eventDetailTitle
+                                |Event reminders:
+                            div.eventDetailContent.detailed
+                                each reminder in event.reminders.overrides
+                                        div.eventDetailContentTitle=reminder.method
+                                        div.eventDetailContentContent
+                                            if Math.floor(reminder.minutes / 60)
+                                                =`${Math.floor(reminder.minutes / 60)} hours `
+                                            if (reminder.minutes % 60)
+                                                =`${reminder.minutes % 60} minutes `
+                                            = "before event"
+
+                    if event.attachments
+                        div.eventDetail
+                            div.eventDetailTitle
+                                |Event attachments:
+                            div.eventDetailContent
+                                each attachment in event.attachments
+                                    a.darkA(href= attachment.fileUrl)
+                                        paper-item
+                                            = attachment.title

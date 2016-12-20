@@ -106,7 +106,7 @@ var getNewTokenLink = () => {
 };
 
 var storeToken = (token) => {
-    fs.writeFile(credentialsDir, JSON.stringify(token));
+    fs.writeFile(credentialsDir, JSON.stringify(token), ()=> {});
 };
 
 var listEvents = () => {
