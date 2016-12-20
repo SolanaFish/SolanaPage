@@ -35,3 +35,19 @@ var submitCalendarRefresh = () => {
         }
     };
 };
+
+var calendarLogout = (confirmed) => {
+    if(confirmed) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/calendar/logout", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("logout=yes");
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status === 200) {
+                document.getElementById('calendarLogoutToast').open();
+            }
+        };
+    } else {
+        document.getElementById('calendarLogoutDialog').open();
+    }
+};

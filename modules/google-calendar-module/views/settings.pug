@@ -18,3 +18,20 @@ paper-material.settingsMaterial
     div.settingsContent
         each section in settings.display
             paper-toggle-button(name=section.name, checked=section.active)= `Event ${section.name}`
+paper-material.settingsMaterial
+    div.settingsTitle
+        |Logout from calendar module
+    div.settingsContent
+        paper-button(onclick="calendarLogout(false)")
+            iron-icon(icon="close")
+            |Logout
+    paper-toast#calendarLogoutToast
+        |Logged out from calendar module
+    paper-dialog#calendarLogoutDialog(modal)
+        div
+            |Do you really want to logout
+        div.buttons
+            paper-button(dialog-dismiss)
+                |No
+            paper-button(dialog-confirm, onclick= "calendarLogout(true)")
+                |Yes

@@ -67,6 +67,7 @@ module.exports = function(app) {
         app.get('/calendar/callback', uep, getNewToken);
         app.post('/calendar/submitCalendarEvents', uep, submitCalendarEvents);
         app.post('/calendar/submitCalendarRefresh', uep, submitCalendarRefresh);
+        app.post('/calendar/logout', uep, logout);
         setInterval(() => {
             listEvents();
         }, settings.current.refresh * 60 * 1000);
@@ -220,6 +221,25 @@ var submitCalendarRefresh = (req, res) => {
         settings.save();
         listEvents();
         res.sendStatus(200);
+    } else {
+        res.sendStatus(400);
+    }
+};
+
+var logout = (req, res) => {
+    if (req.body.logout === 'yes') {
+        fs.unlink(credentialsDir, (err) => {
+            if(err) {
+                res.sendStatus(500);
+            } else {
+                settings.loggedIn = false;
+                settings.needsToken = false;
+                settings.oauth2Client = null;
+                settings.events = [];
+                settings.load();
+                res.sendStatus(200);
+            }
+        });
     } else {
         res.sendStatus(400);
     }
