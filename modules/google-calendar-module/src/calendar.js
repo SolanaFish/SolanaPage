@@ -30,14 +30,25 @@ var settings = {
     current: {
         refresh: 10,
         events: 10,
-        display: {
-            status: false,
-            date: true,
-            description: true,
-            location: true,
-            reminders: false,
-            attachments: true
-        }
+        display: [{
+            name: 'status',
+            active: false
+        }, {
+            name: 'date',
+            active: true
+        }, {
+            name: 'description',
+            active: true
+        }, {
+            name: 'location',
+            active: true
+        }, {
+            name: 'reminders',
+            active: false
+        }, {
+            name: 'attachments',
+            active: true
+        }]
     },
     loggedIn: false,
     needsToken: false,

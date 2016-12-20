@@ -19,63 +19,75 @@ paper-material.eventsMaterial
                         paper-icon-button(icon="link")
             iron-collapse.eventCollapse(opened="{{active}}", colorId=event.colorId)
                 div.eventDetailContainer
-                    if event.status && settings.display.status
-                        div.eventDetail.inLine
-                            div.eventDetailTitle
-                                |Event status:
-                            div.eventDetailContent= event.status
-                    if event.end.date
-                        div.eventDetail
-                            div.eventDetailTitle
-                                |Event date:
-                            div.eventDetailContent=`Starts: ${event.start.date}, ends: ${event.end.date}`
-                    else
-                        if event.end.dateTime
-                            div.eventDetail
-                                div.eventDetailTitle
-                                    |Event date and time:
-                                div.eventDetailContent.detailed
-                                    div.eventDetailContentTitle
-                                        = 'Starts'
-                                    div.eventDetailContentContent
-                                        = event.start.dateTime
-                                    div.eventDetailContentTitle
-                                        = 'Ends'
-                                    div.eventDetailContentContent
-                                        =event.end.dateTime
+                    each section in settings.display
+                        if section.active
+                            case section.name
+                                when 'status'
+                                    if event.status
+                                        div.eventDetail.inLine
+                                            div.eventDetailTitle
+                                                |Event status:
+                                            div.eventDetailContent= event.status
+                                when 'date'
+                                    if event.end.date || event.end.dateTime
+                                        div.eventDetail
+                                            div.eventDetailTitle
+                                                |Event date:
+                                            div.eventDetailContent.detailed
+                                                if event.start.date
+                                                    div.eventDetailContentTitle
+                                                        = 'Starts'
+                                                    div.eventDetailContentContent
+                                                        = event.start.date
+                                                if event.start.dateTime
+                                                    div.eventDetailContentTitle
+                                                        = 'Starts'
+                                                    div.eventDetailContentContent
+                                                        = event.start.dateTime
 
-                    if event.description && settings.display.description
-                        div.eventDetail
-                            div.eventDetailTitle
-                                |Event description:
-                            div.eventDetailContent= event.description
-
-                    if event.location && settings.display.location
-                        div.eventDetail.inLine
-                            div.eventDetailTitle
-                                |Event location:
-                            div.eventDetailContent= event.location
-
-                    if event.reminders.overrides && settings.display.reminders
-                        div.eventDetail
-                            div.eventDetailTitle
-                                |Event reminders:
-                            div.eventDetailContent.detailed
-                                each reminder in event.reminders.overrides
-                                        div.eventDetailContentTitle=reminder.method
-                                        div.eventDetailContentContent
-                                            if Math.floor(reminder.minutes / 60)
-                                                =`${Math.floor(reminder.minutes / 60)} hours `
-                                            if (reminder.minutes % 60)
-                                                =`${reminder.minutes % 60} minutes `
-                                            = "before event"
-
-                    if event.attachments && settings.display.attachments
-                        div.eventDetail
-                            div.eventDetailTitle
-                                |Event attachments:
-                            div.eventDetailContent
-                                each attachment in event.attachments
-                                    a.darkA(href= attachment.fileUrl)
-                                        paper-item
-                                            = attachment.title
+                                                if event.end.date
+                                                    div.eventDetailContentTitle
+                                                        = 'Ends'
+                                                    div.eventDetailContentContent
+                                                        = event.end.date
+                                                if event.end.dateTime
+                                                    div.eventDetailContentTitle
+                                                        = 'Ends'
+                                                    div.eventDetailContentContent
+                                                        = event.end.dateTime
+                                when 'description'
+                                    if event.description
+                                        div.eventDetail
+                                            div.eventDetailTitle
+                                                |Event description:
+                                            div.eventDetailContent= event.description
+                                when 'location'
+                                    if event.location
+                                        div.eventDetail.inLine
+                                            div.eventDetailTitle
+                                                |Event location:
+                                            div.eventDetailContent= event.location
+                                when 'reminders'
+                                    if event.reminders.overrides
+                                        div.eventDetail
+                                            div.eventDetailTitle
+                                                |Event reminders:
+                                            div.eventDetailContent.detailed
+                                                each reminder in event.reminders.overrides
+                                                        div.eventDetailContentTitle=reminder.method
+                                                        div.eventDetailContentContent
+                                                            if Math.floor(reminder.minutes / 60)
+                                                                =`${Math.floor(reminder.minutes / 60)} hours `
+                                                            if (reminder.minutes % 60)
+                                                                =`${reminder.minutes % 60} minutes `
+                                                            = "before event"
+                                when 'attachments'
+                                    if event.attachments
+                                        div.eventDetail
+                                            div.eventDetailTitle
+                                                |Event attachments:
+                                            div.eventDetailContent
+                                                each attachment in event.attachments
+                                                    a.darkA(href= attachment.fileUrl)
+                                                        paper-item
+                                                            = attachment.title
