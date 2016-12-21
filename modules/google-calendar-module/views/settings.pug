@@ -18,10 +18,14 @@ paper-material.settingsMaterial
     div.settingsContent
         div#calendarSegments
             each section in settings.display
-                paper-toggle-button(name=section.name, checked=section.active)= `Event ${section.name}`
+                paper-item.moduleItem.list-group-item
+                    paper-toggle-button.activeModulesButton(name=section.name, checked=section.active)= `Event ${section.name}`
+                    iron-icon.activeModulesIcon(icon="reorder")
     paper-button.settingsButton(onclick="submitCalendarSegments()")
         iron-icon(icon="check")
         |OK
+    paper-toast#calendarSegmentsToast
+        |Active segments updated!
 paper-material.settingsMaterial
     div.settingsTitle
         |Logout from calendar module
@@ -30,7 +34,7 @@ paper-material.settingsMaterial
             iron-icon(icon="close")
             |Logout
     paper-toast#calendarLogoutToast
-        |Logged out from calendar module
+        |Logged out from calendar module!
     paper-dialog#calendarLogoutDialog(modal)
         div
             |Do you really want to logout

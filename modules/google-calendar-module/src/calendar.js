@@ -246,15 +246,6 @@ var logout = (req, res) => {
     }
 };
 
-var indexOfSegment = (name) => {
-    settings.current.display.forEach((segment, index) => {
-        if(segment.name === name) {
-            return index;
-        }
-    });
-    return -1;
-};
-
 var updateSegments = (req, res)=> {
     var segments = JSON.parse(req.body.data);
     settings.current.display = segments;

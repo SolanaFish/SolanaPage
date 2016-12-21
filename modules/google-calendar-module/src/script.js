@@ -56,20 +56,20 @@ var submitCalendarSegments = () => {
     var calendarSegments = document.getElementById('calendarSegments');
     var segments = calendarSegments.children;
     var arr = [];
+    for (var i = 0; i < segments.length; ++i) {
+        let button = segments[i].children[0];
+        arr.push({
+            name: button.name,
+            active: button.checked
+        });
+    }
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/calendar/updateSegments", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    for (var i = 0; i < segments.length; ++i) {
-        // msg += `${segments[i].name}=${segments[i].checked}&`;
-        arr.push({
-            name: segments[i].name,
-            active: segments[i].checked
-        });
-    }
     xhttp.send('data='+JSON.stringify(arr));
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status === 200) {
-            document.getElementById('calendarLogoutToast').open();
+            document.getElementById('calendarSegmentsToast').open();
         }
     };
 };
