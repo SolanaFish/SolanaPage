@@ -285,18 +285,12 @@ app.get('/wallpaper.jpg', (req, res) => {
     });
 });
 
+app.get('/sortable.min.js', (req, res) => {
+    res.sendFile(`${__dirname}/node_modules/sortablejs/Sortable.min.js`);
+});
+
 app.post('/updateModules', uep, (req, res) => {
-    var updatedModules = [];
-    JSON.parse(req.body.modules).forEach((item) => {
-        updatedModules[item.name] = item.active;
-    });
-    /* jshint ignore:start */
-    settings.current.modules.forEach((moduleItem) => {
-        if (typeof updatedModules[moduleItem.name] !== "undefinied") {
-            moduleItem.active = updatedModules[moduleItem.name];
-        }
-    });
-    /* jshint ignore:end */
+    settings.current.modules = JSON.parse(req.body.modules);
     settings.save();
     res.sendStatus(200);
     process.exit();

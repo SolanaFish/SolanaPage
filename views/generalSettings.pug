@@ -3,11 +3,15 @@ template#activeModules(is= "dom-bind")
         div.settingsTitle
             | Choose active modules:
         div.settingsContent
-            each module in settings.modules
-                paper-toggle-button(name=module.name, checked= `${module.active}`)= module.name
+            div#modulesList
+                each module in settings.modules
+                        paper-item.moduleItem.list-group-item
+                            paper-toggle-button(name=module.name, checked= `${module.active}`)= module.name
         paper-button.settingsButton(onclick= "submitActiveModules()")
             iron-icon(icon= "check")
             |OK
+    paper-toast#activeModulesToast
+        |Active modules updated, app will restart now!
     paper-material.settingsMaterial
         div.settingsTitle
             | Upload wallpaper:

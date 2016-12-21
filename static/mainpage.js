@@ -1,10 +1,13 @@
 function submitActiveModules() {
-    let activeModulesButtons = Array.prototype.slice.call(document.getElementById('activeModulesDiv').children);
+    let modulesList = document.getElementById('modulesList');
+
+    let modulesChildrenList = Array.prototype.slice.call(modulesList.children);
     let activeModulesJSON = [];
-    activeModulesButtons.forEach((button) => {
+    modulesChildrenList.forEach((moduleItem) => {
+        let moduleButton = moduleItem.children[0];
         activeModulesJSON.push({
-            name: button.name,
-            active: button.active
+            name: moduleButton.name,
+            active: moduleButton.active
         });
     });
     xhttp = new XMLHttpRequest();
@@ -13,7 +16,7 @@ function submitActiveModules() {
     xhttp.send('modules=' + JSON.stringify(activeModulesJSON));
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log('setOk');
+            document.getElementById('activeModulesToast').open();
         }
     };
 }

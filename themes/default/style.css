@@ -48,6 +48,11 @@ body {
     z-index: 1000;
 }
 
+.moduleItem {
+    background:var(--item-color);
+    margin: 1%;
+}
+
 .drawerButton {
     width: 100%;
     margin: 1%;
