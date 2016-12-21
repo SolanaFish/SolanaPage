@@ -6,7 +6,8 @@ template#activeModules(is= "dom-bind")
             div#modulesList
                 each module in settings.modules
                         paper-item.moduleItem.list-group-item
-                            paper-toggle-button(name=module.name, checked= `${module.active}`)= module.name
+                            paper-toggle-button.activeModulesButton(name=module.name, checked= `${module.active}`)= module.name
+                            iron-icon.activeModulesIcon(icon="reorder")
         paper-button.settingsButton(onclick= "submitActiveModules()")
             iron-icon(icon= "check")
             |OK
