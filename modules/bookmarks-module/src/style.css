@@ -10,10 +10,6 @@ paper-card {
     color: white;
 }
 
-#deleteCategory {
-    padding: 0%;
-}
-
 #addNewCategoryDialog {
     width: 80%;
 }

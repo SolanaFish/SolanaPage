@@ -69,14 +69,19 @@ paper-material#deleteCategory.settingsMaterial
     div.settingsTitle.noPaddingBottom
         |Delete category:
     div.deleteMaterial.settingsContent(role="listbox")
-        each category in bookmarks.categories
-            paper-item.deleteCategoryItem
-                paper-item-body('two-line')
-                    div
-                        =category.name
-                    div('secondary')
-                        =`${category.bookmarks.length} bookmarks in this category`
-                paper-icon-button(icon="clear", onclick=`deleteCategory('${category.name}')`)
+        div#categoriesList
+            each category, index in bookmarks.categories
+                paper-item.deleteCategoryItem.list-group-item(orginalPosition= index)
+                    paper-item-body('two-line')
+                        div
+                            =category.name
+                        div('secondary')
+                            =`${category.bookmarks.length} bookmarks in this category`
+                    iron-icon(icon="reorder")
+                    paper-icon-button(icon="clear", onclick=`deleteCategory('${category.name}')`)
+    paper-button.settingsButton(onclick="reorderCategories()")
+        iron-icon(icon="check")
+        |OK
 paper-material#deleteBookmark.settingsMaterial.noPadding
     div.settingsTitle
         |Delete bookmark:

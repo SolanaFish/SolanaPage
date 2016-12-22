@@ -41,7 +41,7 @@ function sumbitBookmarks() {
     sendString += "&category=" + category;
     if (colorButton && hex.length == 7 && textColor.length == 7) {
         sendString += "&color=" + hex;
-        sendString +="&text=" + textColor;
+        sendString += "&text=" + textColor;
     }
     xhttp.send(sendString);
     xhttp.onreadystatechange = function() {
@@ -189,6 +189,22 @@ function submitColorfulItems() {
     document.getElementById('colorfulItemsToast').open();
 }
 
+function reorderCategories() {
+    var categories = document.getElementById('categoriesList').children;
+    var newOrder = [];
+    for (var i = 0; i < categories.length; ++i) {
+        console.log(categories[i].getAttribute('orginalPosition'));
+        newOrder.push({
+            orginalPosition: categories[i].getAttribute('orginalPosition')
+        });
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/bookmarks/reorderCategories", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("data=" + JSON.stringify(newOrder));
+    console.log(JSON.stringify(newOrder));
+}
+
 function bookmarksSetup(from) {
 
     var displayMethodMenu = document.getElementById('displayMethodMenu');
@@ -259,4 +275,7 @@ function bookmarksSetup(from) {
         updateCustomColorText(false);
     });
 
+    Sortable.create(categoriesList, {
+        animation: 150
+    });
 }

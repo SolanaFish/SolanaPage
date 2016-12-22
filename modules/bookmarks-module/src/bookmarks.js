@@ -62,6 +62,7 @@ module.exports = function(app) {
         app.post('/bookmarks/addNewCategory', uep, addCategory);
         app.post('/bookmarks/displayMethod', uep, displayMethod);
         app.post('/bookmarks/colorfulItems', uep, colorfulItems);
+        app.post('/bookmarks/reorderCategories', uep, reorderCategories);
         serverLog("Bookmarks module ready!");
         resolve();
     });
@@ -219,6 +220,17 @@ var colorfulItems = function(req, res) {
     } else {
         res.sendStatus(400);
     }
+};
+
+var reorderCategories = (req, res) => {
+    var newOrder = JSON.parse(req.body.data);
+    var newSettings = [];
+    newOrder.forEach((item, index) => {
+        newSettings.push(settings.current.bookmarks.categories[item.orginalPosition]);
+    });
+    settings.current.bookmarks.categories = newSettings;
+    settings.save();
+    res.sendStatus(200);
 };
 
 module.exports.getSettings = function() {
