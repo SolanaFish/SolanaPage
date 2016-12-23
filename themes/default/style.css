@@ -105,6 +105,7 @@ body {
     flex: 0 1 auto;
     margin-right: auto;
     align-self: flex-end;
+    margin-left: auto;
 }
 
 .blackUrl {

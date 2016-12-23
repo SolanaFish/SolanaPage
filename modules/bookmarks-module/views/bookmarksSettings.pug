@@ -102,14 +102,13 @@ paper-material#deleteBookmark.settingsMaterial.noPadding
                     div.bookmarksItemsContent
                         iron-pages#deleteBookmarkPages(selected= "{{page}}")
                             each category in bookmarks.categories
-                                div
-                                    each bookmark in category.bookmarks
-                                        a.bookmarksItemsLink(href= bookmark.url)
-                                            paper-item.bookmarksItemsItem
-                                                paper-item-body(two-line)
-                                                    div= bookmark.name
-                                                    div(secondary)= bookmark.url
-                                                paper-icon-button(icon="clear", onclick=`deleteBookmark('${bookmark.url}','${category.name}')`)
+                                div.deleteBookmarkSortable
+                                    each bookmark, bookmarkIndex in category.bookmarks
+                                        paper-item.bookmarksItemsItem(orgorginalPosition= bookmarkIndex, category=category.name)
+                                            paper-item-body(two-line)
+                                                div= bookmark.name
+                                                div(secondary)= bookmark.url
+                                            paper-icon-button(icon="clear", onclick=`deleteBookmark('${bookmark.url}','${category.name}')`)
             else
                 div.bookmarksItemsContent
                     each bookmark in bookmarks.categories[0].bookmarks
@@ -118,6 +117,9 @@ paper-material#deleteBookmark.settingsMaterial.noPadding
                                 paper-item-body(two-line)
                                     div= bookmark.name
                                     div(secondary)= bookmark.url
+    paper-button.settingsButton(onclick="reorderBookmarks()")
+        iron-icon(icon="check")
+        |OK
 
 
 paper-material.settingsMaterial

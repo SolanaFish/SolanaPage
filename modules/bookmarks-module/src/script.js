@@ -202,8 +202,24 @@ function reorderCategories() {
     xhttp.open("POST", "/bookmarks/reorderCategories", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("data=" + JSON.stringify(newOrder));
-    console.log(JSON.stringify(newOrder));
 }
+
+function reorderBookmarks() {
+    var pages = document.getElementById('deleteBookmarkPages').children;
+    var newOrder = [];
+    for (var i = 0; i < pages.length; ++i) {
+        newOrder[i] = [];
+        var bookmarks = pages[i].children;
+        for (var j = 0; j < bookmarks.length; ++j) {
+            newOrder[i][j] = bookmarks[j].getAttribute('orgorginalPosition');
+        }
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/bookmarks/reorderBookmarks", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("data=" + JSON.stringify(newOrder));
+}
+
 
 function bookmarksSetup(from) {
 

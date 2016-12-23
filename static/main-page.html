@@ -39,6 +39,12 @@
                     Sortable.create(calendarSegments, {
                         animation: 150
                     });
+                    var sortables = document.querySelectorAll('.deleteBookmarkSortable');
+                    for (var i = 0; i < sortables.length; i++) {
+                        Sortable.create(sortables[i], {
+                            animation: 150
+                        });
+                    }
                 }, 1);
             },
             behaviors: [Polymer.NeonSharedElementAnimatableBehavior],

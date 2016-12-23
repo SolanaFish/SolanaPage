@@ -63,6 +63,7 @@ module.exports = function(app) {
         app.post('/bookmarks/displayMethod', uep, displayMethod);
         app.post('/bookmarks/colorfulItems', uep, colorfulItems);
         app.post('/bookmarks/reorderCategories', uep, reorderCategories);
+        app.post('/bookmarks/reorderBookmarks', uep, reorderBookmarks);
         serverLog("Bookmarks module ready!");
         resolve();
     });
@@ -87,7 +88,7 @@ var addBookmark = function(req, res) {
                     url: link,
                     thumbnail: `${shortid.generate()}.png`
                 };
-                if(typeof color !== 'undefined') {
+                if (typeof color !== 'undefined') {
                     newBookmark.color = {};
                     newBookmark.color.background = color;
                     newBookmark.color.text = text;
@@ -201,7 +202,7 @@ var addCategory = function(req, res) {
 var displayMethod = function(req, res) {
     var method = req.body.method;
 
-    if(method === 'items' || method === 'cards') {
+    if (method === 'items' || method === 'cards') {
         settings.current.view = method;
         settings.save();
         res.sendStatus(200);
@@ -213,7 +214,7 @@ var displayMethod = function(req, res) {
 var colorfulItems = function(req, res) {
     var method = JSON.parse(req.body.colorful);
 
-    if(typeof method === 'boolean') {
+    if (typeof method === 'boolean') {
         settings.current.colorfulItems = method;
         settings.save();
         res.sendStatus(200);
@@ -233,6 +234,24 @@ var reorderCategories = (req, res) => {
     res.sendStatus(200);
 };
 
+var reorderBookmarks = (req, res) => {
+    var newOrder = JSON.parse(req.body.data);
+    var newSettings = [];
+    newOrder.forEach((category, categoryIndex) => {
+        var newCategory = {
+            name: settings.current.bookmarks.categories[categoryIndex].name,
+            bookmarks: []
+        };
+        category.forEach((orginalPosition) => {
+            newCategory.bookmarks.push(settings.current.bookmarks.categories[categoryIndex].bookmarks[orginalPosition]);
+        });
+        newSettings.push(newCategory);
+    });
+    settings.current.bookmarks.categories = newSettings;
+    settings.save();
+    res.sendStatus(200);
+};
+
 module.exports.getSettings = function() {
     return Promise.resolve(pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings.current));
 };
@@ -244,7 +263,7 @@ module.exports.getMainView = function() {
         }));
     } else if (settings.current.view === "items") {
         return Promise.resolve(pug.renderFile(`${__dirname}/../views/items.pug`, {
-            settings:settings.current,
+            settings: settings.current,
             bookmarks: settings.current.bookmarks
         }));
     }
