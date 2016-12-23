@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 const moduleDir = '../modules/reddit-wallpapers-module/src/reddit.js';
 const settingsDir = './reddittestsettings.json';
 
-describe('reddit-wallpapers-module', function() {
+describe('reddit-wallpapers-module', () => {
     var redditModule;
     var app;
 

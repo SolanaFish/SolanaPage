@@ -9,10 +9,10 @@ const uep = bodyParser.urlencoded({
     extended: false
 });
 
-function serverLog(text) {
+var serverLog = (text) => {
     var date = new Date();
     console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
-}
+};
 
 var settings = {
     load: () => {
@@ -40,20 +40,20 @@ var settings = {
     },
 };
 
-function findCategory(name) {
+var findCategory = (name) => {
     return settings.current.bookmarks.categories.indexOf(settings.current.bookmarks.categories.filter((value) => { // category exists
         return value.name == name;
     })[0]);
-}
+};
 
-function findBookmark(url, category) {
+var findBookmark = (url, category) => {
     return settings.current.bookmarks.categories[category].bookmarks.indexOf(settings.current.bookmarks.categories[category].bookmarks.filter((value) => { // that url exists
         return value.url == url;
     })[0]);
-}
+};
 
-module.exports = function(app) {
-    return new Promise(function(resolve, reject) {
+module.exports = (app) => {
+    return new Promise((resolve, reject) => {
         settings.load();
 
         app.post('/bookmarks/addBookmark', uep, addBookmark);
@@ -69,7 +69,7 @@ module.exports = function(app) {
     });
 };
 
-var addBookmark = function(req, res) {
+var addBookmark = (req, res) => {
     var name = req.body.bookmarkName;
     var link = req.body.bookmarkLink;
     var category = req.body.category;
@@ -130,7 +130,7 @@ var addBookmark = function(req, res) {
     }
 };
 
-var deleteBookmark = function(req, res) {
+var deleteBookmark = (req, res) => {
     var bookmark = req.body.url;
     var category = req.body.category;
 
@@ -158,7 +158,7 @@ var deleteBookmark = function(req, res) {
     }
 };
 
-var deleteCategory = function(req, res) {
+var deleteCategory = (req, res) => {
     var category = req.body.name;
 
     var foundCategory = findCategory(category);
@@ -183,7 +183,7 @@ var deleteCategory = function(req, res) {
     }
 };
 
-var addCategory = function(req, res) {
+var addCategory = (req, res) => {
     var categoryName = req.body.name;
 
     if (findCategory(categoryName) == -1) {
@@ -199,7 +199,7 @@ var addCategory = function(req, res) {
     }
 };
 
-var displayMethod = function(req, res) {
+var displayMethod = (req, res) => {
     var method = req.body.method;
 
     if (method === 'items' || method === 'cards') {
@@ -211,7 +211,7 @@ var displayMethod = function(req, res) {
     }
 };
 
-var colorfulItems = function(req, res) {
+var colorfulItems = (req, res) => {
     var method = JSON.parse(req.body.colorful);
 
     if (typeof method === 'boolean') {
@@ -252,11 +252,11 @@ var reorderBookmarks = (req, res) => {
     res.sendStatus(200);
 };
 
-module.exports.getSettings = function() {
+module.exports.getSettings = () => {
     return Promise.resolve(pug.renderFile(`${__dirname}/../views/bookmarksSettings.pug`, settings.current));
 };
 
-module.exports.getMainView = function() {
+module.exports.getMainView = () => {
     if (settings.current.view === "cards") {
         return Promise.resolve(pug.renderFile(`${__dirname}/../views/categories.pug`, {
             bookmarks: settings.current.bookmarks
@@ -269,8 +269,8 @@ module.exports.getMainView = function() {
     }
 };
 
-module.exports.getScript = function() {
-    return new Promise(function(resolve, reject) {
+module.exports.getScript = () => {
+    return new Promise((resolve, reject) => {
         fs.readFile(`${__dirname}/script.js`, (err, data) => {
             if (err) {
                 resolve();
@@ -281,8 +281,8 @@ module.exports.getScript = function() {
     });
 };
 
-module.exports.getCss = function() {
-    return new Promise(function(resolve, reject) {
+module.exports.getCss = () => {
+    return new Promise((resolve, reject) => {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
             if (err) {
                 resolve();
@@ -293,6 +293,6 @@ module.exports.getCss = function() {
     });
 };
 
-module.exports.niceName = function() {
+module.exports.niceName = () => {
     return 'Bookmarks store';
 };

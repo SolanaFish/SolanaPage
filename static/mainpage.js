@@ -1,4 +1,4 @@
-function submitActiveModules() {
+var submitActiveModules = () => {
     let modulesList = document.getElementById('modulesList');
 
     let modulesChildrenList = Array.prototype.slice.call(modulesList.children);
@@ -14,28 +14,28 @@ function submitActiveModules() {
     xhttp.open('POST', '/updateModules', true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send('modules=' + JSON.stringify(activeModulesJSON));
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = () => {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById('activeModulesToast').open();
         }
     };
-}
+};
 
-function submitTheme() {
+var submitTheme = () => {
     var themeDropdownMenu = document.getElementById('themeDropdownMenu');
     xhttp = new XMLHttpRequest();
     xhttp.open('POST', '/changeTheme', true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send('theme=' + themeDropdownMenu.value);
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = () => {
         if (this.readyState == 4 && this.status == 200) {
             console.log('setOk');
             document.getElementById('themeToast').open();
         }
     };
-}
+};
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', (event) => {
     app.selected=0;
     app.settingsSelected=0;
 });

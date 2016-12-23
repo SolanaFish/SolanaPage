@@ -1,4 +1,4 @@
-function addBookmark() {
+var addBookmark = () => {
     var template = document.querySelector("#addBookmarkTemplate");
     if (template.category == "newCategory") {
         addNewCategoryDialog.open();
@@ -9,9 +9,9 @@ function addBookmark() {
             sumbitBookmarks();
         }
     }
-}
+};
 
-function addBookmarkWithNewCategory() {
+var addBookmarkWithNewCategory = () => {
     var newCategory = document.getElementById('newCategory');
     sendNewCategory(newCategory.value).then(() => {
         var template = document.querySelector("#addBookmarkTemplate");
@@ -22,9 +22,9 @@ function addBookmarkWithNewCategory() {
             document.getElementById('errorCategoryToast').open();
         }
     });
-}
+};
 
-function sumbitBookmarks() {
+var sumbitBookmarks = () => {
     var name = document.getElementById('addBookmarkName').value;
     var url = document.getElementById('addBookmarkUrl').value;
     var category = document.getElementById('addBookmarkCategory').selected;
@@ -44,7 +44,7 @@ function sumbitBookmarks() {
         sendString += "&text=" + textColor;
     }
     xhttp.send(sendString);
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = () => {
         if (this.readyState == 4) {
             if (this.status === 200) {
                 document.getElementById('addedBookmarkToast').open();
@@ -53,37 +53,37 @@ function sumbitBookmarks() {
             }
         }
     };
-}
+};
 
-function sendNewCategory(categoryName) {
-    return new Promise(function(resolve, reject) {
+var sendNewCategory = (categoryName) => {
+    return new Promise((resolve, reject) => {
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "/bookmarks/addNewCategory", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("name=" + categoryName);
-        xhttp.onreadystatechange = function() {
+        xhttp.onreadystatechange = () => {
             if (this.readyState == 4 && this.status == 200) {
                 resolve(200);
             }
         };
     });
-}
+};
 
-function deleteCategory(categoryName) {
+var deleteCategory = (categoryName) => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/bookmarks/deleteCategory", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("name=" + categoryName);
-}
+};
 
-function deleteBookmark(name, category) {
+var deleteBookmark = (name, category) => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/bookmarks/deleteBookmark", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("url=" + name + "&category=" + category);
-}
+};
 
-function copyToClipboard(text) {
+var copyToClipboard = (text) => {
     var textArea = document.createElement('textarea');
     textArea.style.postition = "fixed";
     textArea.style.top = 0;
@@ -103,9 +103,9 @@ function copyToClipboard(text) {
     } catch (err) {} finally {}
     document.body.removeChild(textArea);
     copiedToast.open();
-}
+};
 
-function submitDisplayMethod() {
+var submitDisplayMethod = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/bookmarks/displayMethod", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -115,21 +115,21 @@ function submitDisplayMethod() {
         xhttp.send("method=cards");
     }
     document.getElementById('displayMethodToast').open();
-}
+};
 
-function hexFromRgb(red, green, blue) {
+var hexFromRgb = (red, green, blue) => {
     return `#${('0' + red.toString(16)).slice(-2)}${('0' + green.toString(16)).slice(-2)}${('0' + blue.toString(16)).slice(-2)}`;
-}
+};
 
-function hexToRgb(hex) {
+var hexToRgb = (hex) => {
     var colors = {};
     colors.red = parseInt(hex.slice(1, 3), 16);
     colors.green = parseInt(hex.slice(3, 5), 16);
     colors.blue = parseInt(hex.slice(5, 7), 16);
     return colors;
-}
+};
 
-function updateCustomColor(fromSlider) {
+var updateCustomColor = (fromSlider) => {
     var item = document.getElementById('customColorItem');
     var redSlider = document.getElementById('customColorRedSlider');
     var greenSlider = document.getElementById('customColorGreenSlider');
@@ -151,9 +151,9 @@ function updateCustomColor(fromSlider) {
             item.style.background = color;
         }
     }
-}
+};
 
-function updateCustomColorText(fromSlider) {
+var updateCustomColorText = (fromSlider) => {
     var item = document.getElementById('customColorItemA');
     var redSlider = document.getElementById('customColorRedSliderText');
     var greenSlider = document.getElementById('customColorGreenSliderText');
@@ -175,9 +175,9 @@ function updateCustomColorText(fromSlider) {
             item.style.color = color;
         }
     }
-}
+};
 
-function submitColorfulItems() {
+var submitColorfulItems = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/bookmarks/colorfulItems", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -187,9 +187,9 @@ function submitColorfulItems() {
         xhttp.send("colorful=false");
     }
     document.getElementById('colorfulItemsToast').open();
-}
+};
 
-function reorderCategories() {
+var reorderCategories = () => {
     var categories = document.getElementById('categoriesList').children;
     var newOrder = [];
     for (var i = 0; i < categories.length; ++i) {
@@ -202,9 +202,9 @@ function reorderCategories() {
     xhttp.open("POST", "/bookmarks/reorderCategories", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("data=" + JSON.stringify(newOrder));
-}
+};
 
-function reorderBookmarks() {
+var reorderBookmarks = () => {
     var pages = document.getElementById('deleteBookmarkPages').children;
     var newOrder = [];
     for (var i = 0; i < pages.length; ++i) {
@@ -218,10 +218,10 @@ function reorderBookmarks() {
     xhttp.open("POST", "/bookmarks/reorderBookmarks", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("data=" + JSON.stringify(newOrder));
-}
+};
 
 
-function bookmarksSetup(from) {
+var bookmarksSetup = (from) => {
 
     var displayMethodMenu = document.getElementById('displayMethodMenu');
     displayMethodMenu.addEventListener('change', () => {
@@ -294,4 +294,4 @@ function bookmarksSetup(from) {
     Sortable.create(categoriesList, {
         animation: 150
     });
-}
+};

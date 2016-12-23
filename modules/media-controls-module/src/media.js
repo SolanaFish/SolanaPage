@@ -7,10 +7,10 @@ var uep = bodyParser.urlencoded({
     extended: false
 });
 
-function serverLog(text) {
+var serverLog = (text) => {
     var date = new Date();
     console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
-}
+};
 
 var settings = {
     load: () => {
@@ -70,7 +70,7 @@ var mediaControls = {
     }
 };
 
-function getInfo() {
+var getInfo = () => {
     return new Promise((resolve, reject) => {
         var title = new Promise((resolve, reject) => {
             exec(settings.current.infoCommands.title, (err, stdout, stderr)=> {
@@ -109,10 +109,10 @@ function getInfo() {
             reject(err);
         });
     });
-}
+};
 
-module.exports = function(app) {
-    return new Promise(function(resolve, reject) {
+module.exports = (app) => {
+    return new Promise((resolve, reject) => {
         settings.load();
         app.post('/media/controls', uep, controls);
         serverLog("Media controls module ready!");
@@ -120,7 +120,7 @@ module.exports = function(app) {
     });
 };
 
-var controls = function(req, res) {
+var controls = (req, res) => {
     switch (req.body.action) {
         case 'play':
             {
@@ -167,11 +167,11 @@ var controls = function(req, res) {
     }
 };
 
-module.exports.getSettings = function() {
+module.exports.getSettings = () => {
     return null;
 };
 
-module.exports.getMainView = function() {
+module.exports.getMainView = () => {
     return new Promise((Resolve, Reject) => {
         getInfo().then((info) => {
             Resolve(Promise.resolve(pug.renderFile(`${__dirname}/../views/media.pug`, info)));
@@ -181,8 +181,8 @@ module.exports.getMainView = function() {
     });
 };
 
-module.exports.getScript = function() {
-    return new Promise(function(resolve, reject) {
+module.exports.getScript = () => {
+    return new Promise((resolve, reject) => {
         fs.readFile(`${__dirname}/script.js`, (err, data) => {
             if (err) {
                 resolve();
@@ -193,8 +193,8 @@ module.exports.getScript = function() {
     });
 };
 
-module.exports.getCss = function() {
-    return new Promise(function(resolve, reject) {
+module.exports.getCss = () => {
+    return new Promise((resolve, reject) => {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
             if (err) {
                 resolve();
@@ -205,6 +205,6 @@ module.exports.getCss = function() {
     });
 };
 
-module.exports.niceName = function() {
+module.exports.niceName = () => {
     return 'Media info and controls';
 };

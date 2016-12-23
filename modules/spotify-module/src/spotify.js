@@ -42,19 +42,19 @@ var settings = {
     },
 };
 
-function serverLog(text) {
+var serverLog = (text) => {
     var date = new Date();
     console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
-}
+};
 
-function generateRandomString(length) {
+var generateRandomString = (length) => {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     for (var i = 0; i < length; ++i) {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return text;
-}
+};
 
 
 module.exports = (app) => {
@@ -199,7 +199,7 @@ var refreshToken = (req, res) => {
     });
 };
 
-module.exports.niceName = function() {
+module.exports.niceName = () => {
     return 'Spotfiy controls';
 };
 

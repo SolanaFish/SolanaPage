@@ -11,10 +11,10 @@ const scopes = ['https://www.googleapis.com/auth/calendar.readonly'];
 const google = require('googleapis');
 const googleAuth = require('google-auth-library');
 
-function serverLog(text) {
+var serverLog = (text) => {
     var date = new Date();
     console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
-}
+};
 
 var settings = {
     load: () => {
@@ -61,8 +61,8 @@ var settings = {
     },
 };
 
-module.exports = function(app) {
-    return new Promise(function(resolve, reject) {
+module.exports = (app) => {
+    return new Promise((resolve, reject) => {
         settings.load();
         app.get('/calendar/callback', uep, getNewToken);
         app.post('/calendar/submitCalendarEvents', uep, submitCalendarEvents);
@@ -253,13 +253,13 @@ var updateSegments = (req, res)=> {
     res.sendStatus(200);
 };
 
-module.exports.getSettings = function() {
+module.exports.getSettings = () => {
     return Promise.resolve(pug.renderFile(`${__dirname}/../views/settings.pug`, {
         settings: settings.current
     }));
 };
 
-module.exports.getMainView = function() {
+module.exports.getMainView = () => {
     if (settings.loggedIn) {
         return Promise.resolve(pug.renderFile(`${__dirname}/../views/upcoming.pug`, {
             settings: settings.current,
@@ -277,8 +277,8 @@ module.exports.getMainView = function() {
     }
 };
 
-module.exports.getScript = function() {
-    return new Promise(function(resolve, reject) {
+module.exports.getScript = () => {
+    return new Promise((resolve, reject) => {
         fs.readFile(`${__dirname}/script.js`, (err, data) => {
             if (err) {
                 resolve();
@@ -289,8 +289,8 @@ module.exports.getScript = function() {
     });
 };
 
-module.exports.getCss = function() {
-    return new Promise(function(resolve, reject) {
+module.exports.getCss = () => {
+    return new Promise((resolve, reject) => {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
             if (err) {
                 resolve();
@@ -301,6 +301,6 @@ module.exports.getCss = function() {
     });
 };
 
-module.exports.niceName = function() {
+module.exports.niceName = () => {
     return 'Google calendar module';
 };

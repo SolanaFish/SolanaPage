@@ -62,7 +62,7 @@ var settings = {
     }
 };
 
-function loadModules() {
+var loadModules = () => {
     return new Promise((resolve, reject) => {
         settings.load();
         serverLog("Loading modules!");
@@ -80,12 +80,12 @@ function loadModules() {
             reject(err);
         });
     });
-}
+};
 
-function serverLog(text) {
+var serverLog = (text) => {
     var date = new Date();
     console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
-}
+};
 
 var getMainView = () => {
     return new Promise((Resolve, Reject) => {
@@ -239,7 +239,7 @@ var getListOfThemes = () => {
     });
 };
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     serverLog("Serving main page");
     var renderInfo = {
         settings: settings.current,
@@ -324,12 +324,12 @@ app.get('/thumbnails/:id', (req, res) => {
 });
 
 
-var server = app.listen(8081, function() {
+var server = app.listen(8081, () => {
     app.use("/", express.static('.'));
     app.use("/static", express.static('./static'));
     app.set('view engine', 'pug');
     var views = [`${__dirname}/views`];
-    settings.current.modules.forEach(function(moduleItem) {
+    settings.current.modules.forEach((moduleItem) => {
         views.push(`${__dirname}/modules/${moduleItem.name}/views`);
     });
     app.set('views', views);

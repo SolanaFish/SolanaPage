@@ -1,7 +1,7 @@
-function redditWallpaper() {
-    fetch('/randomWallpaper').then(function(res) {
+var redditWallpaper = () => {
+    fetch('/randomWallpaper').then((res) => {
         return res.text();
-    }).then(function(res) {
+    }).then((res) => {
         if (res) {
             var wallData = JSON.parse(res);
             document.body.style.backgroundImage = `url(${wallData.wallUrl})`;
@@ -9,37 +9,37 @@ function redditWallpaper() {
             document.getElementById('wallpaperInfo').innerHTML = wallData.info;
         }
     }).catch(console.error);
-}
+};
 
 // Settings
 
-function submitRefresh() {
+var submitRefresh = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/redditWallpaper/setRefresh", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("refresh=" + document.getElementById('redditRefreshSlider').value);
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = () => {
         if (this.readyState == 4 && this.status == 200) {
             const toast = document.getElementById('refreshToast');
             toast.open();
         }
     };
-}
+};
 
-function submitLinks() {
+var submitLinks = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/redditWallpaper/setLinks", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("links=" + document.getElementById('redditLinksSlider').value);
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = () => {
         if (this.readyState == 4 && this.status == 200) {
             const toast = document.getElementById('linksToast');
             toast.open();
         }
     };
-}
+};
 
-function submitSubreddits() {
+var submitSubreddits = () => {
     var redditInputs = document.getElementById('redditInputs');
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/redditWallpaper/setSubreddits", true);
@@ -52,29 +52,29 @@ function submitSubreddits() {
     });
     console.log("subs=" + JSON.stringify(message));
     xhttp.send("subs=" + JSON.stringify(message));
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = () => {
         if (this.readyState == 4 && this.status == 200) {
             const toast = document.getElementById('subredditsToast');
             toast.open();
         }
     };
-}
+};
 
-function submitCheckUrlsButton() {
+var submitCheckUrlsButton = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/redditWallpaper/checkUrls", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("checked=" + document.getElementById('checkUrlsButton').checked);
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = () => {
         if (this.readyState == 4 && this.status == 200) {
             const toast = document.getElementById('checkUrlsToast');
             toast.open();
         }
     };
-}
+};
 
 
-function setupSlider() {
+var setupSlider = () => {
     var refreshSlider = document.getElementById('redditRefreshSlider');
     refreshSlider.addEventListener('change', () => {
         submitRefresh();
@@ -99,6 +99,6 @@ function setupSlider() {
         }
     };
     redditInputs.lastChild.addEventListener('change', lastChildListen);
-}
+};
 
 redditWallpaper();

@@ -67,7 +67,7 @@ paper-material#addBookmark.settingsMaterial
 
 paper-material#deleteCategory.settingsMaterial
     div.settingsTitle.noPaddingBottom
-        |Delete category:
+        |Manage categories:
     div.deleteMaterial.settingsContent(role="listbox")
         div#categoriesList
             each category, index in bookmarks.categories
@@ -84,7 +84,7 @@ paper-material#deleteCategory.settingsMaterial
         |OK
 paper-material#deleteBookmark.settingsMaterial.noPadding
     div.settingsTitle
-        |Delete bookmark:
+        |Manage bookmarks:
     div.settingsContent
     template#bookmarsToDelete(is= "dom-bind")
         div.deleteBookmarksContent
