@@ -108,6 +108,7 @@ paper-material#deleteBookmark.settingsMaterial.noPadding
                                             paper-item-body(two-line)
                                                 div= bookmark.name
                                                 div(secondary)= bookmark.url
+                                            iron-icon(icon="reorder")
                                             paper-icon-button(icon="clear", onclick=`deleteBookmark('${bookmark.url}','${category.name}')`)
             else
                 div.bookmarksItemsContent
