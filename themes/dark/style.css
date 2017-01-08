@@ -3,6 +3,8 @@
     --paper-toggle-button-checked-button-color: var(--accent3-color);
     --paper-toggle-button-checked-ink-color: var(--accent3-color);
     --paper-fab-background: var(--accent3-color);
+    --paper-input-container-input-color: white !important;
+    --paper-input-container-focus-color: var(--accent1-color);
 }
 
 body {

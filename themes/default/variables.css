@@ -13,8 +13,10 @@
     --material-color: rgba(255, 255, 255, 0.85);
     /* Item color is applied to all paper-item elements */
     --item-color: white;
-    /* Color applied to light buttons */
-    --button-light-color: rgba(255, 255, 255, 0);
+    /* Color applied to light buttons background*/
+    --button-light-color: rgba(255, 255, 255, 1);
+    /* Color applied to light buttons text color*/
+    --button-light-text: black;
     /* Color applied to dark buttons */
     --button-dark-color: #424242;
     /* Color applied to links (regardlessly of theri state) */
