@@ -15,7 +15,7 @@ var submitCalendarEvents = () => {
     xhttp.open("POST", "/calendar/submitCalendarEvents", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("events=" + calendarEvents.value);
-    xhttp.onreadystatechange = () => {
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status === 200) {
             document.getElementById('calendarEventsToast').open();
         }
@@ -28,7 +28,7 @@ var submitCalendarRefresh = () => {
     xhttp.open("POST", "/calendar/submitCalendarRefresh", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("refresh=" + calendarRefresh.value);
-    xhttp.onreadystatechange = () => {
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status === 200) {
             document.getElementById('calendarRefreshToast').open();
 
@@ -42,7 +42,7 @@ var calendarLogout = (confirmed) => {
         xhttp.open("POST", "/calendar/logout", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("logout=yes");
-        xhttp.onreadystatechange = () => {
+        xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status === 200) {
                 document.getElementById('calendarLogoutToast').open();
             }
@@ -66,8 +66,8 @@ var submitCalendarSegments = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/calendar/updateSegments", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send('data='+JSON.stringify(arr));
-    xhttp.onreadystatechange = () => {
+    xhttp.send('data=' + JSON.stringify(arr));
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status === 200) {
             document.getElementById('calendarSegmentsToast').open();
         }

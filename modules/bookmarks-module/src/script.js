@@ -44,7 +44,7 @@ var sumbitBookmarks = () => {
         sendString += "&text=" + textColor;
     }
     xhttp.send(sendString);
-    xhttp.onreadystatechange = () => {
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4) {
             if (this.status === 200) {
                 document.getElementById('addedBookmarkToast').open();
@@ -61,7 +61,7 @@ var sendNewCategory = (categoryName) => {
         xhttp.open("POST", "/bookmarks/addNewCategory", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("name=" + categoryName);
-        xhttp.onreadystatechange = () => {
+        xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 resolve(200);
             }

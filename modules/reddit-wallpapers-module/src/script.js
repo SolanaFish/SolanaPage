@@ -18,7 +18,7 @@ var submitRefresh = () => {
     xhttp.open("POST", "/redditWallpaper/setRefresh", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("refresh=" + document.getElementById('redditRefreshSlider').value);
-    xhttp.onreadystatechange = () => {
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             const toast = document.getElementById('refreshToast');
             toast.open();
@@ -31,7 +31,7 @@ var submitLinks = () => {
     xhttp.open("POST", "/redditWallpaper/setLinks", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("links=" + document.getElementById('redditLinksSlider').value);
-    xhttp.onreadystatechange = () => {
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             const toast = document.getElementById('linksToast');
             toast.open();
@@ -52,7 +52,7 @@ var submitSubreddits = () => {
     });
     console.log("subs=" + JSON.stringify(message));
     xhttp.send("subs=" + JSON.stringify(message));
-    xhttp.onreadystatechange = () => {
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             const toast = document.getElementById('subredditsToast');
             toast.open();
@@ -65,7 +65,7 @@ var submitCheckUrlsButton = () => {
     xhttp.open("POST", "/redditWallpaper/checkUrls", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("checked=" + document.getElementById('checkUrlsButton').checked);
-    xhttp.onreadystatechange = () => {
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             const toast = document.getElementById('checkUrlsToast');
             toast.open();

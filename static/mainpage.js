@@ -14,7 +14,7 @@ var submitActiveModules = () => {
     xhttp.open('POST', '/updateModules', true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send('modules=' + JSON.stringify(activeModulesJSON));
-    xhttp.onreadystatechange = () => {
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById('activeModulesToast').open();
         }
@@ -27,9 +27,8 @@ var submitTheme = () => {
     xhttp.open('POST', '/changeTheme', true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send('theme=' + themeDropdownMenu.value);
-    xhttp.onreadystatechange = () => {
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log('setOk');
             document.getElementById('themeToast').open();
         }
     };
