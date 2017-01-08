@@ -48,6 +48,8 @@ var sumbitBookmarks = () => {
         if (this.readyState == 4) {
             if (this.status === 200) {
                 document.getElementById('addedBookmarkToast').open();
+                updateModulesMainPage('bookmarks-module');
+                updateModulesSettings('bookmarks-module');
             } else {
                 document.getElementById('errorBookmarkToast').open();
             }
@@ -74,6 +76,12 @@ var deleteCategory = (categoryName) => {
     xhttp.open("POST", "/bookmarks/deleteCategory", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("name=" + categoryName);
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status === 200) {
+            updateModulesMainPage('bookmarks-module');
+            updateModulesSettings('bookmarks-module');
+        }
+    };
 };
 
 var deleteBookmark = (name, category) => {
@@ -81,6 +89,12 @@ var deleteBookmark = (name, category) => {
     xhttp.open("POST", "/bookmarks/deleteBookmark", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("url=" + name + "&category=" + category);
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status === 200) {
+            updateModulesMainPage('bookmarks-module');
+            updateModulesSettings('bookmarks-module');
+        }
+    };
 };
 
 var copyToClipboard = (text) => {
@@ -115,6 +129,11 @@ var submitDisplayMethod = () => {
         xhttp.send("method=cards");
     }
     document.getElementById('displayMethodToast').open();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status === 200) {
+            updateModulesMainPage('bookmarks-module');
+        }
+    };
 };
 
 var hexFromRgb = (red, green, blue) => {
@@ -187,6 +206,11 @@ var submitColorfulItems = () => {
         xhttp.send("colorful=false");
     }
     document.getElementById('colorfulItemsToast').open();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status === 200) {
+            updateModulesMainPage('bookmarks-module');
+        }
+    };
 };
 
 var reorderCategories = () => {
@@ -202,6 +226,12 @@ var reorderCategories = () => {
     xhttp.open("POST", "/bookmarks/reorderCategories", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("data=" + JSON.stringify(newOrder));
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status === 200) {
+            updateModulesMainPage('bookmarks-module');
+            updateModulesSettings('bookmarks-module');
+        }
+    };
 };
 
 var reorderBookmarks = () => {
@@ -218,6 +248,12 @@ var reorderBookmarks = () => {
     xhttp.open("POST", "/bookmarks/reorderBookmarks", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("data=" + JSON.stringify(newOrder));
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status === 200) {
+            updateModulesMainPage('bookmarks-module');
+            updateModulesSettings('bookmarks-module');
+        }
+    };
 };
 
 
