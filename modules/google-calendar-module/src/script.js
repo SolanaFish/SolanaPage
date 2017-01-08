@@ -18,6 +18,7 @@ var submitCalendarEvents = () => {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status === 200) {
             document.getElementById('calendarEventsToast').open();
+            updateModulesMainPage('google-calendar-module');
         }
     };
 };
@@ -31,7 +32,7 @@ var submitCalendarRefresh = () => {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status === 200) {
             document.getElementById('calendarRefreshToast').open();
-
+            updateModulesMainPage('google-calendar-module');
         }
     };
 };
@@ -45,6 +46,7 @@ var calendarLogout = (confirmed) => {
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status === 200) {
                 document.getElementById('calendarLogoutToast').open();
+                updateModulesMainPage('google-calendar-module');
             }
         };
     } else {
@@ -70,6 +72,7 @@ var submitCalendarSegments = () => {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status === 200) {
             document.getElementById('calendarSegmentsToast').open();
+            updateModulesMainPage('google-calendar-module');
         }
     };
 };
