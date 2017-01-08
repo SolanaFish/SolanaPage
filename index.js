@@ -79,6 +79,28 @@ var loadModules = () => {
         }).catch((err) => {
             reject(err);
         });
+        modules.forEach((module) => {
+            app.get(`/main/${module.moduleName}`, (req, res) => {
+                var view = module.getMainView();
+                if(view) {
+                    view.then((rendered) => {
+                        res.send(rendered);
+                    });
+                } else {
+                    res.sendStatus(404);
+                }
+            });
+            app.get(`/settings/${module.moduleName}`, (req, res) => {
+                var view = module.getSettings();
+                if(view) {
+                    view.then((rendered) => {
+                        res.send(rendered);
+                    });
+                } else {
+                    res.sendStatus(404);
+                }
+            });
+        });
     });
 };
 
@@ -261,7 +283,8 @@ app.get('/', (req, res) => {
                     mainView: value[0][argIndex],
                     settingsView: value[1][argIndex],
                     script: value[2][argIndex],
-                    css: value[3][argIndex]
+                    css: value[3][argIndex],
+                    moduleName: moduleItem.moduleName
                 };
                 renderInfo.modules.push(moduleObject);
             });

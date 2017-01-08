@@ -34,6 +34,30 @@ var submitTheme = () => {
     };
 };
 
+var updateModulesMainPage = (moduleName) => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('GET', `/main/${moduleName}`, true);
+    xhttp.send(null);
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+            var dom = document.getElementById(moduleName);
+            dom.innerHTML = this.responseText;
+        }
+    };
+};
+
+var updateModulesSettings = (moduleName) => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('GET', `/settings/${moduleName}`, true);
+    xhttp.send(null);
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+            var dom = document.getElementById(`${moduleName}-settings`);
+            dom.innerHTML = this.responseText;
+        }
+    };
+};
+
 document.addEventListener('DOMContentLoaded', (event) => {
     app.selected=0;
     app.settingsSelected=0;
