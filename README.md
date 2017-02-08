@@ -17,7 +17,7 @@ SolanaPage is a small, modular new tap page designed for chrome. Built with mate
 
 ## Screenshots
 
-Incoming !
+[Screenshots on imgur](http://imgur.com/a/35Lx4)
 
 ## Modules available
 
