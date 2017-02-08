@@ -20,17 +20,30 @@
             is: 'main-page',
             attached: function() {
                 this.async(() => {
-                    if(typeof bookmarkTabs !== 'undefined') {
+                    if (typeof bookmarkTabs !== 'undefined') {
                         bookmarkTabs.selected = 0;
                     }
-                    if(typeof deleteBookmarksTab !== 'undefined') {
+                    if (typeof deleteBookmarksTab !== 'undefined') {
                         deleteBookmarksTab.selected = 0;
                     }
-                    if(typeof bookmarkItemMenu !== 'undefined') {
+                    if (typeof bookmarkItemMenu !== 'undefined') {
                         bookmarkItemMenu.selected = 0;
                     }
-                    if(typeof deleteBookmarkPages !== 'undefined') {
+                    if (typeof deleteBookmarkPages !== 'undefined') {
                         deleteBookmarkPages.selected = 0;
+                    }
+                    let modulesList = document.getElementById('modulesList');
+                    Sortable.create(modulesList, {
+                        animation: 150
+                    });
+                    Sortable.create(calendarSegments, {
+                        animation: 150
+                    });
+                    var sortables = document.querySelectorAll('.deleteBookmarkSortable');
+                    for (var i = 0; i < sortables.length; i++) {
+                        Sortable.create(sortables[i], {
+                            animation: 150
+                        });
                     }
                 }, 1);
             },

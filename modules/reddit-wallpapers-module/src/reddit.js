@@ -29,16 +29,16 @@ var settings = {
     },
 };
 
-function serverLog(text) {
+var serverLog = (text) => {
     var date = new Date();
     console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
-}
+};
 
-function getRandomWallpaper() {
+var getRandomWallpaper = () => {
     return readyUrls[Math.floor(Math.random() * readyUrls.length)];
-}
+};
 
-function updateUrls() {
+var updateUrls = () => {
     return new Promise((resolve, reject) => {
         fetchURLs().then((value) => {
             readyUrls = value;
@@ -48,9 +48,9 @@ function updateUrls() {
             reject('Error fetching urls');
         });
     });
-}
+};
 
-function fetchURLs() {
+var fetchURLs = () => {
     return new Promise((resolve, reject) => {
         var subredditPromises = [];
         settings.current.subreddits.forEach((subreddit) => {
@@ -66,9 +66,9 @@ function fetchURLs() {
             reject(err);
         });
     });
-}
+};
 
-function getUrlsFromSubreddit(subreddit) {
+var getUrlsFromSubreddit = (subreddit) => {
     return new Promise((resolve, reject) => {
         fetch(`https://reddit.com/r/${subreddit}.json?limit=${settings.links}`).then((res) => {
             return res.json();
@@ -112,10 +112,10 @@ function getUrlsFromSubreddit(subreddit) {
             reject(err);
         });
     });
-}
+};
 
 module.exports = (app) => {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         serverLog('Loading reddit wallpaper module!');
         settings.load();
 
@@ -135,7 +135,6 @@ module.exports = (app) => {
             reject(err);
         });
     });
-
 };
 
 var randomWall = (req, res) => {
@@ -194,8 +193,8 @@ module.exports.getMainView = () => {
     return null;
 };
 
-module.exports.getScript = function() {
-    return new Promise(function(resolve, reject) {
+module.exports.getScript = () => {
+    return new Promise((resolve, reject) => {
         fs.readFile(`${__dirname}/script.js`, (err, data) => {
             if (err) {
                 resolve();
@@ -206,8 +205,8 @@ module.exports.getScript = function() {
     });
 };
 
-module.exports.getCss = function() {
-    return new Promise(function(resolve, reject) {
+module.exports.getCss = () => {
+    return new Promise((resolve, reject) => {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
             if (err) {
                 resolve();
@@ -218,6 +217,6 @@ module.exports.getCss = function() {
     });
 };
 
-module.exports.niceName = function() {
+module.exports.niceName = () => {
     return 'Reddit backgrounds';
 };

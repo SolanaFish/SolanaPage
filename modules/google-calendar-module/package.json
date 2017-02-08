@@ -1,0 +1,4 @@
+{
+    "name": "google-calendar-module",
+    "main": "./src/calendar.js"
+}

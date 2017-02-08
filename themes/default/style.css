@@ -1,0 +1,125 @@
+:root {
+    --paper-toggle-button-checked-bar-color: var(--accent3-color);
+    --paper-toggle-button-checked-button-color: var(--accent3-color);
+    --paper-toggle-button-checked-ink-color: var(--accent3-color);
+    --paper-fab-background: var(--accent3-color);
+}
+
+body {
+    background-image: url("/wallpaper.jpg");
+    background-color: var(--background-color);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+paper-material {
+    padding: 1% 2% 1% 2%;
+    margin: 3%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background-color: var(--material-color);
+}
+
+paper-toolbar {
+    background: var(--accent3-color) !important;
+}
+
+paper-button {
+    background: var(--button-light-color) !important;
+    color: var(--button-light-text)!important;
+    margin: 0.5% !important;
+}
+
+body {
+    color:var(--text-color) !important;
+}
+
+#mainFab {
+    position: fixed;
+    left: 3%;
+    bottom: 3%;
+    z-index: 1000;
+}
+
+#settingsFab {
+    position: fixed;
+    left: 228px;
+    bottom: 3%;
+    z-index: 1000;
+}
+
+.moduleItem {
+    background:var(--item-color);
+    margin: 1%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.activeModulesButton {
+    flex:1 0 auto;
+}
+
+. activeModulesIcon {
+    flex: 1 0 auto;
+}
+
+.drawerButton {
+    width: 100%;
+    margin: 1%;
+}
+
+.settingsMaterial {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.settingsTitle {
+    font-size: 125%;
+    flex: 1 0 auto;
+    width: 100%;
+    text-align: center;
+    color: var(--accent1-color);
+    padding: 1%;
+}
+
+.noPaddingBottom {
+    padding-bottom: 0px !important;
+}
+
+.noPaddingTop {
+    padding-top: 0px !important;
+}
+
+.noPadding {
+    padding: 0px !important;
+}
+
+.settingsContent {
+    padding-bottom: 1%;
+    flex: 1 0 auto;
+}
+
+.settingsButton {
+    flex: 0 1 auto;
+    margin-right: auto;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.blackUrl {
+    color: var(--link-color);
+}
+
+.paperItemLinkA {
+    text-decoration: none;
+    color: var(--link-color);
+}
+
+.paperItemLinkItem {
+    background-color: var(--item-color);
+    margin: 1%;
+}

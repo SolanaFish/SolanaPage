@@ -1,0 +1,22 @@
+paper-material.bookmarksItemMaterial
+    template#spotifyTemplate(is= "dom-bind")
+        div.bookmarksItemsContainer
+            div.bookmarksItemsDrawer
+                paper-menu#spotifyItemMenu(selected="{{page}}")
+                    each playlist in info.playLists
+                        paper-item.bookmarksItemsDrawerItem
+                            paper-item-body('two-line')
+                                div
+                                    =playlist.name
+                                div('secondary')
+                                    =`${playlist.tracks.length} Songs in this playlist`
+            div.bookmarksItemsContent
+                iron-pages#spotifyPages(selected= "{{page}}")
+                    each playlist in info.playLists
+                        div
+                            each song in playlist.tracks
+                                paper-item.bookmarksItemsItem
+                                    a.paperItemHrefBody.bookmarksItemsLink
+                                        paper-item-body(two-line)
+                                            div= song.title
+                                            div(secondary)= song.artist

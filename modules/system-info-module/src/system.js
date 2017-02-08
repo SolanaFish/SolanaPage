@@ -3,10 +3,10 @@ var os = require('os'); // for uptime
 var fs = require("fs"); // for reading settings
 var pug = require('pug');
 
-function serverLog(text) {
+var serverLog = (text) => {
     var date = new Date();
     console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
-}
+};
 
 var settings = {
     load: () => {
@@ -33,19 +33,19 @@ var settings = {
     },
 };
 
-module.exports = function(app) {
-    return new Promise(function(resolve, reject) {
+module.exports = (app) => {
+    return new Promise((resolve, reject) => {
         serverLog("System info module ready!");
         settings.load();
         resolve();
     });
 };
 
-module.exports.getSettings = function() {
+module.exports.getSettings = () => {
     return null;
 };
 
-module.exports.getMainView = function() {
+module.exports.getMainView = () => {
     var uptime = {
         days: Math.floor((os.uptime() / 86400) % 86400),
         hours: Math.floor((os.uptime() / 3600) % 3600),
@@ -58,12 +58,12 @@ module.exports.getMainView = function() {
     });
 };
 
-module.exports.getScript = function() {
+module.exports.getScript = () => {
     return null;
 };
 
-module.exports.getCss = function() {
-    return new Promise(function(resolve, reject) {
+module.exports.getCss = () => {
+    return new Promise((resolve, reject) => {
         fs.readFile(`${__dirname}/style.css`, (err, data) => {
             if (err) {
                 resolve();
@@ -74,6 +74,6 @@ module.exports.getCss = function() {
     });
 };
 
-module.exports.niceName = function() {
+module.exports.niceName = () => {
     return 'System information';
 };

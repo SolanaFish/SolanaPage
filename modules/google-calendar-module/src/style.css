@@ -1,0 +1,184 @@
+paper-material.eventsMaterial {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0.1%;
+}
+
+.loginTitle {
+    flex: 1 0 auto;
+    font-size: 120%;
+    color: var(--accent2-color);
+    align-self: center;
+}
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.loginContent {
+    flex: 1 0 auto;
+}
+
+.wideButton {
+    width: 100%;
+    background: var(--item-color) !important;
+    margin: 1%;
+}
+
+.darkA {
+    color: var(--link-color);
+    text-decoration: none;
+    font-size: 120%;
+}
+
+.eventContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 1% 1% 0 1%;
+}
+
+.eventDetailContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.eventDetail {
+    background: var(--item-color);
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: row;
+    margin: 0.5% 1%;
+}
+
+.eventDetail:first-child {
+    margin-top: 1%;
+}
+
+.eventDetail:last-child {
+    margin-bottom: 1%;
+}
+
+.eventDetailTitle {
+    flex: 1 1 auto;
+    font-size: 120%;
+    color: var(--accent1-color);
+    align-self: center;
+    margin: 1%;
+}
+
+.eventDetailContent {
+    flex: 1 0 auto;
+    margin: 1%;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.eventDetailSecondary {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.eventDetailSecondaryTitle {
+    flex: 1 0 auto;
+    color: var(--accent2-color);
+    font-size: 110%;
+    align-self: center;
+}
+
+.eventDetailSecondaryContent {
+    margin: 1%;
+}
+
+.standardFontSize {
+    font-size: 1em;
+}
+
+paper-item.eventItem {
+    background: var(--item-color);
+    margin: 0;
+    flex: 1 1 auto;
+    --paper-item-selected: {
+        background: var(--item-color);
+    }
+    --paper-item-focused: {
+        background: var(--item-color);
+    }
+    --paper-item-focused-before: {
+        background: var(--item-color);
+    }
+}
+
+iron-collapse.eventCollapse {
+    background: rgba(200, 200, 200, 0.5) !important;
+    margin: 0% 3% 1% 3%;
+    /*padding: 1%;*/
+    border-top-width: thick;
+    border-top-style: solid;
+}
+
+div.eventColor {
+    background-color: var(--accent1-color);
+    /*padding-left: 0.8%;*/
+    min-height: 72px;
+    flex: 0 1 10px;
+}
+
+div.eventColor[colorId="1"], iron-collapse.eventCollapse[colorId="1"] {
+    background-color: #757575;
+    border-color: #757575;
+}
+
+div.eventColor[colorId="2"], iron-collapse.eventCollapse[colorId="2"] {
+    background-color: #7ae7bf;
+    border-color: #7ae7bf;
+}
+
+div.eventColor[colorId="3"], iron-collapse.eventCollapse[colorId="3"] {
+    background-color: #dbadff;
+    border-color: #dbadff;
+}
+
+div.eventColor[colorId="4"], iron-collapse.eventCollapse[colorId="4"] {
+    background-color: #ff887c;
+    border-color: #ff887c;
+}
+
+div.eventColor[colorId="5"], iron-collapse.eventCollapse[colorId="5"] {
+    background-color: #fbd75b;
+    border-color: #fbd75b;
+}
+
+div.eventColor[colorId="6"], iron-collapse.eventCollapse[colorId="6"] {
+    background-color: #ffb878;
+    border-color: #ffb878;
+}
+
+div.eventColor[colorId="7"], iron-collapse.eventCollapse[colorId="7"] {
+    background-color: #46d6db;
+    border-color: #46d6db;
+}
+
+div.eventColor[colorId="8"], iron-collapse.eventCollapse[colorId="8"] {
+    background-color: #424242;
+    border-color: #424242;
+}
+
+div.eventColor[colorId="9"], iron-collapse.eventCollapse[colorId="9"] {
+    background-color: #5484ed;
+    border-color: #5484ed;
+}
+
+div.eventColor[colorId="10"], iron-collapse.eventCollapse[colorId="10"] {
+    background-color: #51b749;
+    border-color: #51b749;
+}
+
+div.eventColor[colorId="11"], iron-collapse.eventCollapse[colorId="11"] {
+    background-color: #dc2127;
+    border-color: #dc2127;
+}

@@ -20,6 +20,6 @@
 }
 
 paper-button.controls {
-    background: var(--button-dark-color);
+    background: var(--button-dark-color) !important;
     color:#ffffff;
 }

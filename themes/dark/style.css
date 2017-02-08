@@ -1,34 +1,10 @@
 :root {
-    /* Theme variables */
-    /* Color of apps background */
-    --background-color: rgba(2, 104, 186, 1);
-    /* Accent colors */
-    /* Accent 1 is applied to titles and paper cards */
-    --accent1-color: rgba(1, 87, 155, 0.8);
-    /* Accent 2 is applied to progress bars*/
-    --accent2-color: #D81B60;
-    /* Accent 3 is applied to fav's title-bar's toggle-buttons and sliders*/
-    --accent3-color: #3f51b5;
-    /* Material color is applied to all paper-material elements */
-    --material-color: rgba(255, 255, 255, 0.85);
-    /* Item color is applied to all paper-item elements */
-    --item-color: white;
-    /* Color applied to light buttons */
-    --button-light-color: rgba(255, 255, 255, 0);
-    /* Color applied to dark buttons */
-    --button-dark-color: #424242;
-    /* Color applied to links (regardlessly of theri state) */
-    --link-color: black;
-    /* Color applied to paper-drawers */
-    --drawer-color: white;
-    /* End of Theme variables */
-}
-
-:root {
     --paper-toggle-button-checked-bar-color: var(--accent3-color);
     --paper-toggle-button-checked-button-color: var(--accent3-color);
     --paper-toggle-button-checked-ink-color: var(--accent3-color);
     --paper-fab-background: var(--accent3-color);
+    --paper-input-container-input-color: white !important;
+    --paper-input-container-focus-color: var(--accent1-color);
 }
 
 body {
@@ -52,6 +28,16 @@ paper-toolbar {
     background: var(--accent3-color) !important;
 }
 
+paper-button {
+    background: var(--button-light-color) !important;
+    color: var(--button-light-text)!important;
+    margin: 0.5% !important;
+}
+
+body {
+    color:var(--text-color) !important;
+}
+
 #mainFab {
     position: fixed;
     left: 3%;
@@ -64,6 +50,22 @@ paper-toolbar {
     left: 228px;
     bottom: 3%;
     z-index: 1000;
+}
+
+.moduleItem {
+    background:var(--item-color);
+    margin: 1%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.activeModulesButton {
+    flex:1 0 auto;
+}
+
+. activeModulesIcon {
+    flex: 1 0 auto;
 }
 
 .drawerButton {
@@ -107,6 +109,7 @@ paper-toolbar {
     flex: 0 1 auto;
     margin-right: auto;
     align-self: flex-end;
+    margin-left: auto;
 }
 
 .blackUrl {

@@ -1,0 +1,76 @@
+paper-material.eventsMaterial
+    each event in events
+        template(is='dom-bind')
+            div.eventContainer
+                div.eventColor(colorId=event.colorId)
+                paper-item.eventItem(toggles, active="{{active}}")
+                    paper-item-body('two-line')
+                        div
+                            = event.summary
+                        div(secondary)
+                            =event.niceDate.start
+                    a.darkA(href= event.htmlLink)
+                        paper-icon-button(icon="link")
+            iron-collapse.eventCollapse(opened="{{active}}", colorId=event.colorId)
+                div.eventDetailContainer
+                    each section in settings.display
+                        if section.active
+                            case section.name
+                                when 'status'
+                                    if event.status
+                                        div.eventDetail
+                                            div.eventDetailTitle
+                                                |Event status:
+                                            div.eventDetailContent= event.status
+                                when 'date'
+                                    div.eventDetail
+                                        div.eventDetailTitle
+                                            |Event date:
+                                        div.eventDetailContent
+                                            div.eventDetailSecondary
+                                                div.eventDetailSecondaryTitle
+                                                    = 'Starts'
+                                                div.eventDetailSecondaryContent
+                                                    = event.niceDate.start
+
+                                            div.eventDetailSecondary
+                                                div.eventDetailSecondaryTitle
+                                                    = 'Ends'
+                                                div.eventDetailSecondaryContent
+                                                    = event.niceDate.end
+                                when 'description'
+                                    if event.description
+                                        div.eventDetail
+                                            div.eventDetailTitle
+                                                |Event description:
+                                            div.eventDetailContent= event.description
+                                when 'location'
+                                    if event.location
+                                        div.eventDetail
+                                            div.eventDetailTitle
+                                                |Event location:
+                                            div.eventDetailContent= event.location
+                                when 'reminders'
+                                    if event.reminders.overrides
+                                        div.eventDetail
+                                            div.eventDetailTitle
+                                                |Event reminders:
+                                            div.eventDetailContent
+                                                each reminder in event.reminders.overrides
+                                                    div.eventDetailSecondary
+                                                        div.eventDetailSecondaryTitle=reminder.method
+                                                        div.eventDetailSecondaryContent
+                                                            if Math.floor(reminder.minutes / 60)
+                                                                =`${Math.floor(reminder.minutes / 60)} hours `
+                                                            if (reminder.minutes % 60)
+                                                                =`${reminder.minutes % 60} minutes `
+                                                            = "before event"
+                                when 'attachments'
+                                    if event.attachments
+                                        div.eventDetail
+                                            div.eventDetailTitle
+                                                |Event attachments:
+                                            div.eventDetailContent
+                                                each attachment in event.attachments
+                                                    a.darkA.standardFontSize(href= attachment.fileUrl)
+                                                            = attachment.title

@@ -1,13 +1,18 @@
 template#activeModules(is= "dom-bind")
     paper-material#activeModulesDiv.settingsMaterial
         div.settingsTitle
-            | Choose active modules:
+            | Manage modules:
         div.settingsContent
-            each module in settings.modules
-                paper-toggle-button(name=module.name, checked= `${module.active}`)= module.name
+            div#modulesList
+                each module in settings.modules
+                        paper-item.moduleItem.list-group-item
+                            paper-toggle-button.activeModulesButton(name=module.name, checked= `${module.active}`)= module.name
+                            iron-icon.activeModulesIcon(icon="reorder")
         paper-button.settingsButton(onclick= "submitActiveModules()")
             iron-icon(icon= "check")
             |OK
+    paper-toast#activeModulesToast
+        |Active modules updated, app will restart now!
     paper-material.settingsMaterial
         div.settingsTitle
             | Upload wallpaper:
@@ -17,6 +22,19 @@ template#activeModules(is= "dom-bind")
         paper-button.settingsButton(onclick="document.getElementById('wallpaperForm').submit()")
             iron-icon(icon= "check")
             |ok
+    paper-material.settingsMaterial
+        div.settingsTitle
+            |Change theme
+        div.settingsContent
+            paper-dropdown-menu#themeDropdownMenu(label="Choose your theme")
+                paper-listbox.dropdown-content
+                    each theme in themes
+                        paper-item= theme
+        paper-button.settingsButton(onclick="submitTheme()")
+            iron-icon(icon="check")
+            |ok
+        paper-toast#themeToast
+            |Theme updated
     paper-material.settingsMaterial
         div.settingsTitle.noPaddingBottom
             |Info

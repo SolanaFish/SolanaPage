@@ -1,16 +1,19 @@
-var express = require('express');
+const express = require('express');
 var app = express();
-var fs = require("fs"); // for reading settings
+const fs = require("fs"); // for reading settings
 var modules = [];
-var pug = require('pug');
+const pug = require('pug');
 
-var bodyParser = require('body-parser'); // Basic parser (no multipart support)
-var uep = bodyParser.urlencoded({
+const helmet = require('helmet');
+app.use(helmet());
+
+const bodyParser = require('body-parser'); // Basic parser (no multipart support)
+const uep = bodyParser.urlencoded({
     extended: false
 });
 
-var multer = require('multer'); // Parser (with multipart support)
-var storage = multer.diskStorage({
+const multer = require('multer'); // Parser (with multipart support)
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads');
     },
@@ -18,7 +21,7 @@ var storage = multer.diskStorage({
         cb(null, 'wallpaper.jpg');
     }
 });
-var upload = multer({
+const upload = multer({
     storage: storage
 });
 
@@ -42,24 +45,24 @@ var settings = {
         modules: [{
             name: "bookmarks-module",
             active: true,
-            jsEntry: "bookmarks"
         }, {
             name: "system-info-module",
             active: true,
-            jsEntry: "systemInfoStart"
         }, {
             name: "media-controls-module",
             active: true,
-            jsEntry: "media"
         }, {
             name: "reddit-wallpapers-module",
             active: true,
-            jsEntry: "reddit"
-        }]
+        }, {
+            name: "google-calendar-module",
+            active: true,
+        }],
+        theme: 'default'
     }
 };
 
-function loadModules() {
+var loadModules = () => {
     return new Promise((resolve, reject) => {
         settings.load();
         serverLog("Loading modules!");
@@ -67,6 +70,7 @@ function loadModules() {
         for (var module in settings.current.modules) {
             if (settings.current.modules[module].active) {
                 modules[module] = require("./modules/" + settings.current.modules[module].name);
+                modules[module].moduleName = settings.current.modules[module].name;
                 promises.push(modules[module](app));
             }
         }
@@ -75,13 +79,35 @@ function loadModules() {
         }).catch((err) => {
             reject(err);
         });
+        modules.forEach((module) => {
+            app.get(`/main/${module.moduleName}`, (req, res) => {
+                var view = module.getMainView();
+                if(view) {
+                    view.then((rendered) => {
+                        res.send(rendered);
+                    });
+                } else {
+                    res.sendStatus(404);
+                }
+            });
+            app.get(`/settings/${module.moduleName}`, (req, res) => {
+                var view = module.getSettings();
+                if(view) {
+                    view.then((rendered) => {
+                        res.send(rendered);
+                    });
+                } else {
+                    res.sendStatus(404);
+                }
+            });
+        });
     });
-}
+};
 
-function serverLog(text) {
+var serverLog = (text) => {
     var date = new Date();
     console.log(`[ ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)} ] ${text}`);
-}
+};
 
 var getMainView = () => {
     return new Promise((Resolve, Reject) => {
@@ -97,7 +123,7 @@ var getMainView = () => {
             Resolve(mainRendered);
         }).catch((err) => {
             console.log(err);
-            res.sendStatus(501);
+            res.sendStatus(500);
         });
     });
 };
@@ -116,7 +142,7 @@ var getSettings = () => {
             Resolve(settingsRendered);
         }).catch((err) => {
             console.log(err);
-            res.sendStatus(501);
+            res.sendStatus(500);
         });
     });
 };
@@ -135,66 +161,139 @@ var getScript = () => {
             Resolve(scripts);
         }).catch((err) => {
             console.log(err);
-            res.sendStatus(501);
+            res.sendStatus(500);
         });
     });
 };
 
 var getCss = () => {
     return new Promise((Resolve, Reject) => {
-        var generalCss = fs.readFile('./static/style.css', (err, data) => {
-            if (err) {
-                Reject(err);
-            } else {
-                var cssPromises = [];
-                modules.forEach((moduleItem) => {
-                    cssPromises.push(moduleItem.getCss());
+        fs.open(`./themes/${settings.current.theme}`, 'r', (err, fd) => {
+            var theme;
+            var fullCss = '';
+            if (!err) { // If selected theme exists use it
+                theme = `./themes/${settings.current.theme}`;
+            } else { // If theme doesn't exist use diffrent one
+                console.log(err);
+                theme = './themes/default';
+            }
+            // Get content of variables file
+            var variables = new Promise((resolve, reject) => {
+                fs.readFile(`${theme}/variables.css`, (err, data) => {
+                    if (err) {
+                        resolve();
+                    } else {
+                        resolve(data);
+                    }
                 });
+            });
+            variables.then((data) => {
+                fullCss += data;
+            }).then(() => {
+                // Get content of generalCss file
+                return new Promise((resolve, reject) => {
+                    fs.readFile(`${theme}/style.css`, (err, data) => {
+                        if (err) {
+                            reject();
+                        } else {
+                            resolve(data);
+                        }
+                    });
+                });
+            }).then((data) => {
+                fullCss += data;
+            }).catch(() => {
+                return new Promise((resolve, reject) => {
+                    fs.readFile('./themes/default/style.css', (err, data) => {
+                        if (err) {
+                            resolve();
+                        } else {
+                            fullCss += data;
+                            resolve();
+                        }
+                    });
+                });
+            }).then(() => { // load css for every module
+                return new Promise((resolve, reject) => {
+                    var cssPromises = [];
+                    var filePromises = [];
+                    modules.forEach((moduleItem) => {
+                        filePromises.push(new Promise((resolve, reject) => {
+                            fs.readFile(`${theme}/${moduleItem.moduleName}.css`, (err, data) => {
+                                if (err) {
+                                    cssPromises.push(moduleItem.getCss());
+                                } else {
+                                    cssPromises.push(Promise.resolve(data));
+                                }
+                                resolve();
+                            });
+                        }));
+                    });
+                    Promise.all(filePromises).then(() => {
+                        resolve(cssPromises);
+                    });
+                });
+            }).then((cssPromises) => {
                 Promise.all(cssPromises).then((value) => {
                     var csses = [];
                     value.forEach((css) => {
                         csses.push(css);
                     });
-                    csses[0] = data + csses[0];
+                    csses[0] = fullCss + csses[0];
                     Resolve(csses);
                 }).catch((err) => {
-                    console.log(err);
-                    res.sendStatus(501);
+                    Reject(err);
                 });
+            });
+        });
+    });
+};
+
+var getListOfThemes = () => {
+    return new Promise((resolve, reject) => {
+        fs.readdir('./themes', (err, files) => {
+            if (err) {
+                resolve();
+            } else {
+                resolve(files);
             }
         });
     });
 };
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     serverLog("Serving main page");
     var renderInfo = {
         settings: settings.current,
         modules: [],
     };
-
-    renderInfo.modules.push({
-        module: "General",
-        settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
-            settings: settings.current
-        })
-    });
-    Promise.all([getMainView(), getSettings(), getScript(), getCss()]).then((value) => {
-        modules.forEach((moduleItem, argIndex) => {
-            var moduleObject = {
-                module: moduleItem.niceName(),
-                mainView: value[0][argIndex],
-                settingsView: value[1][argIndex],
-                script: value[2][argIndex],
-                css: value[3][argIndex]
-            };
-            renderInfo.modules.push(moduleObject);
+    getListOfThemes().then((themes) => {
+        renderInfo.modules.push({
+            module: "General",
+            settingsView: pug.renderFile(`${__dirname}/views/generalSettings.pug`, {
+                settings: settings.current,
+                themes: themes
+            })
         });
-        res.render('app', renderInfo);
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).send({
-            error: 'Something went wrong, sorry'
+    }).then(() => {
+        Promise.all([getMainView(), getSettings(), getScript(), getCss()]).then((value) => {
+            modules.forEach((moduleItem, argIndex) => {
+                var moduleObject = {
+                    module: moduleItem.niceName(),
+                    mainView: value[0][argIndex],
+                    settingsView: value[1][argIndex],
+                    script: value[2][argIndex],
+                    css: value[3][argIndex],
+                    moduleName: moduleItem.moduleName
+                };
+                renderInfo.modules.push(moduleObject);
+            });
+            res.render('app', renderInfo);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).send({
+                error: 'Something went wrong, sorry'
+            });
         });
     });
 });
@@ -209,18 +308,12 @@ app.get('/wallpaper.jpg', (req, res) => {
     });
 });
 
+app.get('/sortable.min.js', (req, res) => {
+    res.sendFile(`${__dirname}/node_modules/sortablejs/Sortable.min.js`);
+});
+
 app.post('/updateModules', uep, (req, res) => {
-    var updatedModules = [];
-    JSON.parse(req.body.modules).forEach((item) => {
-        updatedModules[item.name] = item.active;
-    });
-    /* jshint ignore:start */
-    settings.current.modules.forEach((moduleItem) => {
-        if (typeof updatedModules[moduleItem.name] !== "undefinied") {
-            moduleItem.active = updatedModules[moduleItem.name];
-        }
-    });
-    /* jshint ignore:end */
+    settings.current.modules = JSON.parse(req.body.modules);
     settings.save();
     res.sendStatus(200);
     process.exit();
@@ -228,6 +321,19 @@ app.post('/updateModules', uep, (req, res) => {
 
 app.post('/changeWallpaper', upload.single('wallpaper'), (req, res) => {
     res.redirect('/');
+});
+
+app.post('/changeTheme', uep, (req, res) => {
+    var theme = req.body.theme;
+    fs.open(`./themes/${theme}`, 'r', (err, fd) => {
+        if (err) {
+            res.sendStatus(400);
+        } else {
+            settings.current.theme = theme;
+            settings.save();
+            res.sendStatus(200);
+        }
+    });
 });
 
 app.get('/thumbnails/:id', (req, res) => {
@@ -241,12 +347,12 @@ app.get('/thumbnails/:id', (req, res) => {
 });
 
 
-var server = app.listen(8081, function() {
+var server = app.listen(8081, () => {
     app.use("/", express.static('.'));
     app.use("/static", express.static('./static'));
     app.set('view engine', 'pug');
     var views = [`${__dirname}/views`];
-    settings.current.modules.forEach(function(moduleItem) {
+    settings.current.modules.forEach((moduleItem) => {
         views.push(`${__dirname}/modules/${moduleItem.name}/views`);
     });
     app.set('views', views);

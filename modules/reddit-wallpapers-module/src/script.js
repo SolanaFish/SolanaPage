@@ -1,7 +1,7 @@
-function redditWallpaper() {
-    fetch('/randomWallpaper').then(function(res) {
+var redditWallpaper = () => {
+    fetch('/randomWallpaper').then((res) => {
         return res.text();
-    }).then(function(res) {
+    }).then((res) => {
         if (res) {
             var wallData = JSON.parse(res);
             document.body.style.backgroundImage = `url(${wallData.wallUrl})`;
@@ -9,11 +9,11 @@ function redditWallpaper() {
             document.getElementById('wallpaperInfo').innerHTML = wallData.info;
         }
     }).catch(console.error);
-}
+};
 
 // Settings
 
-function submitRefresh() {
+var submitRefresh = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/redditWallpaper/setRefresh", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -24,9 +24,9 @@ function submitRefresh() {
             toast.open();
         }
     };
-}
+};
 
-function submitLinks() {
+var submitLinks = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/redditWallpaper/setLinks", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -37,9 +37,9 @@ function submitLinks() {
             toast.open();
         }
     };
-}
+};
 
-function submitSubreddits() {
+var submitSubreddits = () => {
     var redditInputs = document.getElementById('redditInputs');
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/redditWallpaper/setSubreddits", true);
@@ -58,9 +58,9 @@ function submitSubreddits() {
             toast.open();
         }
     };
-}
+};
 
-function submitCheckUrlsButton() {
+var submitCheckUrlsButton = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/redditWallpaper/checkUrls", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -71,10 +71,10 @@ function submitCheckUrlsButton() {
             toast.open();
         }
     };
-}
+};
 
 
-function setupSlider() {
+var setupSlider = () => {
     var refreshSlider = document.getElementById('redditRefreshSlider');
     refreshSlider.addEventListener('change', () => {
         submitRefresh();
@@ -99,6 +99,6 @@ function setupSlider() {
         }
     };
     redditInputs.lastChild.addEventListener('change', lastChildListen);
-}
+};
 
 redditWallpaper();

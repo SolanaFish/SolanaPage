@@ -10,10 +10,6 @@ paper-card {
     color: white;
 }
 
-#deleteCategory {
-    padding: 0%;
-}
-
 #addNewCategoryDialog {
     width: 80%;
 }
@@ -24,6 +20,19 @@ paper-card {
 
 #bookmarksMaterial {
     padding: 0%;
+}
+
+#customColorItem {
+    margin-left: 3%;
+}
+
+#customColorToggleButton {
+    margin-bottom: 10%;
+}
+
+.rightToggleButton {
+    align-self: flex-end;
+    flex: 0 1 auto;
 }
 
 .bookmarksLink {
@@ -61,7 +70,6 @@ paper-card {
     background-color: var(--item-color);
     margin: 0px;
 }
-
 
 .bookmarksItemsLink {
     text-decoration: none;
@@ -102,4 +110,38 @@ paper-card {
 
 .paperItemHrefButton {
     flex: 0 1 auto;
+}
+
+.alignCenter {
+    align-self: center;
+}
+
+.alignEnd {
+    align-self:flex-end;;
+}
+
+.customColorContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.customColorElement {
+    flex:1 0 auto;
+    margin: 0.5%;
+}
+
+paper-slider.red {
+    --paper-slider-knob-color: #F44336;
+    --paper-slider-active-color: #F44336;
+}
+
+paper-slider.green {
+    --paper-slider-knob-color: #4CAF50;
+    --paper-slider-active-color: #4CAF50;
+}
+
+paper-slider.blue {
+    --paper-slider-knob-color: #2196F3;
+    --paper-slider-active-color: #2196F3;
 }
