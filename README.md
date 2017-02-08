@@ -1,6 +1,6 @@
 # SolanaPage
 
-SolanaPage is a small, modular new tap page designed for chrome. Built with material design guidelines in mind. It uses modules to display only information you need.
+SolanaPage is a small, modular new tab page designed for chrome. Built with material design guidelines in mind. It uses modules to display only information you need.
 
 ## Features
 
