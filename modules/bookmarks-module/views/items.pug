@@ -1,42 +1,100 @@
-paper-material.bookmarksItemMaterial
-    template#bookmarksTemplate(is= "dom-bind")
-        if bookmarks.categories.length > 1
-            div.bookmarksItemsContainer
-                div.bookmarksItemsDrawer
-                    paper-menu#bookmarkItemMenu(selected="{{page}}")
-                        each category in bookmarks.categories
-                            paper-item.bookmarksItemsDrawerItem
-                                paper-item-body('two-line')
-                                    div
-                                        =category.name
-                                    div('secondary')
-                                        =`${category.bookmarks.length} bookmarks in this category`
-                div.bookmarksItemsContent
-                    iron-pages#bookmarkPages(selected= "{{page}}")
-                        each category in bookmarks.categories
-                            div
-                                each bookmark in category.bookmarks
-                                    if settings.colorfulItems && bookmark.color
-                                        paper-item.bookmarksItemsItem(style=`background-color:${bookmark.color.background};`)
-                                            a.paperItemHrefBody.bookmarksItemsLink(href= bookmark.url, style=`color:${bookmark.color.text};!important;`)
-                                                paper-item-body(two-line)
-                                                    div= bookmark.name
-                                                    div(secondary)= bookmark.url
-                                            paper-icon-button.paperItemHrefButton(icon="link", onclick=`copyToClipboard('${bookmark.url}')`)
-                                    else
-                                        paper-item.bookmarksItemsItem
-                                            a.paperItemHrefBody.bookmarksItemsLink(href= bookmark.url)
-                                                paper-item-body(two-line)
-                                                    div= bookmark.name
-                                                    div(secondary)= bookmark.url
-                                            paper-icon-button.paperItemHrefButton(icon="link", onclick=`copyToClipboard('${bookmark.url}')`)
-        else
-            div.bookmarksItemsContent
-                each bookmark in bookmarks.categories[0].bookmarks
-                    a.bookmarksItemsLink(href= bookmark.url)
-                        paper-item.bookmarksItemsItem
-                            paper-item-body(two-line)
-                                div= bookmark.name
-                                div(secondary)= bookmark.url
-    paper-toast#copiedToast
-        |Url copied to clipboard
+paper-material.CVinfo
+    div.CVcontainer
+        div.CVdane
+            div.CVnazwisko.settingsTitle
+                |Michał Bartoszewicz
+            div.CVdaneReszta
+                div.CVdaneResztaR
+                    |e-mail: 
+                div.CVdaneResztaL
+                    |michaql1@gmail.com
+                div.CVdaneResztaR
+                    |telefon: 
+                div.CVdaneResztaL
+                    |535-135-754
+                div.CVdaneResztaR
+                    |adres: 
+                div.CVdaneResztaL
+                    |Antczaka 26D/4
+                    br
+                    |Toruń 87-100
+        div.CVphoto
+            img(src="http://www.asciify.net/ascii/thumb/4454/asdasd.png")
+paper-material.CVumiejetnosci.settingsMaterial
+    div.settingsTitle
+        |Umiejętności
+    div.settingsContent
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Dobra znajomośc języków front-endowych (JavaScript, HTML, CSS)
+                
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Dobra znajomośc frameworków JavaScript (React, polymer, etc.)
+            
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Dobra znajomość języków programowania Java, C++
+            
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Doświadczenie w projektach open source: https://github.com/SolanaFish/
+            
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Dobra znajomośc systemu kontroli wersji git
+                    
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Biegła znajomość języka angielskiego
+            
+        
+paper-material.CVedukacja.settingsMaterial
+    div.settingsTitle
+        |Edukacja
+    div.settingsContent
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            paper-item.eventItem(toggles, active="{{active}}")
+                paper-item-body('two-line')
+                    div
+                        |Politechnika gdańska - informatyka
+                    div(secondary)
+                        |Październik 2015
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            paper-item.eventItem(toggles, active="{{active}}")
+                paper-item-body('two-line')
+                    div
+                        |Liceum ogólnokształcące nr 10, Toruń
+                    div(secondary)
+                        |Wrzesień 2012 - Maj 2015
+paper-material.CVzainteresowania.settingsMaterial
+    div.settingsTitle
+        |Zainteresowania
+    div.settingsContent
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Nowoczesne technologie
+                
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Produkcja aplikacji open source
+        
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Kolarstwo górskie i szosowe
+                
+        div.eventContainer
+            div.eventColor(colorId="blue")
+            div.item
+                |Biegi długodystansowe

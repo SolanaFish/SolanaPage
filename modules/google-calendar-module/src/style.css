@@ -39,6 +39,13 @@ paper-material.eventsMaterial {
     margin: 1% 1% 0 1%;
 }
 
+.eventContainer:last-of-type {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 1% 1% 1% 1%;
+}
+
 .eventDetailContainer {
     display: flex;
     flex-direction: column;
@@ -124,7 +131,6 @@ iron-collapse.eventCollapse {
 div.eventColor {
     background-color: var(--accent1-color);
     /*padding-left: 0.8%;*/
-    min-height: 72px;
     flex: 0 1 10px;
 }
 
